@@ -1,0 +1,78 @@
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: calc(var(--spacing-lg) - 2px) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImg {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.brandText {
+  margin-left: var(--spacing-sm);
+}
+
+.appName {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  color: #000000;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  color: #000000;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.2px;
+}
+
+.tagline {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: rgba(0,0,0,0.7);
+  font-weight: var(--font-weight-normal);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.user {
+  font-size: var(--font-size-sm);
+  color: #000000;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .logo h1 {
+    font-size: var(--font-size-xl);
+  }
+}
