@@ -1,12 +1,15 @@
 """
 Deal Ingestion Module
 Adds new deal documents to the existing FAISS vector store
+With PII sanitization to protect sensitive information.
 """
 import os
 import pickle
 from langchain.schema import Document
 from langchain_community.vectorstores import FAISS
 from ingestion.vector_store import TfidfEmbeddings
+from privacy.sanitizer import sanitize_text
+from privacy.audit_logger import audit_log
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VECTOR_DB_PATH = os.path.join(BASE_DIR, "vector_store", "dealsense_faiss")
@@ -42,6 +45,7 @@ def ingest_deal_to_vector_store(
 ) -> bool:
     """
     Add a new deal document to the FAISS vector store.
+    Content is automatically sanitized to remove PII.
     
     Args:
         deal_id: Unique identifier for the deal
@@ -60,21 +64,29 @@ def ingest_deal_to_vector_store(
         # Load existing vector store
         vector_db, embeddings = load_vector_store_for_update()
         
+        # Sanitize content to remove PII before indexing
+        source_ref = f"deal_{deal_id}"
+        sanitized_content, content_tokens = sanitize_text(content, source=source_ref)
+        sanitized_account, account_tokens = sanitize_text(account_name, source=f"{source_ref}_name")
+        
+        all_tokens = content_tokens + account_tokens
+        
         # Create document with metadata
         doc_metadata = {
-            "source": f"deal_{deal_id}",
+            "source": source_ref,
             "deal_id": deal_id,
-            "account_name": account_name,
+            "account_name": sanitized_account,  # Store sanitized account name
             "type": "deal_notes",
+            "pii_tokens": all_tokens,  # Track tokens for potential retrieval
         }
         
         # Merge additional metadata
         if metadata:
             doc_metadata.update(metadata)
         
-        # Create document
+        # Create document with sanitized content
         document = Document(
-            page_content=f"Deal: {account_name}\n\n{content}",
+            page_content=f"Deal: {sanitized_account}\n\n{sanitized_content}",
             metadata=doc_metadata
         )
         
@@ -84,7 +96,17 @@ def ingest_deal_to_vector_store(
         # Save updated vector store
         vector_db.save_local(VECTOR_DB_PATH)
         
-        print(f"Successfully ingested deal {deal_id} ({account_name}) to vector store")
+        # Audit log the ingestion
+        if all_tokens:
+            audit_log(
+                action='pii_sanitize',
+                resource_type='deal',
+                resource_id=str(deal_id),
+                status='success',
+                token_count=len(all_tokens)
+            )
+        
+        print(f"Successfully ingested deal {deal_id} ({sanitized_account}) to vector store")
         return True
         
     except Exception as e:
@@ -100,6 +122,7 @@ def ingest_transcript_to_vector_store(
 ) -> bool:
     """
     Add a call transcript to the vector store.
+    Transcript content is automatically sanitized to remove PII.
     
     Args:
         deal_id: Associated deal ID
@@ -117,24 +140,42 @@ def ingest_transcript_to_vector_store(
     try:
         vector_db, embeddings = load_vector_store_for_update()
         
+        # Sanitize transcript content to remove PII
+        source_ref = f"transcript_deal_{deal_id}"
+        sanitized_content, content_tokens = sanitize_text(transcript_content, source=source_ref)
+        sanitized_account, account_tokens = sanitize_text(account_name, source=f"{source_ref}_name")
+        
+        all_tokens = content_tokens + account_tokens
+        
         # Create document with transcript metadata
         doc_metadata = {
-            "source": f"transcript_deal_{deal_id}",
+            "source": source_ref,
             "deal_id": deal_id,
-            "account_name": account_name,
+            "account_name": sanitized_account,
             "type": "call_transcript",
             "call_date": call_date or "unknown",
+            "pii_tokens": all_tokens,
         }
         
         document = Document(
-            page_content=f"Call Transcript - {account_name}\n\n{transcript_content}",
+            page_content=f"Call Transcript - {sanitized_account}\n\n{sanitized_content}",
             metadata=doc_metadata
         )
         
         vector_db.add_documents([document])
         vector_db.save_local(VECTOR_DB_PATH)
         
-        print(f"Successfully ingested transcript for deal {deal_id} ({account_name})")
+        # Audit log the ingestion
+        if all_tokens:
+            audit_log(
+                action='pii_sanitize',
+                resource_type='transcript',
+                resource_id=str(deal_id),
+                status='success',
+                token_count=len(all_tokens)
+            )
+        
+        print(f"Successfully ingested transcript for deal {deal_id} ({sanitized_account})")
         return True
         
     except Exception as e:
@@ -149,6 +190,7 @@ def ingest_action_items_to_vector_store(
 ) -> bool:
     """
     Add action items from a call to the vector store.
+    Action items are automatically sanitized to remove PII.
     
     Args:
         deal_id: Associated deal ID
@@ -167,22 +209,40 @@ def ingest_action_items_to_vector_store(
         # Format action items as text
         action_text = "\n".join([f"- {item}" for item in action_items])
         
+        # Sanitize action items content
+        source_ref = f"actions_deal_{deal_id}"
+        sanitized_content, content_tokens = sanitize_text(action_text, source=source_ref)
+        sanitized_account, account_tokens = sanitize_text(account_name, source=f"{source_ref}_name")
+        
+        all_tokens = content_tokens + account_tokens
+        
         doc_metadata = {
-            "source": f"actions_deal_{deal_id}",
+            "source": source_ref,
             "deal_id": deal_id,
-            "account_name": account_name,
+            "account_name": sanitized_account,
             "type": "action_items",
+            "pii_tokens": all_tokens,
         }
         
         document = Document(
-            page_content=f"Action Items - {account_name}\n\n{action_text}",
+            page_content=f"Action Items - {sanitized_account}\n\n{sanitized_content}",
             metadata=doc_metadata
         )
         
         vector_db.add_documents([document])
         vector_db.save_local(VECTOR_DB_PATH)
         
-        print(f"Successfully ingested action items for deal {deal_id} ({account_name})")
+        # Audit log the ingestion
+        if all_tokens:
+            audit_log(
+                action='pii_sanitize',
+                resource_type='action_items',
+                resource_id=str(deal_id),
+                status='success',
+                token_count=len(all_tokens)
+            )
+        
+        print(f"Successfully ingested action items for deal {deal_id} ({sanitized_account})")
         return True
         
     except Exception as e:

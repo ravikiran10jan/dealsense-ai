@@ -32,6 +32,12 @@
   animation: pulse 1.5s ease-in-out infinite;
 }
 
+.liveDot.recording {
+  background-color: #fef08a;
+  box-shadow: 0 0 8px #fef08a;
+  animation: recordingPulse 0.8s ease-in-out infinite;
+}
+
 .liveText {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
@@ -42,6 +48,57 @@
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
+}
+
+/* Connection Status */
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.connectionStatus.connected {
+  background-color: rgba(16, 185, 129, 0.3);
+}
+
+.connectionStatus.connecting {
+  background-color: rgba(251, 191, 36, 0.3);
+}
+
+.connectionStatus.error {
+  background-color: rgba(239, 68, 68, 0.5);
+}
+
+.connectionStatus.disconnected {
+  background-color: rgba(107, 114, 128, 0.3);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.connectionStatus.connected .statusDot {
+  background-color: #10b981;
+}
+
+.connectionStatus.connecting .statusDot {
+  background-color: #fbbf24;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.connectionStatus.error .statusDot {
+  background-color: #ef4444;
+}
+
+.statusText {
+  color: white;
 }
 
 .separator {
@@ -75,6 +132,32 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.controlBtn.active {
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Hotkey Hint */
+.hotkeyHint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.8);
+  padding: var(--space-1) var(--space-2);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.hotkeyHint kbd {
+  padding: 2px 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+}
+
 .endCallBtn {
   display: flex;
   align-items: center;
@@ -98,6 +181,16 @@
   50% { opacity: 0.7; transform: scale(0.9); }
 }
 
+@keyframes recordingPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .liveStrip {
@@ -109,6 +202,14 @@
   }
   
   .separator {
+    display: none;
+  }
+  
+  .connectionStatus {
+    display: none;
+  }
+  
+  .hotkeyHint {
     display: none;
   }
 }

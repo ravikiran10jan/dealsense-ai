@@ -3,9 +3,10 @@ import styles from './ChatPanel.module.css';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 import ActionChips from './ActionChips';
+import { usePushToTalk } from '../../hooks/useHotkeyManager';
 
 // Backend API base URL
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Query the RAG + LLM backend
 async function queryRAG(query) {
@@ -34,15 +35,45 @@ const ChatPanel = ({
   onUpdateContext,
   onToggleContextPanel,
   contextPanelVisible,
+  // New props for live call
+  transcriptChunks = [],
+  showTranscript = true,
+  onLiveQuery,
+  isPushToTalkActive = false,
 }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [processingStatus, setProcessingStatus] = useState(null);
+  const [liveQueryInput, setLiveQueryInput] = useState('');
   const messagesEndRef = useRef(null);
+  const transcriptEndRef = useRef(null);
+
+  // Push-to-talk hook - only enabled during live call
+  const { isListening, hotkeyLabel } = usePushToTalk({
+    enabled: isLiveCall,
+    onStart: () => {
+      console.log('Push-to-talk activated');
+    },
+    onEnd: () => {
+      console.log('Push-to-talk deactivated');
+      // Submit the query if there's input
+      if (liveQueryInput.trim() && onLiveQuery) {
+        onLiveQuery(liveQueryInput.trim());
+        setLiveQueryInput('');
+      }
+    },
+  });
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Auto-scroll transcript
+  useEffect(() => {
+    if (showTranscript && transcriptChunks.length > 0) {
+      transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [transcriptChunks, showTranscript]);
 
   // Handle action chip clicks - queries RAG backend
   const handleAction = useCallback(async (action) => {
@@ -228,40 +259,113 @@ const ChatPanel = ({
         </div>
       </header>
 
-      {/* Messages Area */}
-      <div className={styles.messagesContainer}>
-        {messages.length === 0 ? (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+      {/* Main Content Area - Split when live call with transcript */}
+      <div className={`${styles.mainContent} ${isLiveCall && showTranscript ? styles.split : ''}`}>
+        {/* Transcript Panel - Only during live call */}
+        {isLiveCall && showTranscript && (
+          <div className={styles.transcriptPanel}>
+            <div className={styles.transcriptHeader}>
+              <span className={styles.transcriptTitle}>Live Transcript</span>
+              <span className={styles.transcriptCount}>
+                {transcriptChunks.length} segments
+              </span>
             </div>
-            <h3 className={styles.emptyTitle}>Welcome to DealSense AI</h3>
-            <p className={styles.emptyText}>
-              Select a deal from the sidebar to start your sales copilot session.
-              I'll help you prepare for calls, assist during conversations, and follow up after.
-            </p>
-          </div>
-        ) : (
-          <div className={styles.messagesList}>
-            {messages.map((msg) => (
-              <ChatMessage key={msg.id} message={msg} />
-            ))}
-            {isTyping && (
-              <div className={styles.typingIndicator}>
-                <div className={styles.typingDots}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+            <div className={styles.transcriptContent}>
+              {transcriptChunks.length === 0 ? (
+                <div className={styles.transcriptEmpty}>
+                  <span>Waiting for audio...</span>
+                  <span className={styles.transcriptHint}>
+                    Transcript will appear here as the call progresses
+                  </span>
                 </div>
-                <span className={styles.typingText}>Sales Copilot is thinking...</span>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
+              ) : (
+                <>
+                  {transcriptChunks.map((chunk, index) => (
+                    <div
+                      key={index}
+                      className={`${styles.transcriptChunk} ${
+                        chunk.speaker === 'Customer' ? styles.customer : styles.seller
+                      }`}
+                    >
+                      <span className={styles.transcriptSpeaker}>{chunk.speaker}</span>
+                      <span className={styles.transcriptText}>{chunk.text}</span>
+                      <span className={styles.transcriptTime}>
+                        {formatTime(chunk.startTime)}
+                      </span>
+                    </div>
+                  ))}
+                  <div ref={transcriptEndRef} />
+                </>
+              )}
+            </div>
           </div>
         )}
+
+        {/* Messages Area */}
+        <div className={styles.messagesContainer}>
+          {messages.length === 0 ? (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyIcon}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+              <h3 className={styles.emptyTitle}>Welcome to DealSense AI</h3>
+              <p className={styles.emptyText}>
+                Select a deal from the sidebar to start your sales copilot session.
+                I'll help you prepare for calls, assist during conversations, and follow up after.
+              </p>
+            </div>
+          ) : (
+            <div className={styles.messagesList}>
+              {messages.map((msg) => (
+                <ChatMessage key={msg.id} message={msg} />
+              ))}
+              {isTyping && (
+                <div className={styles.typingIndicator}>
+                  <div className={styles.typingDots}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <span className={styles.typingText}>Sales Copilot is thinking...</span>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Push-to-Talk Indicator */}
+      {isLiveCall && (isListening || isPushToTalkActive) && (
+        <div className={styles.pushToTalkOverlay}>
+          <div className={styles.pushToTalkIndicator}>
+            <div className={styles.micIcon}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </div>
+            <span className={styles.pushToTalkText}>
+              Listening... Type your question
+            </span>
+            <input
+              type="text"
+              className={styles.pushToTalkInput}
+              value={liveQueryInput}
+              onChange={(e) => setLiveQueryInput(e.target.value)}
+              placeholder="Ask a question..."
+              autoFocus
+            />
+            <span className={styles.pushToTalkHint}>
+              Release {hotkeyLabel} to submit
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Action Chips */}
       {selectedDeal && (
@@ -276,11 +380,25 @@ const ChatPanel = ({
       <ChatInput
         onSend={handleSendMessage}
         disabled={!selectedDeal}
-        placeholder={selectedDeal ? 'Ask your sales copilot...' : 'Select a deal to start'}
+        placeholder={
+          isLiveCall
+            ? `Press ${hotkeyLabel} to ask during call, or type here...`
+            : selectedDeal
+            ? 'Ask your sales copilot...'
+            : 'Select a deal to start'
+        }
         isLiveCall={isLiveCall}
       />
     </div>
   );
 };
+
+// Helper function to format time
+function formatTime(seconds) {
+  if (typeof seconds !== 'number') return '';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
 
 export default ChatPanel;

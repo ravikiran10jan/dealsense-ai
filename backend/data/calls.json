@@ -1,0 +1,80 @@
+[
+  {
+    "id": "84f2074a-ce2f-4dca-a6b4-4215fe996019",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T19:58:29.520188",
+    "ended_at": "2026-02-04T19:58:59.692189",
+    "duration_seconds": 30,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T19:58:29.520495",
+    "updated_at": "2026-02-04T19:58:59.692217"
+  },
+  {
+    "id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T20:01:10.101795",
+    "ended_at": "2026-02-04T20:01:10.489278",
+    "duration_seconds": 0,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T20:01:10.101880",
+    "updated_at": "2026-02-04T20:01:10.489311"
+  },
+  {
+    "id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T20:02:40.176907",
+    "ended_at": "2026-02-04T20:02:52.144453",
+    "duration_seconds": 11,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T20:02:40.176944",
+    "updated_at": "2026-02-04T20:02:52.144483"
+  },
+  {
+    "id": "a0bbc74e-3a61-46df-bccb-185c3398e87e",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T20:04:53.181702",
+    "ended_at": "2026-02-04T20:04:53.420107",
+    "duration_seconds": 0,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T20:04:53.181723",
+    "updated_at": "2026-02-04T20:04:53.420130"
+  },
+  {
+    "id": "da7efaa5-ea18-4283-a7cf-ef2d0745e798",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T20:06:23.391904",
+    "ended_at": "2026-02-04T20:06:23.617451",
+    "duration_seconds": 0,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T20:06:23.391926",
+    "updated_at": "2026-02-04T20:06:23.617466"
+  },
+  {
+    "id": "b76137db-15e4-4c3d-afad-4315cdeaf7be",
+    "deal_id": 1,
+    "account_name": "ANZ Bank",
+    "contact_name": "David Chen",
+    "started_at": "2026-02-04T20:07:40.435022",
+    "ended_at": "2026-02-04T20:07:40.666712",
+    "duration_seconds": 0,
+    "status": "ended",
+    "recording_url": null,
+    "created_at": "2026-02-04T20:07:40.435049",
+    "updated_at": "2026-02-04T20:07:40.666732"
+  }
+]

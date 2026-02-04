@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Sidebar.module.css';
 import logo from '../../assets/dxc-mark.svg';
 
@@ -15,8 +15,12 @@ const stageColors = {
   Closed: '#10B981',
 };
 
-const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollapse, onAddDealClick }) => {
-  const [activeNav, setActiveNav] = useState('inbox');
+const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollapse, onAddDealClick, activeNav, onNavChange }) => {
+  const handleNavClick = (navId) => {
+    if (onNavChange) {
+      onNavChange(navId);
+    }
+  };
 
   const renderIcon = (iconName) => {
     switch (iconName) {
@@ -78,7 +82,7 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
           <button
             key={item.id}
             className={`${styles.navItem} ${activeNav === item.id ? styles.active : ''}`}
-            onClick={() => setActiveNav(item.id)}
+            onClick={() => handleNavClick(item.id)}
             title={collapsed ? item.label : undefined}
           >
             <span className={styles.navIcon}>{renderIcon(item.icon)}</span>
@@ -137,7 +141,7 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
         </div>
         {!collapsed && (
           <div className={styles.userInfo}>
-            <span className={styles.userName}>Ravi Kiran</span>
+            <span className={styles.userName}>Ravikiran</span>
             <span className={styles.userRole}>Sales Rep</span>
           </div>
         )}

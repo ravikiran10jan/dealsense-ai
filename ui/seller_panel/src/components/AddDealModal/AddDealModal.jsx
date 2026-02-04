@@ -25,17 +25,62 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
     notes: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingWithInvite, setIsSubmittingWithInvite] = useState(false);
+  const [isFetchingOutlook, setIsFetchingOutlook] = useState(false);
   const [error, setError] = useState('');
+
+  const handleFetchFromOutlook = async () => {
+    setError('');
+    setIsFetchingOutlook(true);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/outlook/upcoming-meetings');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch from Outlook');
+      }
+
+      const meetings = await response.json();
+      
+      if (meetings.length === 0) {
+        setError('No upcoming meetings found in Outlook calendar.');
+        return;
+      }
+
+      // Use the first upcoming meeting to populate the form
+      const meeting = meetings[0];
+      setFormData((prev) => ({
+        ...prev,
+        accountName: meeting.accountName || prev.accountName,
+        contactName: meeting.contactName || prev.contactName,
+        contactRole: meeting.contactRole || prev.contactRole,
+        nextCallDate: meeting.date || prev.nextCallDate,
+        nextCallTime: meeting.time || prev.nextCallTime,
+        description: meeting.subject || prev.description,
+        notes: meeting.body || prev.notes,
+      }));
+    } catch (err) {
+      console.error('Error fetching from Outlook:', err);
+      setError('Failed to fetch from Outlook. Please ensure you are signed in.');
+    } finally {
+      setIsFetchingOutlook(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, sendInvite = false) => {
     e.preventDefault();
     setError('');
-    setIsSubmitting(true);
+    
+    if (sendInvite) {
+      setIsSubmittingWithInvite(true);
+    } else {
+      setIsSubmitting(true);
+    }
 
     try {
       const response = await fetch('http://localhost:8000/api/deals/create', {
@@ -52,6 +97,32 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
       }
 
       const newDeal = await response.json();
+      
+      // If sendInvite is true, send calendar invite
+      if (sendInvite) {
+        try {
+          const inviteResponse = await fetch('http://localhost:8000/api/outlook/send-invite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              dealId: newDeal.id,
+              accountName: formData.accountName,
+              contactName: formData.contactName,
+              contactEmail: '', // Would be populated from contact lookup
+              date: formData.nextCallDate,
+              time: formData.nextCallTime,
+              description: formData.description,
+            }),
+          });
+          
+          if (!inviteResponse.ok) {
+            console.warn('Failed to send calendar invite, but deal was created');
+          }
+        } catch (inviteErr) {
+          console.warn('Failed to send invite:', inviteErr);
+        }
+      }
+      
       onAddDeal(newDeal);
       
       // Reset form
@@ -74,7 +145,12 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
       setError(err.message || 'Failed to create deal. Please try again.');
     } finally {
       setIsSubmitting(false);
+      setIsSubmittingWithInvite(false);
     }
+  };
+
+  const handleSubmitWithInvite = (e) => {
+    handleSubmit(e, true);
   };
 
   if (!isOpen) return null;
@@ -84,12 +160,36 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>Add New Deal</h2>
-          <button className={styles.closeBtn} onClick={onClose}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+          <div className={styles.headerActions}>
+            <button 
+              type="button" 
+              className={styles.fetchDealBtn} 
+              onClick={handleFetchFromOutlook}
+              disabled={isFetchingOutlook}
+            >
+              {isFetchingOutlook ? (
+                <>
+                  <span className={styles.spinner}></span>
+                  Fetching...
+                </>
+              ) : (
+                <>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  Fetch Deal Info
+                </>
+              )}
+            </button>
+            <button className={styles.closeBtn} onClick={onClose}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -235,7 +335,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
             <button type="button" className={styles.cancelBtn} onClick={onClose}>
               Cancel
             </button>
-            <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+            <button type="submit" className={styles.submitBtn} disabled={isSubmitting || isSubmittingWithInvite}>
               {isSubmitting ? (
                 <>
                   <span className={styles.spinner}></span>
@@ -248,6 +348,27 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
                     <line x1="5" y1="12" x2="19" y2="12" />
                   </svg>
                   Add Deal
+                </>
+              )}
+            </button>
+            <button 
+              type="button" 
+              className={styles.submitBtnInvite} 
+              onClick={handleSubmitWithInvite}
+              disabled={isSubmitting || isSubmittingWithInvite}
+            >
+              {isSubmittingWithInvite ? (
+                <>
+                  <span className={styles.spinner}></span>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 2L11 13" />
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+                  </svg>
+                  Add Deal & Send Invite
                 </>
               )}
             </button>

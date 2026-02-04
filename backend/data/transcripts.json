@@ -1,0 +1,200 @@
+[
+  {
+    "id": "3196d4da-09b2-499a-8853-7e20270ced36",
+    "call_id": "84f2074a-ce2f-4dca-a6b4-4215fe996019",
+    "speaker": "Customer",
+    "text": "We are looking to automate our trade finance operations. Currently processing about 5000 LCs per month.",
+    "start_time": 0.5,
+    "end_time": 6.9,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T19:58:38.507290"
+  },
+  {
+    "id": "38ccedfd-bb4d-4661-b3e2-467bddbd0eef",
+    "call_id": "84f2074a-ce2f-4dca-a6b4-4215fe996019",
+    "speaker": "Seller",
+    "text": "That is a significant volume. Our platform can handle that easily with 95% automation rate.",
+    "start_time": 7.4,
+    "end_time": 13.4,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T19:58:38.597202"
+  },
+  {
+    "id": "c074d014-8680-4d0f-8de3-6a2eb5334c31",
+    "call_id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "speaker": "Customer",
+    "text": "We need to automate our trade finance operations. Currently we process about 5000 LCs per month and the manual process is causing delays.",
+    "start_time": 0.5,
+    "end_time": 9.7,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:01:10.317891"
+  },
+  {
+    "id": "ba40dbed-370c-4f13-a9e5-ce21f982e361",
+    "call_id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "speaker": "Seller",
+    "text": "I understand. Our platform can automate up to 95% of LC processing. What are your main pain points with the current process?",
+    "start_time": 10.2,
+    "end_time": 19.0,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:01:10.345618"
+  },
+  {
+    "id": "68bafda7-112a-4fe5-b0ba-bebcc2e78c1f",
+    "call_id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "speaker": "Customer",
+    "text": "The biggest issues are compliance checking delays and document verification. It takes 2-3 days on average. We also need better integration with our existing SAP system.",
+    "start_time": 19.5,
+    "end_time": 29.9,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:01:10.375447"
+  },
+  {
+    "id": "bc5c4325-e40e-4694-8ec9-f7cc9fab7d7d",
+    "call_id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "speaker": "Seller",
+    "text": "Perfect, we can help with both. Can you schedule a technical demo with your IT team next Tuesday?",
+    "start_time": 30.4,
+    "end_time": 37.6,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:01:10.417286"
+  },
+  {
+    "id": "a4d4cf49-36e3-412f-bfa3-bd0d38ad3893",
+    "call_id": "346423a5-476f-49a8-8e7b-a917bc420df1",
+    "speaker": "Customer",
+    "text": "Yes, lets do that. Also send me a pricing proposal by Friday.",
+    "start_time": 38.1,
+    "end_time": 42.9,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:01:10.442925"
+  },
+  {
+    "id": "44004840-eadf-4e1c-859e-b0351d813935",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "speaker": "Customer",
+    "text": "We need to automate our trade finance. Processing 5000 LCs monthly.",
+    "start_time": 0.5,
+    "end_time": 4.9,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:02:51.978224"
+  },
+  {
+    "id": "4c1acc9b-24c5-4dba-80ab-5ab2deb0b609",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "speaker": "Seller",
+    "text": "Our platform can automate 95% of LC processing.",
+    "start_time": 5.4,
+    "end_time": 8.600000000000001,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:02:52.008381"
+  },
+  {
+    "id": "f59b3c7a-49d9-438e-aeec-ad847e0e1543",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "speaker": "Customer",
+    "text": "Main pain points are compliance delays and document verification. Need SAP integration.",
+    "start_time": 9.100000000000001,
+    "end_time": 13.900000000000002,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:02:52.036785"
+  },
+  {
+    "id": "5232de39-53ef-4937-b05a-05ff5438bb3b",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "speaker": "Seller",
+    "text": "Schedule a technical demo next Tuesday with IT team?",
+    "start_time": 14.400000000000002,
+    "end_time": 18.000000000000004,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:02:52.066670"
+  },
+  {
+    "id": "afb09ce7-6b64-4f58-80e5-eca450c8bd61",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "speaker": "Customer",
+    "text": "Yes. Also send pricing proposal by Friday.",
+    "start_time": 18.500000000000004,
+    "end_time": 21.300000000000004,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:02:52.110029"
+  },
+  {
+    "id": "9b38c9ca-a95f-4d8a-9c13-8a6befb5111e",
+    "call_id": "a0bbc74e-3a61-46df-bccb-185c3398e87e",
+    "speaker": "Customer",
+    "text": "We need automation for trade finance. Main pain point is compliance delays.",
+    "start_time": 0.5,
+    "end_time": 5.3,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:04:53.354777"
+  },
+  {
+    "id": "1212a556-01ac-46ab-84ff-dad5ee48d445",
+    "call_id": "a0bbc74e-3a61-46df-bccb-185c3398e87e",
+    "speaker": "Seller",
+    "text": "Schedule a demo next Tuesday. I will send pricing proposal by Friday.",
+    "start_time": 5.8,
+    "end_time": 10.6,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:04:53.387859"
+  },
+  {
+    "id": "8f8adbe4-fe8c-40b6-ac7f-e2a4077d8982",
+    "call_id": "da7efaa5-ea18-4283-a7cf-ef2d0745e798",
+    "speaker": "Customer",
+    "text": "We need automation for trade finance. Main pain point is compliance delays.",
+    "start_time": 0.5,
+    "end_time": 5.3,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:06:23.556709"
+  },
+  {
+    "id": "1d3bdf48-af89-42ea-b62a-e593c18f2cde",
+    "call_id": "da7efaa5-ea18-4283-a7cf-ef2d0745e798",
+    "speaker": "Seller",
+    "text": "Schedule a demo next Tuesday. I will send pricing proposal by Friday.",
+    "start_time": 5.8,
+    "end_time": 10.6,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:06:23.586533"
+  },
+  {
+    "id": "29002bb6-b12a-40f1-8f36-bd232948538d",
+    "call_id": "b76137db-15e4-4c3d-afad-4315cdeaf7be",
+    "speaker": "Customer",
+    "text": "We need automation for trade finance. Main pain point is compliance delays.",
+    "start_time": 0.5,
+    "end_time": 5.3,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:07:40.585295"
+  },
+  {
+    "id": "b6be908c-45cf-4808-9aff-e6ad885be7cf",
+    "call_id": "b76137db-15e4-4c3d-afad-4315cdeaf7be",
+    "speaker": "Seller",
+    "text": "Schedule a demo next Tuesday. I will send pricing proposal by Friday.",
+    "start_time": 5.8,
+    "end_time": 10.6,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-04T20:07:40.615469"
+  }
+]

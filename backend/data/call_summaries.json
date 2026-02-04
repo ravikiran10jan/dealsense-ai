@@ -1,0 +1,104 @@
+[
+  {
+    "id": "acac631c-2b50-4c57-85fd-cfd347dad661",
+    "call_id": "c624e682-4b8b-498f-b3c6-e7ad4d4b42b3",
+    "executive_summary": "The call was productive, with the customer expressing a clear need for automation in their trade finance processes. The next step is to schedule a technical demo and provide a pricing proposal.",
+    "key_points": [
+      "Customer processes 5000 LCs monthly and seeks automation.",
+      "Main pain points include compliance delays and document verification.",
+      "Customer requires integration with SAP.",
+      "Seller proposed a technical demo for the IT team next Tuesday.",
+      "Customer requested a pricing proposal by Friday."
+    ],
+    "pain_points": [
+      {
+        "description": "Compliance delays in processing LCs.",
+        "severity": "high",
+        "context": "Delays are impacting overall efficiency and customer satisfaction."
+      },
+      {
+        "description": "Challenges with document verification.",
+        "severity": "medium",
+        "context": "Current manual processes are prone to errors and inefficiencies."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Schedule a technical demo for next Tuesday and send the pricing proposal by Friday.",
+    "deal_health_score": 7,
+    "deal_health_reason": "",
+    "generated_at": "2026-02-04T20:03:04.980801",
+    "created_at": "2026-02-04T20:03:04.980805"
+  },
+  {
+    "id": "b9ee429b-5e33-40dc-b4c0-085d9635fc59",
+    "call_id": "a0bbc74e-3a61-46df-bccb-185c3398e87e",
+    "executive_summary": "The call focused on the customer's need for automation in trade finance to address compliance delays. The next step identified is to schedule a demo and send a pricing proposal.",
+    "key_points": [
+      "Customer expressed a need for automation in trade finance.",
+      "Main pain point identified is compliance delays.",
+      "Seller proposed scheduling a demo for next Tuesday.",
+      "Seller will send a pricing proposal by Friday."
+    ],
+    "pain_points": [
+      {
+        "description": "Compliance delays in trade finance processes.",
+        "severity": "high",
+        "context": "The customer is experiencing significant delays due to compliance requirements."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Schedule a demo for next Tuesday and send a pricing proposal by Friday.",
+    "deal_health_score": 6,
+    "deal_health_reason": "",
+    "generated_at": "2026-02-04T20:05:03.495099",
+    "created_at": "2026-02-04T20:05:03.495102"
+  },
+  {
+    "id": "574e5b40-a576-4634-8fd7-686f2747798e",
+    "call_id": "da7efaa5-ea18-4283-a7cf-ef2d0745e798",
+    "executive_summary": "The call focused on the customer's need for automation in trade finance to address compliance delays. The next step identified is to schedule a demo and send a pricing proposal by Friday.",
+    "key_points": [
+      "Customer expressed a need for automation in trade finance.",
+      "Main pain point identified is compliance delays.",
+      "Seller proposed scheduling a demo for next Tuesday.",
+      "Seller will send a pricing proposal by Friday."
+    ],
+    "pain_points": [
+      {
+        "description": "Compliance delays in trade finance processes.",
+        "severity": "high",
+        "context": "The customer is experiencing significant delays due to compliance requirements."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Schedule a demo for next Tuesday and send the pricing proposal by Friday.",
+    "deal_health_score": 6,
+    "deal_health_reason": "",
+    "generated_at": "2026-02-04T20:06:33.323020",
+    "created_at": "2026-02-04T20:06:33.323024"
+  },
+  {
+    "id": "1eb76477-eaf8-468c-a1ec-2eb217ea848e",
+    "call_id": "b76137db-15e4-4c3d-afad-4315cdeaf7be",
+    "executive_summary": "The call focused on the customer's need for automation in trade finance to address compliance delays. The next step identified is to schedule a demo and send a pricing proposal by Friday.",
+    "key_points": [
+      "Customer expressed a need for automation in trade finance.",
+      "Main pain point identified is compliance delays.",
+      "Seller proposed scheduling a demo for next Tuesday.",
+      "Seller committed to sending a pricing proposal by Friday."
+    ],
+    "pain_points": [
+      {
+        "description": "Compliance delays in trade finance processes.",
+        "severity": "high",
+        "context": "The customer is facing significant challenges due to delays in compliance, impacting their operations."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Schedule a demo for next Tuesday and send the pricing proposal by Friday.",
+    "deal_health_score": 6,
+    "deal_health_reason": "",
+    "generated_at": "2026-02-04T20:07:48.926990",
+    "created_at": "2026-02-04T20:07:48.926993"
+  }
+]

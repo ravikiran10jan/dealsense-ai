@@ -1,0 +1,302 @@
+.container {
+  padding: 24px 32px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.columnsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.iconUpcoming {
+  color: var(--color-primary);
+}
+
+.iconCompleted {
+  color: #10B981;
+}
+
+.callCount {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.callsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow-y: auto;
+  flex: 1;
+  background: var(--color-border);
+}
+
+.callCard {
+  background: var(--color-surface);
+  padding: 14px 20px;
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+.callCard:hover {
+  background: var(--color-surface-hover);
+}
+
+.callCard.upcoming {
+  border-left: 3px solid var(--color-primary);
+}
+
+.callCard.completed {
+  border-left: 3px solid #10B981;
+  opacity: 0.9;
+}
+
+.callCard.completed:hover {
+  opacity: 1;
+}
+
+.callHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.callInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dealName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stageBadge {
+  font-size: 10px;
+  font-weight: 500;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.dealAmount {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+.contactInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.contactName {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.contactRole {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.contactRole::before {
+  content: "-";
+  margin-right: 6px;
+}
+
+.callMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dateTime {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.dateTime svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.time {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.time::before {
+  content: "at";
+  margin-right: 3px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.duration svg {
+  color: var(--color-text-muted);
+}
+
+.outcome {
+  font-size: 11px;
+  color: #10B981;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.joinButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.joinButton:hover {
+  background: var(--color-primary-hover);
+}
+
+.joinButton svg {
+  width: 12px;
+  height: 12px;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-align: center;
+  flex: 1;
+  background: var(--color-surface);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .columnsWrapper {
+    grid-template-columns: 1fr;
+  }
+  
+  .section {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .callCard {
+    padding: 12px 16px;
+  }
+
+  .callMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .joinButton {
+    margin-left: 0;
+    margin-top: 4px;
+  }
+
+  .outcome {
+    margin-left: 0;
+  }
+}

@@ -5,6 +5,7 @@
   width: 100vw;
   overflow: hidden;
   background-color: var(--color-bg);
+  position: relative;
 }
 
 /* Main Content Area (Chat + Context) */
@@ -17,9 +18,53 @@
   position: relative;
 }
 
+/* Architecture Link Button */
+.architectureLink {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  color: var(--color-text-muted, #94a3b8);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.architectureLink:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(139, 92, 246, 0.25));
+  border-color: rgba(139, 92, 246, 0.5);
+  color: var(--color-text-primary, #f8fafc);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.architectureLink svg {
+  opacity: 0.8;
+}
+
+.architectureLink:hover svg {
+  opacity: 1;
+}
+
 /* Responsive: Hide context panel on smaller screens */
 @media (max-width: 1024px) {
   .appContainer {
     flex-direction: column;
+  }
+  
+  .architectureLink {
+    bottom: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 11px;
   }
 }

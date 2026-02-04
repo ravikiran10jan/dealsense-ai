@@ -1,0 +1,297 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#334155;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14b8a6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d9488;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)"/>
+  
+  <!-- Title -->
+  <text x="600" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#f8fafc" text-anchor="middle">DealSense AI - Architecture Overview</text>
+  <text x="600" y="78" font-family="Arial, sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">AI-Powered Sales Assistant with Real-time Call Support</text>
+  
+  <!-- Frontend Section -->
+  <g transform="translate(50, 110)">
+    <rect x="0" y="0" width="350" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#3b82f6" text-anchor="middle">FRONTEND (React + Vite)</text>
+    
+    <!-- Components -->
+    <rect x="20" y="50" width="100" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="70" y="75" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">Sidebar</text>
+    
+    <rect x="130" y="50" width="100" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="180" y="75" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">ChatPanel</text>
+    
+    <rect x="240" y="50" width="90" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="285" y="75" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">ContextPanel</text>
+    
+    <rect x="20" y="100" width="100" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="70" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">LiveCallStrip</text>
+    
+    <rect x="130" y="100" width="100" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="180" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">AddDealModal</text>
+    
+    <rect x="240" y="100" width="90" height="40" rx="6" fill="url(#blueGrad)"/>
+    <text x="285" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">MyCalls</text>
+    
+    <!-- Audio Service -->
+    <rect x="60" y="150" width="230" height="35" rx="6" fill="#1e40af"/>
+    <text x="175" y="173" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">AudioCaptureService (WebRTC)</text>
+  </g>
+  
+  <!-- Backend API Section -->
+  <g transform="translate(450, 110)">
+    <rect x="0" y="0" width="300" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="150" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#8b5cf6" text-anchor="middle">BACKEND API (FastAPI)</text>
+    
+    <!-- API Endpoints -->
+    <rect x="20" y="50" width="120" height="35" rx="6" fill="url(#purpleGrad)"/>
+    <text x="80" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">/api/chat</text>
+    
+    <rect x="160" y="50" width="120" height="35" rx="6" fill="url(#purpleGrad)"/>
+    <text x="220" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">/api/deals</text>
+    
+    <rect x="20" y="95" width="120" height="35" rx="6" fill="url(#purpleGrad)"/>
+    <text x="80" y="117" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">/api/search</text>
+    
+    <rect x="160" y="95" width="120" height="35" rx="6" fill="url(#purpleGrad)"/>
+    <text x="220" y="117" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">/ws/live-call</text>
+    
+    <!-- Middleware -->
+    <rect x="40" y="145" width="220" height="40" rx="6" fill="#5b21b6"/>
+    <text x="150" y="163" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Auth | Privacy | Audit Logging</text>
+    <text x="150" y="177" font-family="Arial, sans-serif" font-size="9" fill="#c4b5fd" text-anchor="middle">PII Sanitization | CORS | Rate Limiting</text>
+  </g>
+  
+  <!-- RAG Pipeline Section -->
+  <g transform="translate(800, 110)">
+    <rect x="0" y="0" width="350" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10b981" text-anchor="middle">RAG PIPELINE</text>
+    
+    <!-- RAG Components -->
+    <rect x="20" y="50" width="150" height="40" rx="6" fill="url(#greenGrad)"/>
+    <text x="95" y="68" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Ingestion</text>
+    <text x="95" y="82" font-family="Arial, sans-serif" font-size="8" fill="#d1fae5" text-anchor="middle">PPTX/Doc Loader</text>
+    
+    <rect x="180" y="50" width="150" height="40" rx="6" fill="url(#greenGrad)"/>
+    <text x="255" y="68" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Text Chunking</text>
+    <text x="255" y="82" font-family="Arial, sans-serif" font-size="8" fill="#d1fae5" text-anchor="middle">Semantic Splitter</text>
+    
+    <rect x="20" y="100" width="150" height="40" rx="6" fill="url(#greenGrad)"/>
+    <text x="95" y="118" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Vector Store</text>
+    <text x="95" y="132" font-family="Arial, sans-serif" font-size="8" fill="#d1fae5" text-anchor="middle">FAISS Index</text>
+    
+    <rect x="180" y="100" width="150" height="40" rx="6" fill="url(#greenGrad)"/>
+    <text x="255" y="118" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Semantic Search</text>
+    <text x="255" y="132" font-family="Arial, sans-serif" font-size="8" fill="#d1fae5" text-anchor="middle">Similarity Retrieval</text>
+    
+    <!-- Hybrid Answer -->
+    <rect x="60" y="150" width="230" height="35" rx="6" fill="#047857"/>
+    <text x="175" y="173" font-family="Arial, sans-serif" font-size="11" fill="#fff" text-anchor="middle">Hybrid Answer (RAG + Context)</text>
+  </g>
+  
+  <!-- Live Call Pipeline Section -->
+  <g transform="translate(50, 340)">
+    <rect x="0" y="0" width="350" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#f59e0b" text-anchor="middle">LIVE CALL PIPELINE</text>
+    
+    <!-- Components -->
+    <rect x="20" y="50" width="100" height="50" rx="6" fill="url(#orangeGrad)"/>
+    <text x="70" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">WebSocket</text>
+    <text x="70" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fef3c7" text-anchor="middle">Connection Mgr</text>
+    
+    <rect x="130" y="50" width="100" height="50" rx="6" fill="url(#orangeGrad)"/>
+    <text x="180" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Transcription</text>
+    <text x="180" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fef3c7" text-anchor="middle">Azure Speech</text>
+    
+    <rect x="240" y="50" width="90" height="50" rx="6" fill="url(#orangeGrad)"/>
+    <text x="285" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Live Handler</text>
+    <text x="285" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fef3c7" text-anchor="middle">Real-time</text>
+    
+    <rect x="20" y="115" width="150" height="40" rx="6" fill="#b45309"/>
+    <text x="95" y="137" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Call Summary Generator</text>
+    <text x="95" y="149" font-family="Arial, sans-serif" font-size="8" fill="#fef3c7" text-anchor="middle">LLM Summarization</text>
+    
+    <rect x="180" y="115" width="150" height="40" rx="6" fill="#b45309"/>
+    <text x="255" y="137" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Action Items Extractor</text>
+    <text x="255" y="149" font-family="Arial, sans-serif" font-size="8" fill="#fef3c7" text-anchor="middle">Automated Tasks</text>
+    
+    <!-- Redis -->
+    <rect x="100" y="165" width="150" height="25" rx="6" fill="#92400e"/>
+    <text x="175" y="182" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Redis (Call State)</text>
+  </g>
+  
+  <!-- AI/LLM Section -->
+  <g transform="translate(450, 340)">
+    <rect x="0" y="0" width="300" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="150" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#14b8a6" text-anchor="middle">AI / LLM LAYER</text>
+    
+    <!-- Azure OpenAI -->
+    <rect x="40" y="55" width="220" height="50" rx="8" fill="url(#tealGrad)"/>
+    <text x="150" y="78" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Azure OpenAI</text>
+    <text x="150" y="95" font-family="Arial, sans-serif" font-size="9" fill="#ccfbf1" text-anchor="middle">GPT-4 | Embeddings | Chat Completion</text>
+    
+    <!-- Capabilities -->
+    <rect x="20" y="115" width="80" height="35" rx="6" fill="#0f766e"/>
+    <text x="60" y="137" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">RAG Query</text>
+    
+    <rect x="110" y="115" width="80" height="35" rx="6" fill="#0f766e"/>
+    <text x="150" y="137" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Summarize</text>
+    
+    <rect x="200" y="115" width="80" height="35" rx="6" fill="#0f766e"/>
+    <text x="240" y="137" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Embeddings</text>
+    
+    <rect x="60" y="160" width="180" height="30" rx="6" fill="#134e4a"/>
+    <text x="150" y="180" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Prompt Templates | Context Window</text>
+  </g>
+  
+  <!-- Data Storage Section -->
+  <g transform="translate(800, 340)">
+    <rect x="0" y="0" width="350" height="200" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ec4899" text-anchor="middle">DATA STORAGE</text>
+    
+    <!-- Storage components -->
+    <rect x="20" y="50" width="100" height="50" rx="6" fill="#be185d"/>
+    <text x="70" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">FAISS</text>
+    <text x="70" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fbcfe8" text-anchor="middle">Vector Index</text>
+    
+    <rect x="130" y="50" width="100" height="50" rx="6" fill="#be185d"/>
+    <text x="180" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Redis</text>
+    <text x="180" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fbcfe8" text-anchor="middle">Session/Cache</text>
+    
+    <rect x="240" y="50" width="90" height="50" rx="6" fill="#be185d"/>
+    <text x="285" y="72" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">JSON Store</text>
+    <text x="285" y="87" font-family="Arial, sans-serif" font-size="8" fill="#fbcfe8" text-anchor="middle">Deals Data</text>
+    
+    <!-- Data types -->
+    <rect x="20" y="115" width="150" height="35" rx="6" fill="#9d174d"/>
+    <text x="95" y="137" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Case Studies | Offerings</text>
+    
+    <rect x="180" y="115" width="150" height="35" rx="6" fill="#9d174d"/>
+    <text x="255" y="137" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Call Transcripts</text>
+    
+    <rect x="100" y="160" width="150" height="30" rx="6" fill="#831843"/>
+    <text x="175" y="180" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Audit Logs | Action Items</text>
+  </g>
+  
+  <!-- Privacy & Security Section -->
+  <g transform="translate(50, 570)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="28" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ef4444" text-anchor="middle">PRIVACY &amp; SECURITY</text>
+    
+    <rect x="20" y="45" width="100" height="35" rx="6" fill="#dc2626"/>
+    <text x="70" y="67" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">PII Sanitizer</text>
+    
+    <rect x="130" y="45" width="100" height="35" rx="6" fill="#dc2626"/>
+    <text x="180" y="67" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Auth Manager</text>
+    
+    <rect x="240" y="45" width="90" height="35" rx="6" fill="#dc2626"/>
+    <text x="285" y="67" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">API Keys</text>
+    
+    <rect x="60" y="90" width="230" height="30" rx="6" fill="#b91c1c"/>
+    <text x="175" y="110" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Audit Logger | Role-based Access</text>
+  </g>
+  
+  <!-- External Services Section -->
+  <g transform="translate(450, 570)">
+    <rect x="0" y="0" width="300" height="130" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="150" y="28" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#6366f1" text-anchor="middle">AZURE SERVICES</text>
+    
+    <rect x="20" y="45" width="120" height="35" rx="6" fill="#4f46e5"/>
+    <text x="80" y="67" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Azure OpenAI</text>
+    
+    <rect x="160" y="45" width="120" height="35" rx="6" fill="#4f46e5"/>
+    <text x="220" y="67" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Azure Speech</text>
+    
+    <rect x="60" y="90" width="180" height="30" rx="6" fill="#4338ca"/>
+    <text x="150" y="110" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Microsoft Graph API</text>
+  </g>
+  
+  <!-- Data Flow Key Section -->
+  <g transform="translate(800, 570)">
+    <rect x="0" y="0" width="350" height="130" rx="12" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#475569" stroke-width="1"/>
+    <text x="175" y="28" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#94a3b8" text-anchor="middle">DATA FLOW</text>
+    
+    <!-- Flow items -->
+    <circle cx="30" cy="55" r="8" fill="#3b82f6"/>
+    <text x="50" y="59" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">User interacts with React UI</text>
+    
+    <circle cx="30" cy="80" r="8" fill="#8b5cf6"/>
+    <text x="50" y="84" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">API routes request to handlers</text>
+    
+    <circle cx="30" cy="105" r="8" fill="#10b981"/>
+    <text x="50" y="109" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">RAG retrieves relevant context</text>
+    
+    <circle cx="200" cy="55" r="8" fill="#14b8a6"/>
+    <text x="220" y="59" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">LLM generates response</text>
+    
+    <circle cx="200" cy="80" r="8" fill="#f59e0b"/>
+    <text x="220" y="84" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">Live call transcription</text>
+    
+    <circle cx="200" cy="105" r="8" fill="#ec4899"/>
+    <text x="220" y="109" font-family="Arial, sans-serif" font-size="10" fill="#e2e8f0">Data persisted to storage</text>
+  </g>
+  
+  <!-- Connection Arrows -->
+  <!-- Frontend to Backend -->
+  <line x1="400" y1="210" x2="450" y2="210" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="450,210 440,205 440,215" fill="#60a5fa"/>
+  
+  <!-- Backend to RAG -->
+  <line x1="750" y1="210" x2="800" y2="210" stroke="#34d399" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="800,210 790,205 790,215" fill="#34d399"/>
+  
+  <!-- Backend to Live Call -->
+  <line x1="500" y1="310" x2="350" y2="340" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="350,340 360,335 360,345" fill="#fbbf24"/>
+  
+  <!-- Backend to AI -->
+  <line x1="600" y1="310" x2="600" y2="340" stroke="#2dd4bf" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="600,340 595,330 605,330" fill="#2dd4bf"/>
+  
+  <!-- RAG to Storage -->
+  <line x1="975" y1="310" x2="975" y2="340" stroke="#f472b6" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="975,340 970,330 980,330" fill="#f472b6"/>
+  
+  <!-- Live Call to AI -->
+  <line x1="400" y1="440" x2="450" y2="440" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="450,440 440,435 440,445" fill="#fbbf24"/>
+  
+  <!-- Footer -->
+  <text x="600" y="735" font-family="Arial, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">DealSense AI - Sales Copilot for Trade Finance | Hackathon 2026</text>
+  <text x="600" y="755" font-family="Arial, sans-serif" font-size="10" fill="#475569" text-anchor="middle">Built with React, FastAPI, Azure OpenAI, FAISS, and WebSocket</text>
+  
+  <!-- Version Badge -->
+  <rect x="540" y="770" width="120" height="24" rx="12" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="600" y="787" font-family="Arial, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">v1.0.0 MVP</text>
+</svg>
