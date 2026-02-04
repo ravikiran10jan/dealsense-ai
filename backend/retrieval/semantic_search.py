@@ -22,3 +22,8 @@ def load_vector_store():
 def semantic_search(query, k=3):
     vector_db = load_vector_store()
     return vector_db.similarity_search(query, k=k)
+
+def semantic_search_with_scores(query, k=3):
+    """Returns list of (document, score) tuples. Lower score = more similar."""
+    vector_db = load_vector_store()
+    return vector_db.similarity_search_with_score(query, k=k)

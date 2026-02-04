@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="40" viewBox="0 0 220 40" role="img" aria-label="DXC mark">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="32" viewBox="0 0 100 32" role="img" aria-label="DXC logo">
   <defs>
-    <linearGradient id="g" x1="0" x2="1">
-      <stop offset="0%" stop-color="#6dd3ff"/>
-      <stop offset="50%" stop-color="#ff8b5c"/>
-      <stop offset="100%" stop-color="#a78bfa"/>
+    <linearGradient id="dxc-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5B8DEF"/>
+      <stop offset="35%" stop-color="#E8854A"/>
+      <stop offset="65%" stop-color="#E8854A"/>
+      <stop offset="100%" stop-color="#5B8DEF"/>
     </linearGradient>
   </defs>
-  <rect width="220" height="40" fill="transparent" />
-  <g transform="translate(10,6)">
-    <!-- DXC letters using path/text with gradient fill -->
-    <text x="0" y="28" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="url(#g)">DXC</text>
-    <!-- subtle mark to the right for spacing balance (optional) -->
-    <g transform="translate(84,2)" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M0 14 H34" />
-    </g>
+  <!-- D shape -->
+  <path d="M0 4 L0 28 L8 28 C16 28 20 22 20 16 C20 10 16 4 8 4 L0 4 Z M6 8 L8 8 C12 8 14 11 14 16 C14 21 12 24 8 24 L6 24 L6 8 Z" fill="url(#dxc-gradient)"/>
+  <!-- X shape -->
+  <g transform="translate(24, 0)">
+    <path d="M0 4 L10 16 L0 28 L7 28 L13 20 L19 28 L26 28 L16 16 L26 4 L19 4 L13 12 L7 4 Z" fill="#E8854A"/>
+  </g>
+  <!-- C shape -->
+  <g transform="translate(54, 0)">
+    <path d="M20 4 L12 4 C4 4 0 10 0 16 C0 22 4 28 12 28 L20 28 L20 24 L12 24 C8 24 6 21 6 16 C6 11 8 8 12 8 L20 8 L20 4 Z" fill="url(#dxc-gradient)"/>
   </g>
 </svg>

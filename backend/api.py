@@ -122,11 +122,12 @@ def search_deals(q: str = "", limit: int = 10):
 def query_rag(request: QueryRequest):
     """Query the RAG system with natural language"""
     try:
-        answer = answer_query(request.query)
-        # Extract sources from the search
-        results = semantic_search(request.query, k=3)
-        sources = [doc.metadata.get("source", "Unknown") for doc in results]
-        return QueryResponse(answer=answer, sources=list(set(sources)))
+        result = answer_query(request.query)
+        # answer_query now returns dict with 'answer', 'sources', 'source_type'
+        return QueryResponse(
+            answer=result["answer"], 
+            sources=result["sources"]
+        )
     except Exception as e:
         return QueryResponse(answer=f"Error: {str(e)}", sources=[])
 

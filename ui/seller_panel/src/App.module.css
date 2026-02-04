@@ -1,26 +1,25 @@
+/* 3-Panel Layout Container */
 .appContainer {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background-color: var(--color-bg);
 }
 
-.mainContent {
+/* Main Content Area (Chat + Context) */
+.mainArea {
   flex: 1;
-  background-color: var(--color-bg);
-  padding: var(--spacing-lg) 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  position: relative;
 }
 
-.footer {
-  background-color: var(--color-white);
-  border-top: 1px solid var(--color-border);
-  padding: calc(var(--spacing-lg) - 4px);
-  text-align: center;
-  color: var(--color-text-light);
-  font-size: var(--font-size-sm);
-  margin-top: var(--spacing-xl);
-}
-
-.footer p {
-  margin: 0;
+/* Responsive: Hide context panel on smaller screens */
+@media (max-width: 1024px) {
+  .appContainer {
+    flex-direction: column;
+  }
 }
