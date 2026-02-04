@@ -16,8 +16,9 @@
   /* Surfaces & backgrounds */
   --color-bg: #F1F6FB; /* soft off-white page background */
   --color-surface: #FFFFFF; /* card surface white */
-  --color-header: #0B74DE; /* dark sky blue header */
-  --color-header-text: #FFFFFF; /* header text color */
+  --color-header: #FFDAB9; /* light peach */
+  --color-header-dark: #C97B63; /* dark peach */
+  --color-header-text: #3B2322; /* dark brown for contrast */
   --color-primary-light: #274BAF;
   --color-border: #E6E2D6; /* soft warm border */
 

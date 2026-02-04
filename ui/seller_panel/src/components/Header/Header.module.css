@@ -1,7 +1,7 @@
 .header {
-  background: #ffffff;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  background: #111111;
+  border-bottom: 1px solid #222;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   padding: calc(var(--spacing-lg) - 2px) 0;
   position: sticky;
   top: 0;
@@ -32,10 +32,11 @@
   margin-left: var(--spacing-sm);
 }
 
+
 .appName {
   margin: 0;
   font-size: var(--font-size-2xl);
-  color: #000000;
+  color: #fff;
   font-weight: 800;
   letter-spacing: 0.2px;
 }
@@ -43,7 +44,7 @@
 .logo h1 {
   margin: 0;
   font-size: var(--font-size-2xl);
-  color: #000000;
+  color: #fff;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.2px;
 }
