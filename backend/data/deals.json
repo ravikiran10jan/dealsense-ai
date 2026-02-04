@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "accountName": "Test Bank",
+    "stage": "Discovery",
+    "nextCallDate": "2026-02-10",
+    "nextCallTime": "10:00",
+    "dealAmount": "$2.5M",
+    "contactName": "John Smith",
+    "contactRole": "Head of Operations",
+    "industry": "Banking - Trade Finance",
+    "description": "Trade Finance Platform Upgrade",
+    "additionalContacts": [],
+    "similarDeals": [
+      {
+        "name": "CBA - Trade Finance Platform",
+        "value": "$5.2M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SMBC - LC Automation",
+        "value": "$3.8M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SCB - Trade Digitization",
+        "value": "$4.1M",
+        "industry": "Banking",
+        "status": "In Progress"
+      }
+    ],
+    "credibleReferences": [
+      {
+        "name": "Mark Thompson",
+        "company": "CBA",
+        "role": "Head of Trade Finance",
+        "relationship": "Previous project sponsor"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "company": "SMBC",
+        "role": "VP Operations",
+        "relationship": "Reference client"
+      }
+    ],
+    "expectedQuestions": [
+      {
+        "theme": "Team & Delivery",
+        "questions": [
+          "What was CBA team size?",
+          "Implementation timeline?"
+        ]
+      },
+      {
+        "theme": "Data Privacy",
+        "questions": [
+          "How do you handle regional data?",
+          "SCB privacy approach?"
+        ]
+      },
+      {
+        "theme": "AI Capabilities",
+        "questions": [
+          "Is AI in production?",
+          "Accuracy metrics?"
+        ]
+      }
+    ],
+    "suggestedTalkingPoints": [
+      "CBA implementation: 45-person team, 18-month timeline",
+      "SMBC: Integrated 3 core systems + SWIFT",
+      "SCB: Singapore-only rollout for data privacy compliance",
+      "AI use cases in POC stage - 92% doc classification accuracy"
+    ]
+  },
+  {
+    "id": 2,
+    "accountName": "OCBC Bank",
+    "stage": "Discovery",
+    "nextCallDate": "",
+    "nextCallTime": "",
+    "dealAmount": "$3.2M",
+    "contactName": "Michael Tan",
+    "contactRole": "SVP Trade Services",
+    "industry": "Banking - Trade Finance",
+    "description": "Trade Finance Platform Modernization",
+    "additionalContacts": [],
+    "similarDeals": [
+      {
+        "name": "CBA - Trade Finance Platform",
+        "value": "$5.2M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SMBC - LC Automation",
+        "value": "$3.8M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SCB - Trade Digitization",
+        "value": "$4.1M",
+        "industry": "Banking",
+        "status": "In Progress"
+      }
+    ],
+    "credibleReferences": [
+      {
+        "name": "Mark Thompson",
+        "company": "CBA",
+        "role": "Head of Trade Finance",
+        "relationship": "Previous project sponsor"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "company": "SMBC",
+        "role": "VP Operations",
+        "relationship": "Reference client"
+      }
+    ],
+    "expectedQuestions": [
+      {
+        "theme": "Team & Delivery",
+        "questions": [
+          "What was CBA team size?",
+          "Implementation timeline?"
+        ]
+      },
+      {
+        "theme": "Data Privacy",
+        "questions": [
+          "How do you handle regional data?",
+          "SCB privacy approach?"
+        ]
+      },
+      {
+        "theme": "AI Capabilities",
+        "questions": [
+          "Is AI in production?",
+          "Accuracy metrics?"
+        ]
+      }
+    ],
+    "suggestedTalkingPoints": [
+      "CBA implementation: 45-person team, 18-month timeline",
+      "SMBC: Integrated 3 core systems + SWIFT",
+      "SCB: Singapore-only rollout for data privacy compliance",
+      "AI use cases in POC stage - 92% doc classification accuracy"
+    ]
+  }
+]

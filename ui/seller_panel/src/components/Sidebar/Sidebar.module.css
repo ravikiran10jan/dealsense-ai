@@ -131,6 +131,12 @@
   letter-spacing: 0.5px;
 }
 
+.sectionActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .dealCount {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
@@ -138,6 +144,23 @@
   background-color: var(--color-sidebar-hover);
   padding: 2px 8px;
   border-radius: var(--radius-full);
+}
+
+.addDealBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  background-color: transparent;
+  transition: all var(--transition-fast);
+}
+
+.addDealBtn:hover {
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .dealsList {

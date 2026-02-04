@@ -15,7 +15,7 @@ const stageColors = {
   Closed: '#10B981',
 };
 
-const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollapse }) => {
+const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollapse, onAddDealClick }) => {
   const [activeNav, setActiveNav] = useState('inbox');
 
   const renderIcon = (iconName) => {
@@ -92,7 +92,15 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
         <div className={styles.dealsSection}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionTitle}>Active Deals</span>
-            <span className={styles.dealCount}>{deals.length}</span>
+            <div className={styles.sectionActions}>
+              <span className={styles.dealCount}>{deals.length}</span>
+              <button className={styles.addDealBtn} onClick={onAddDealClick} title="Add new deal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+            </div>
           </div>
           <div className={styles.dealsList}>
             {deals.map((deal) => (

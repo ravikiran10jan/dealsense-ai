@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import ChatPanel from './components/ChatPanel/ChatPanel';
 import ContextPanel from './components/ContextPanel/ContextPanel';
 import LiveCallStrip from './components/common/LiveCallStrip';
+import AddDealModal from './components/AddDealModal/AddDealModal';
 
 // Trade Finance deals data for sidebar
 const initialDeals = [
@@ -63,6 +64,7 @@ const initialDeals = [
 ];
 
 function App() {
+  const [deals, setDeals] = useState(initialDeals);
   const [selectedDeal, setSelectedDeal] = useState(initialDeals[0]);
   const [callPhase, setCallPhase] = useState('before'); // before, during, after
   const [isLiveCall, setIsLiveCall] = useState(false);
@@ -77,6 +79,7 @@ function App() {
   });
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [contextPanelVisible, setContextPanelVisible] = useState(true);
+  const [isAddDealModalOpen, setIsAddDealModalOpen] = useState(false);
 
   // Handle deal selection
   const handleDealSelect = useCallback((deal) => {
@@ -146,15 +149,46 @@ function App() {
     setContextData((prev) => ({ ...prev, ...newData }));
   }, []);
 
+  // Handle adding new deal
+  const handleAddDeal = useCallback((newDeal) => {
+    setDeals((prev) => [...prev, newDeal]);
+    // Auto-select the newly added deal
+    setSelectedDeal(newDeal);
+    setCallPhase('before');
+    setIsLiveCall(false);
+    setCallDuration(0);
+    // Set welcome message for new deal
+    setMessages([
+      {
+        id: Date.now(),
+        type: 'assistant',
+        content: `New deal **${newDeal.accountName}** has been added. I've automatically populated context from our knowledge base including similar deals, references, and expected questions. What would you like to focus on for the upcoming call with **${newDeal.contactName}**?`,
+        timestamp: new Date(),
+        metadata: { source: 'system' },
+      },
+    ]);
+    // Update context with RAG-populated data
+    if (newDeal.similarDeals || newDeal.expectedQuestions) {
+      setContextData({
+        similarDeals: newDeal.similarDeals || [],
+        references: newDeal.credibleReferences || [],
+        expectedQuestions: newDeal.expectedQuestions || [],
+        talkingPoints: newDeal.suggestedTalkingPoints || [],
+        actionItems: [],
+      });
+    }
+  }, []);
+
   return (
     <div className={styles.appContainer}>
       {/* Left Sidebar */}
       <Sidebar
-        deals={initialDeals}
+        deals={deals}
         selectedDeal={selectedDeal}
         onDealSelect={handleDealSelect}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onAddDealClick={() => setIsAddDealModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -194,6 +228,13 @@ function App() {
           onClose={() => setContextPanelVisible(false)}
         />
       )}
+
+      {/* Add Deal Modal */}
+      <AddDealModal
+        isOpen={isAddDealModalOpen}
+        onClose={() => setIsAddDealModalOpen(false)}
+        onAddDeal={handleAddDeal}
+      />
     </div>
   );
 }
