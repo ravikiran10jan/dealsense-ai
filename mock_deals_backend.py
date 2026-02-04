@@ -150,3 +150,24 @@ MOCK_DEALS = [
 @app.get("/api/deals", response_model=List[Deal])
 def get_deals():
     return MOCK_DEALS
+
+
+@app.get("/api/search", response_model=List[Deal])
+def search_deals(q: str = "", limit: int = 10):
+    """
+    Simple search endpoint over mock deals.
+    - q: query string (matches title, summary, caseStudy, solutionArea, industry)
+    - limit: maximum number of results to return
+    Returns full list when q is empty.
+    """
+    if not q:
+        return MOCK_DEALS[:limit]
+
+    ql = q.lower()
+
+    def matches(d: Deal) -> bool:
+        hay = f"{d.title} {d.summary} {d.caseStudy} {d.solutionArea} {d.industry}".lower()
+        return ql in hay
+
+    results = [d for d in MOCK_DEALS if matches(d)]
+    return results[:limit]

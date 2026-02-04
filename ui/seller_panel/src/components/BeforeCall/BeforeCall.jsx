@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './BeforeCall.module.css';
-import FileUpload from './FileUpload';
-import SharePointLinkInput from './SharePointLinkInput';
-import PreCallSummary from './PreCallSummary';
-import { mockDeals } from '../../data/mockData';
+import ChatAgent from './ChatAgent';
+// PreCallSummary removed — results now come from ChatAgent search
 
 /**
  * BeforeCall Tab Component
@@ -31,11 +29,8 @@ const BeforeCall = () => {
       </div>
 
       <div className={styles.inputSection}>
-        <FileUpload onFileSelect={handleFileSelect} />
-        <SharePointLinkInput onLinkSubmit={handleSharePointLink} />
+        <ChatAgent />
       </div>
-
-      <PreCallSummary deals={mockDeals} />
     </div>
   );
 };
