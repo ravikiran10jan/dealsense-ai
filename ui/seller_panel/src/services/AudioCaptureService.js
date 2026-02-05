@@ -40,6 +40,14 @@ class AudioCaptureService {
     this.reconnectAttempts = 0;
     this.maxReconnectAttempts = 3;
     this.reconnectDelay = 2000;
+    this.apiKey = import.meta.env.VITE_API_KEY || '';
+    
+    // Audio capture
+    this.mediaStream = null;
+    this.mediaRecorder = null;
+    this.audioContext = null;
+    this.audioChunkSequence = 0;
+    this.isCapturing = false;
     
     // Event callbacks
     this.onTranscriptChunk = null;
@@ -51,41 +59,95 @@ class AudioCaptureService {
   }
   
   /**
+   * Get the API base URL
+   */
+  getApiBaseUrl() {
+    return import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  }
+  
+  /**
    * Get the WebSocket URL for a call
    */
   getWebSocketUrl(callId) {
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const baseUrl = this.getApiBaseUrl();
     const wsUrl = baseUrl.replace('http', 'ws');
     return `${wsUrl}/ws/call/${callId}`;
   }
   
   /**
-   * Connect to WebSocket for a call
+   * Create a call via REST API
    */
-  async connect(callId, options = {}) {
+  async createCall(dealId, accountName, contactName) {
+    const baseUrl = this.getApiBaseUrl();
+    const response = await fetch(`${baseUrl}/api/calls/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': this.apiKey,
+      },
+      body: JSON.stringify({
+        deal_id: dealId,
+        account_name: accountName,
+        contact_name: contactName,
+      }),
+    });
+    
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ detail: 'Failed to create call' }));
+      throw new Error(error.detail || 'Failed to create call');
+    }
+    
+    return response.json();
+  }
+  
+  /**
+   * Connect to WebSocket for a call
+   * First creates the call via REST API, then connects to WebSocket
+   */
+  async connect(callIdOrOptions, options = {}) {
     if (this.ws && this.connectionState === ConnectionState.CONNECTED) {
       console.warn('Already connected to a call. Disconnect first.');
       return false;
     }
     
-    this.callId = callId;
     this.setConnectionState(ConnectionState.CONNECTING);
     
-    return new Promise((resolve, reject) => {
-      try {
+    try {
+      // If options has dealId, create call first via REST API
+      const dealId = options.dealId;
+      const accountName = options.accountName;
+      const contactName = options.contactName;
+      
+      let callId;
+      
+      if (dealId && accountName) {
+        // Create call via REST API first
+        console.log('Creating call via REST API...');
+        const callData = await this.createCall(dealId, accountName, contactName);
+        callId = callData.call_id;
+        console.log('Call created:', callId);
+      } else {
+        // Use provided callId directly (for reconnection)
+        callId = callIdOrOptions;
+      }
+      
+      this.callId = callId;
+      
+      return new Promise((resolve, reject) => {
         const url = this.getWebSocketUrl(callId);
         console.log('Connecting to WebSocket:', url);
         
         this.ws = new WebSocket(url);
         
-        this.ws.onopen = () => {
+        this.ws.onopen = async () => {
           console.log('WebSocket connected');
           this.setConnectionState(ConnectionState.CONNECTED);
           this.reconnectAttempts = 0;
           
-          // Send start_call message if options provided
-          if (options.dealId && options.accountName) {
-            this.sendStartCall(options.dealId, options.accountName, options.contactName);
+          // Start audio capture after WebSocket is connected
+          const captureStarted = await this.startAudioCapture();
+          if (!captureStarted) {
+            console.warn('Audio capture failed to start, continuing without microphone');
           }
           
           resolve(true);
@@ -111,25 +173,173 @@ class AudioCaptureService {
           this.handleError('Connection error', error.message);
           reject(error);
         };
-        
-      } catch (error) {
-        console.error('Failed to connect:', error);
-        this.setConnectionState(ConnectionState.ERROR);
-        reject(error);
-      }
-    });
+      });
+      
+    } catch (error) {
+      console.error('Failed to connect:', error);
+      this.setConnectionState(ConnectionState.ERROR);
+      this.handleError('Connection failed', error.message);
+      throw error;
+    }
   }
   
   /**
    * Disconnect from WebSocket
    */
   disconnect() {
+    // Stop audio capture first
+    this.stopAudioCapture();
+    
     if (this.ws) {
       this.ws.close(1000, 'Client disconnect');
       this.ws = null;
     }
     this.callId = null;
     this.setConnectionState(ConnectionState.DISCONNECTED);
+  }
+  
+  /**
+   * Start capturing audio from microphone
+   */
+  async startAudioCapture() {
+    if (this.isCapturing) {
+      console.warn('Audio capture already running');
+      return true;
+    }
+    
+    try {
+      // Request microphone access
+      console.log('Requesting microphone access...');
+      this.mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          channelCount: 1,
+          sampleRate: 16000,
+          echoCancellation: true,
+          noiseSuppression: true,
+        },
+      });
+      
+      console.log('Microphone access granted');
+      
+      // Create MediaRecorder for capturing audio chunks
+      const mimeType = this.getSupportedMimeType();
+      console.log('Using audio format:', mimeType);
+      
+      this.mediaRecorder = new MediaRecorder(this.mediaStream, {
+        mimeType: mimeType,
+        audioBitsPerSecond: 16000,
+      });
+      
+      this.audioChunkSequence = 0;
+      
+      // Handle audio data
+      this.mediaRecorder.ondataavailable = async (event) => {
+        if (event.data.size > 0 && this.connectionState === ConnectionState.CONNECTED) {
+          await this.processAudioChunk(event.data);
+        }
+      };
+      
+      this.mediaRecorder.onerror = (event) => {
+        console.error('MediaRecorder error:', event.error);
+        this.handleError('Audio capture error', event.error?.message);
+      };
+      
+      // Start recording with 1-second chunks (good for real-time streaming)
+      this.mediaRecorder.start(1000);
+      this.isCapturing = true;
+      
+      console.log('Audio capture started');
+      return true;
+      
+    } catch (error) {
+      console.error('Failed to start audio capture:', error);
+      
+      let errorMessage = 'Microphone access denied';
+      if (error.name === 'NotFoundError') {
+        errorMessage = 'No microphone found';
+      } else if (error.name === 'NotAllowedError') {
+        errorMessage = 'Microphone permission denied. Please allow access.';
+      }
+      
+      this.handleError('Audio capture failed', errorMessage);
+      return false;
+    }
+  }
+  
+  /**
+   * Stop audio capture
+   */
+  stopAudioCapture() {
+    if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+      this.mediaRecorder.stop();
+      console.log('MediaRecorder stopped');
+    }
+    
+    if (this.mediaStream) {
+      this.mediaStream.getTracks().forEach(track => track.stop());
+      this.mediaStream = null;
+      console.log('Media stream stopped');
+    }
+    
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+    }
+    
+    this.mediaRecorder = null;
+    this.isCapturing = false;
+    this.audioChunkSequence = 0;
+  }
+  
+  /**
+   * Get supported audio MIME type
+   */
+  getSupportedMimeType() {
+    const types = [
+      'audio/webm;codecs=opus',
+      'audio/webm',
+      'audio/ogg;codecs=opus',
+      'audio/mp4',
+    ];
+    
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        return type;
+      }
+    }
+    
+    return 'audio/webm'; // Fallback
+  }
+  
+  /**
+   * Process and send audio chunk
+   */
+  async processAudioChunk(blob) {
+    try {
+      // Convert blob to base64
+      const arrayBuffer = await blob.arrayBuffer();
+      const base64 = this.arrayBufferToBase64(arrayBuffer);
+      
+      // Send via WebSocket
+      this.sendAudioChunk(base64, this.audioChunkSequence);
+      this.audioChunkSequence++;
+      
+    } catch (error) {
+      console.error('Error processing audio chunk:', error);
+    }
+  }
+  
+  /**
+   * Convert ArrayBuffer to Base64
+   */
+  arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
   }
   
   /**
@@ -284,11 +494,17 @@ class AudioCaptureService {
    * Send audio chunk (for future use with real audio capture)
    */
   sendAudioChunk(audioData, sequence) {
-    return this.send({
+    const sent = this.send({
       type: WSMessageType.AUDIO_CHUNK,
       audio_data: audioData,
       chunk_sequence: sequence,
     });
+    
+    if (sent && sequence % 5 === 0) {
+      console.log(`Sent audio chunk #${sequence}`);
+    }
+    
+    return sent;
   }
   
   // ==================== Event Handlers ====================
@@ -356,6 +572,13 @@ class AudioCaptureService {
    */
   getConnectionState() {
     return this.connectionState;
+  }
+  
+  /**
+   * Check if audio capture is active
+   */
+  isAudioCaptureActive() {
+    return this.isCapturing;
   }
 }
 

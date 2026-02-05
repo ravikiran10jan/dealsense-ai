@@ -7,13 +7,17 @@ import { usePushToTalk } from '../../hooks/useHotkeyManager';
 
 // Backend API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_KEY = import.meta.env.VITE_API_KEY || '';
 
 // Query the RAG + LLM backend
 async function queryRAG(query) {
   try {
     const response = await fetch(`${API_BASE_URL}/api/query`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': API_KEY,
+      },
       body: JSON.stringify({ query }),
     });
     if (!response.ok) throw new Error(`API error: ${response.status}`);

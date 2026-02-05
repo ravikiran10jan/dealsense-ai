@@ -13,6 +13,7 @@ import { getAudioCaptureService, ConnectionState } from './services/AudioCapture
 
 // API Base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_KEY = import.meta.env.VITE_API_KEY || '';
 
 // Trade Finance deals data for sidebar
 const initialDeals = [
@@ -101,8 +102,14 @@ function App() {
   
   // Audio capture service reference
   const audioServiceRef = useRef(null);
+  const callIdRef = useRef(null);
 
-  // Initialize audio service
+  // Keep callIdRef in sync with callId state
+  useEffect(() => {
+    callIdRef.current = callId;
+  }, [callId]);
+
+  // Initialize audio service (only once on mount)
   useEffect(() => {
     audioServiceRef.current = getAudioCaptureService();
     
@@ -144,10 +151,17 @@ function App() {
       }
     });
     
-    audioServiceRef.current.setOnSummaryReady(async (data) => {
-      // Fetch the summary
+    audioServiceRef.current.setOnSummaryReady(async () => {
+      // Fetch the summary using ref to get current callId
+      const currentCallId = callIdRef.current;
+      if (!currentCallId) return;
+      
       try {
-        const response = await fetch(`${API_BASE_URL}/api/calls/${callId}/summary`);
+        const response = await fetch(`${API_BASE_URL}/api/calls/${currentCallId}/summary`, {
+          headers: {
+            'X-API-Key': API_KEY,
+          },
+        });
         if (response.ok) {
           const summaryData = await response.json();
           setCallSummary(summaryData.summary);
@@ -182,7 +196,7 @@ function App() {
         audioServiceRef.current.disconnect();
       }
     };
-  }, [callId]);
+  }, []);
 
   // Handle deal selection
   const handleDealSelect = useCallback((deal) => {
@@ -212,8 +226,6 @@ function App() {
 
   // Handle starting live call
   const handleStartLiveCall = useCallback(async () => {
-    const newCallId = `call-${Date.now()}`;
-    setCallId(newCallId);
     setIsLiveCall(true);
     setCallPhase('during');
     setTranscriptChunks([]);
@@ -230,13 +242,17 @@ function App() {
       },
     ]);
     
-    // Connect to WebSocket
+    // Connect to WebSocket (service will create call via REST API first)
     try {
-      await audioServiceRef.current.connect(newCallId, {
+      await audioServiceRef.current.connect(null, {
         dealId: selectedDeal?.id,
         accountName: selectedDeal?.accountName,
         contactName: selectedDeal?.contactName,
       });
+      
+      // Get the call ID from the service (created by REST API)
+      const newCallId = audioServiceRef.current.getCallId();
+      setCallId(newCallId);
       
       setMessages((prev) => [
         ...prev,
@@ -250,12 +266,14 @@ function App() {
       ]);
     } catch (error) {
       console.error('Failed to start call:', error);
+      setIsLiveCall(false);
+      setCallPhase('before');
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now(),
           type: 'system',
-          content: `Failed to connect: ${error.message}. Continuing in offline mode.`,
+          content: `Failed to connect: ${error.message}`,
           timestamp: new Date(),
           metadata: { status: 'error' },
         },

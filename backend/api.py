@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 from orchestration.hybrid_answer import answer_query, answer_query_with_context
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores, load_vector_store
 from ingestion.deal_ingestion import ingest_deal_to_vector_store
+from llm.talking_points import generate_talking_points_from_query
 
 # Import privacy components
 from privacy.auth import verify_api_key, get_auth_manager, require_permission, ROLES
@@ -147,7 +148,7 @@ def save_deals(deals):
         json.dump(deals, f, indent=2)
 
 def populate_deal_context(deal: dict) -> dict:
-    """Use RAG to auto-populate deal context"""
+    """Use RAG to auto-populate deal context including dynamic talking points"""
     account_name = deal.get('accountName', '')
     industry = deal.get('industry', '')
     description = deal.get('description', '')
@@ -164,11 +165,28 @@ def populate_deal_context(deal: dict) -> dict:
     references_query = f"Reference contacts and case studies for trade finance projects similar to {account_name}"
     references_result = answer_query(references_query)
     
-    # Query for talking points
-    talking_points_query = f"Key talking points for {description} pitch to {account_name}"
-    talking_points_result = answer_query(talking_points_query)
+    # Generate dynamic talking points using RAG + LLM
+    try:
+        talking_points_result = generate_talking_points_from_query(
+            client_name=account_name,
+            industry=industry,
+            description=description,
+            semantic_search_fn=semantic_search,
+            num_points=4
+        )
+        talking_points = talking_points_result.get("talking_points", [])
+        logger.info(f"Generated {len(talking_points)} talking points for {account_name} (source: {talking_points_result.get('source_type')})")
+    except Exception as e:
+        logger.warning(f"Failed to generate talking points for {account_name}: {e}")
+        # Fallback to default talking points
+        talking_points = [
+            f"Discuss {description} implementation approach",
+            f"Reference similar {industry} implementations",
+            "Highlight team expertise and delivery methodology",
+            "Address data privacy and compliance requirements",
+        ]
     
-    # Parse and structure the results
+    # Parse and structure the results (these can be enhanced similarly in the future)
     similar_deals = [
         {"name": "CBA - Trade Finance Platform", "value": "$5.2M", "industry": "Banking", "status": "Won"},
         {"name": "SMBC - LC Automation", "value": "$3.8M", "industry": "Banking", "status": "Won"},
@@ -184,14 +202,6 @@ def populate_deal_context(deal: dict) -> dict:
         {"theme": "Team & Delivery", "questions": ["What was CBA team size?", "Implementation timeline?"]},
         {"theme": "Data Privacy", "questions": ["How do you handle regional data?", "SCB privacy approach?"]},
         {"theme": "AI Capabilities", "questions": ["Is AI in production?", "Accuracy metrics?"]},
-    ]
-    
-    # Extract key points from RAG answers for talking points
-    talking_points = [
-        "CBA implementation: 45-person team, 18-month timeline",
-        "SMBC: Integrated 3 core systems + SWIFT",
-        "SCB: Singapore-only rollout for data privacy compliance",
-        "AI use cases in POC stage - 92% doc classification accuracy",
     ]
     
     deal['similarDeals'] = similar_deals
@@ -348,6 +358,101 @@ def get_deal_context(deal_id: int, auth: Dict = Depends(verify_api_key)):
         "expectedQuestions": deal.get('expectedQuestions', []),
         "suggestedTalkingPoints": deal.get('suggestedTalkingPoints', []),
     }
+
+
+class TalkingPointsRequest(BaseModel):
+    client_name: str
+    industry: str
+    description: str
+    num_points: Optional[int] = 4
+
+
+class TalkingPointsResponse(BaseModel):
+    talking_points: List[str]
+    sources: List[str]
+    source_type: str
+
+
+@app.post("/api/talking-points", response_model=TalkingPointsResponse)
+def generate_talking_points_endpoint(
+    request: TalkingPointsRequest,
+    auth: Dict = Depends(verify_api_key)
+):
+    """
+    Generate suggested talking points using RAG + LLM.
+    
+    Uses semantic search to retrieve relevant context about similar deals,
+    case studies, and implementations, then generates tailored talking points.
+    """
+    try:
+        result = generate_talking_points_from_query(
+            client_name=request.client_name,
+            industry=request.industry,
+            description=request.description,
+            semantic_search_fn=semantic_search,
+            num_points=request.num_points
+        )
+        
+        # Audit log the generation
+        audit_log(
+            action='talking_points_generate',
+            resource_type='rag',
+            auth_info=auth,
+            status='success',
+            results_count=len(result.get("talking_points", []))
+        )
+        
+        return TalkingPointsResponse(
+            talking_points=result.get("talking_points", []),
+            sources=result.get("sources", []),
+            source_type=result.get("source_type", "LLM")
+        )
+    except Exception as e:
+        logger.error(f"Failed to generate talking points: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate talking points: {str(e)}")
+
+
+@app.get("/api/deals/{deal_id}/talking-points", response_model=TalkingPointsResponse)
+def get_deal_talking_points(deal_id: int, auth: Dict = Depends(verify_api_key)):
+    """
+    Generate talking points for a specific deal using RAG + LLM.
+    
+    Retrieves deal information and generates contextual talking points
+    based on the client, industry, and deal description.
+    """
+    deals = load_deals()
+    deal = next((d for d in deals if d.get('id') == deal_id), None)
+    
+    if not deal:
+        raise HTTPException(status_code=404, detail="Deal not found")
+    
+    try:
+        result = generate_talking_points_from_query(
+            client_name=deal.get('accountName', ''),
+            industry=deal.get('industry', ''),
+            description=deal.get('description', ''),
+            semantic_search_fn=semantic_search,
+            num_points=4
+        )
+        
+        # Audit log the generation
+        audit_log(
+            action='talking_points_generate',
+            resource_type='deal',
+            resource_id=str(deal_id),
+            auth_info=auth,
+            status='success',
+            results_count=len(result.get("talking_points", []))
+        )
+        
+        return TalkingPointsResponse(
+            talking_points=result.get("talking_points", []),
+            sources=result.get("sources", []),
+            source_type=result.get("source_type", "LLM")
+        )
+    except Exception as e:
+        logger.error(f"Failed to generate talking points for deal {deal_id}: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate talking points: {str(e)}")
 
 @app.delete("/api/deals/{deal_id}")
 def delete_deal(deal_id: int, auth: Dict = Depends(verify_api_key)):
