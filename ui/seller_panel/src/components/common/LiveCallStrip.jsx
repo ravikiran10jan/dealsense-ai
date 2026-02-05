@@ -117,7 +117,7 @@ const LiveCallStrip = ({
         
         {/* Hotkey Hint */}
         <div className={styles.hotkeyHint}>
-          <kbd>Ctrl</kbd>+<kbd>Space</kbd> to ask
+          <kbd>Shift</kbd>+<kbd>Space</kbd> to ask
         </div>
         
         {/* End Call Button */}

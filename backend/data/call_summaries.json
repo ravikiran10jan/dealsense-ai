@@ -100,5 +100,24 @@
     "deal_health_reason": "",
     "generated_at": "2026-02-04T20:07:48.926990",
     "created_at": "2026-02-04T20:07:48.926993"
+  },
+  {
+    "id": "97407dca-7f73-4ea6-b972-5061ad057bb1",
+    "call_id": "c2087915-f58d-487e-9b3e-e81a642cce02",
+    "executive_summary": "The call was positive, with the customer showing interest in the trade finance solution. The next step identified is to provide more detailed information on integration and implementation timelines.",
+    "key_points": [
+      "Discussion on the end-to-end trade finance automation offered by the platform.",
+      "Customer inquired about integration capabilities with existing systems.",
+      "Implementation timeline typically ranges from 12 to 18 months based on complexity.",
+      "The last major project involved a 45-person team over 18 months.",
+      "Data privacy compliance with regional requirements was confirmed."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Provide detailed documentation on integration capabilities and a more precise implementation timeline based on customer systems.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and interested, but further information is needed to move forward.",
+    "generated_at": "2026-02-05T05:12:15.462046",
+    "created_at": "2026-02-05T05:12:15.462048"
   }
 ]

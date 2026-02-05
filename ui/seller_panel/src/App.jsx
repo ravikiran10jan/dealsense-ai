@@ -15,6 +15,9 @@ import { getAudioCaptureService, ConnectionState } from './services/AudioCapture
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const API_KEY = import.meta.env.VITE_API_KEY || '';
 
+// Hotkey label for push-to-talk
+const hotkeyLabel = 'Shift+Space';
+
 // Trade Finance deals data for sidebar
 const initialDeals = [
   {
@@ -259,7 +262,7 @@ function App() {
         {
           id: Date.now(),
           type: 'system',
-          content: 'Live call assistance started. Press **Ctrl+Space** to ask questions during the call.',
+          content: `Live call assistance started. Press **${hotkeyLabel}** to ask questions during the call.`,
           timestamp: new Date(),
           metadata: { status: 'live' },
         },

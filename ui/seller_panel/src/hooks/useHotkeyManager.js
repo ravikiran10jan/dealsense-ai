@@ -10,11 +10,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-// Default hotkey configuration
+// Default hotkey configuration - Shift+Space (works on all platforms without conflicts)
 const DEFAULT_HOTKEY = {
   key: ' ', // Space
-  ctrlKey: true,
-  shiftKey: false,
+  ctrlKey: false,
+  shiftKey: true,
   altKey: false,
   metaKey: false,
 };
