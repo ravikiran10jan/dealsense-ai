@@ -768,5 +768,115 @@
     "confidence": 1.0,
     "is_final": true,
     "created_at": "2026-02-05T05:11:31.063256"
+  },
+  {
+    "id": "89dbc354-64d2-44df-a2c7-e1c0e21337fd",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Customer",
+    "text": "So tell me more about your trade finance solution.",
+    "start_time": 0.0,
+    "end_time": 3.6,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:27.627682"
+  },
+  {
+    "id": "b7f2c0e1-afe6-4e6b-a89a-5e22dfe2db5b",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Seller",
+    "text": "Our platform provides end-to-end trade finance automation.",
+    "start_time": 4.1,
+    "end_time": 6.8999999999999995,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:28.591271"
+  },
+  {
+    "id": "1f56162a-d9b8-475e-b247-b7b793b70aae",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Customer",
+    "text": "What about integration with existing systems?",
+    "start_time": 7.3999999999999995,
+    "end_time": 9.799999999999999,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:29.619011"
+  },
+  {
+    "id": "e89f8089-b8e6-480f-a08a-390cb0b2d364",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Seller",
+    "text": "We support APIs for all major banking systems.",
+    "start_time": 10.299999999999999,
+    "end_time": 13.5,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:30.628194"
+  },
+  {
+    "id": "4e399b40-f84d-4dc3-8162-37e3656e5413",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Customer",
+    "text": "How long does implementation typically take?",
+    "start_time": 14.0,
+    "end_time": 16.4,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:31.652953"
+  },
+  {
+    "id": "3c9e8ede-52ee-47c7-92d1-410e50a802a0",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Seller",
+    "text": "Usually 12 to 18 months depending on complexity.",
+    "start_time": 16.9,
+    "end_time": 20.099999999999998,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:32.667725"
+  },
+  {
+    "id": "e26fc3ff-e86d-4fbd-a1b1-881a17fe0d8f",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Customer",
+    "text": "What was the team size for your last major project?",
+    "start_time": 20.599999999999998,
+    "end_time": 24.599999999999998,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:33.691722"
+  },
+  {
+    "id": "f1698f13-c8fc-446f-a38a-ce53a51ffe32",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Seller",
+    "text": "For CBA we had a 45-person team over 18 months.",
+    "start_time": 25.099999999999998,
+    "end_time": 29.099999999999998,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:34.712008"
+  },
+  {
+    "id": "d68783ff-79eb-40bb-b835-4d99de1eb297",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Customer",
+    "text": "That sounds reasonable. What about data privacy?",
+    "start_time": 29.599999999999998,
+    "end_time": 32.4,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:35.729755"
+  },
+  {
+    "id": "105fd096-dc00-4d23-aea5-54542f707dd1",
+    "call_id": "442df60f-8eec-48c2-bbcb-5800f5e02006",
+    "speaker": "Seller",
+    "text": "We follow strict regional data compliance requirements.",
+    "start_time": 32.9,
+    "end_time": 35.699999999999996,
+    "confidence": 1.0,
+    "is_final": true,
+    "created_at": "2026-02-05T18:34:36.750926"
   }
 ]

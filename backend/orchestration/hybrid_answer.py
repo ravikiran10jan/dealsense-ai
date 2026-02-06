@@ -4,8 +4,9 @@ from retrieval.web_search import web_search
 from llm.answer_llm import answer_with_llm
 
 # TF-IDF FAISS uses L2 distance - lower is better
-# Typical threshold: scores > 1.0 are usually not very relevant
-SIMILARITY_THRESHOLD = 1.0
+# Threshold adjusted to allow more relevant results from vector DB
+# Typical good matches are < 1.8, less relevant matches are > 2.0
+SIMILARITY_THRESHOLD = 1.8
 
 
 def answer_query(query: str) -> Dict[str, Any]:
@@ -18,8 +19,8 @@ def answer_query(query: str) -> Dict[str, Any]:
     
     Returns: dict with 'answer', 'sources', 'source_type'
     """
-    # Get RAG results with similarity scores
-    results_with_scores = semantic_search_with_scores(query, k=3)
+    # Get RAG results with similarity scores (k=5 to include more relevant docs)
+    results_with_scores = semantic_search_with_scores(query, k=5)
     
     # Check if we have relevant RAG results
     # For TF-IDF + FAISS L2 distance: lower score = more similar

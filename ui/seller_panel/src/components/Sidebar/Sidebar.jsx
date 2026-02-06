@@ -76,6 +76,13 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
         </button>
       </div>
 
+      {/* Tagline */}
+      {!collapsed && (
+        <div className={styles.taglineSection}>
+          <span className={styles.tagline}>Your personal assistant to get Impossible Delivered</span>
+        </div>
+      )}
+
       {/* Navigation */}
       <nav className={styles.nav}>
         {navItems.map((item) => (
@@ -131,13 +138,6 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
               </button>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Tagline */}
-      {!collapsed && (
-        <div className={styles.taglineSection}>
-          <span className={styles.tagline}>Your personal assistant to get Impossible Delivered</span>
         </div>
       )}
 

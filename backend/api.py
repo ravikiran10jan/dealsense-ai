@@ -25,6 +25,7 @@ from orchestration.hybrid_answer import answer_query, answer_query_with_context
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores, load_vector_store
 from ingestion.deal_ingestion import ingest_deal_to_vector_store
 from llm.talking_points import generate_talking_points_from_query
+from llm.credible_references import get_credible_references_for_deal
 
 # Import privacy components
 from privacy.auth import verify_api_key, get_auth_manager, require_permission, ROLES
@@ -193,10 +194,28 @@ def populate_deal_context(deal: dict) -> dict:
         {"name": "SCB - Trade Digitization", "value": "$4.1M", "industry": "Banking", "status": "In Progress"},
     ]
     
-    credible_references = [
-        {"name": "Mark Thompson", "company": "CBA", "role": "Head of Trade Finance", "relationship": "Previous project sponsor"},
-        {"name": "Yuki Tanaka", "company": "SMBC", "role": "VP Operations", "relationship": "Reference client"},
-    ]
+    # Retrieve credible references from RAG
+    try:
+        credible_references = get_credible_references_for_deal(
+            account_name=account_name,
+            industry=industry,
+            description=description,
+            max_references=2
+        )
+        if credible_references:
+            logger.info(f"Retrieved {len(credible_references)} credible references from RAG")
+        else:
+            # Fallback if no references found
+            credible_references = [
+                {"name": "Andrew Marvin", "company": "ASX (ex-CBA)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous CBA project sponsor", "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"},
+                {"name": "Ian Stephenson", "company": "Standard Chartered Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"},
+            ]
+    except Exception as e:
+        logger.warning(f"Failed to retrieve credible references: {e}")
+        credible_references = [
+            {"name": "Andrew Marvin", "company": "ASX (ex-CBA)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous CBA project sponsor", "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"},
+            {"name": "Ian Stephenson", "company": "Standard Chartered Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"},
+        ]
     
     expected_questions = [
         {"theme": "Team & Delivery", "questions": ["What was CBA team size?", "Implementation timeline?"]},

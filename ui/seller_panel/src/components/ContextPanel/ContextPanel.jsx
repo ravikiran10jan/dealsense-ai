@@ -44,9 +44,9 @@ const ContextPanel = ({
     { name: 'SCB - Trade Digitization', value: '$4.1M', industry: 'Banking', status: 'In Progress' },
   ];
 
-  const references = [
-    { name: 'Mark Thompson', company: 'CBA', role: 'Head of Trade Finance' },
-    { name: 'Yuki Tanaka', company: 'SMBC', role: 'VP Trade Operations' },
+  const references = contextData.references?.length > 0 ? contextData.references : [
+    { name: 'Andrew Marvin', company: 'ASX (ex-CBA)', role: 'Head of Derivatives Clearing & Clearing Risk Technology', linkedin_url: 'https://www.linkedin.com/in/andrew-marvin-2138799/' },
+    { name: 'Ian Stephenson', company: 'Standard Chartered Bank', role: 'CIO, Trade and Working Capital', linkedin_url: 'https://www.linkedin.com/in/ianstephenson/' },
   ];
 
   const expectedQuestions = contextData.expectedQuestions?.length > 0 ? contextData.expectedQuestions : [
@@ -194,7 +194,24 @@ const ContextPanel = ({
                     {ref.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className={styles.referenceInfo}>
-                    <span className={styles.referenceName}>{ref.name}</span>
+                    {ref.linkedin_url ? (
+                      <a 
+                        href={ref.linkedin_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={styles.referenceName}
+                        style={{ color: 'var(--color-primary)', textDecoration: 'none' }}
+                      >
+                        {ref.name}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '4px', verticalAlign: 'middle' }}>
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <span className={styles.referenceName}>{ref.name}</span>
+                    )}
                     <span className={styles.referenceRole}>{ref.role} at {ref.company}</span>
                   </div>
                 </div>

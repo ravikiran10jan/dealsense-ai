@@ -248,3 +248,129 @@ def ingest_action_items_to_vector_store(
     except Exception as e:
         print(f"Error ingesting action items to vector store: {e}")
         raise e
+
+
+def ingest_person_to_vector_store(
+    person_name: str,
+    title: str,
+    company: str,
+    content: str,
+    linkedin_url: str = None,
+    metadata: dict = None
+) -> bool:
+    """
+    Add a person/reference profile to the vector store.
+    Used for credible references, contacts, and key people.
+    
+    Args:
+        person_name: Full name of the person
+        title: Job title
+        company: Company/organization
+        content: Full profile content (experience, skills, background, etc.)
+        linkedin_url: LinkedIn profile URL (optional)
+        metadata: Additional metadata
+    
+    Returns:
+        bool: True if successful
+    """
+    if not content or not content.strip():
+        print(f"Warning: No content to ingest for {person_name}")
+        return False
+    
+    try:
+        vector_db, embeddings = load_vector_store_for_update()
+        
+        # Create a unique source reference
+        source_ref = f"person_{person_name.lower().replace(' ', '_')}"
+        
+        # Build rich document content for better retrieval
+        doc_content = f"""Person: {person_name}
+Title: {title}
+Company: {company}
+LinkedIn: {linkedin_url or 'N/A'}
+
+Profile:
+{content}
+"""
+        
+        # Create document with metadata
+        doc_metadata = {
+            "source": source_ref,
+            "person_name": person_name,
+            "title": title,
+            "company": company,
+            "type": "person_profile",
+            "linkedin_url": linkedin_url or "",
+        }
+        
+        # Merge additional metadata
+        if metadata:
+            doc_metadata.update(metadata)
+        
+        document = Document(
+            page_content=doc_content,
+            metadata=doc_metadata
+        )
+        
+        vector_db.add_documents([document])
+        vector_db.save_local(VECTOR_DB_PATH)
+        
+        print(f"Successfully ingested person profile: {person_name} ({title} at {company})")
+        return True
+        
+    except Exception as e:
+        print(f"Error ingesting person to vector store: {e}")
+        raise e
+
+
+def ingest_reference_contact(
+    name: str,
+    company: str,
+    role: str,
+    relationship: str = None,
+    linkedin_url: str = None,
+    experience_summary: str = None,
+    relevant_deals: list = None
+) -> bool:
+    """
+    Add a credible reference contact to the vector store.
+    Shorthand function for adding reference contacts.
+    
+    Args:
+        name: Full name
+        company: Company name
+        role: Job role/title
+        relationship: Relationship description (e.g., "Previous project sponsor")
+        linkedin_url: LinkedIn URL
+        experience_summary: Summary of their experience
+        relevant_deals: List of relevant deal names they were involved in
+    
+    Returns:
+        bool: True if successful
+    """
+    # Build content from provided info
+    content_parts = []
+    
+    if experience_summary:
+        content_parts.append(f"Experience: {experience_summary}")
+    
+    if relationship:
+        content_parts.append(f"Relationship: {relationship}")
+    
+    if relevant_deals:
+        deals_str = ", ".join(relevant_deals)
+        content_parts.append(f"Relevant Deals: {deals_str}")
+    
+    content = "\n".join(content_parts) if content_parts else f"Reference contact at {company}"
+    
+    return ingest_person_to_vector_store(
+        person_name=name,
+        title=role,
+        company=company,
+        content=content,
+        linkedin_url=linkedin_url,
+        metadata={
+            "reference_type": "credible_reference",
+            "relationship": relationship or "",
+        }
+    )

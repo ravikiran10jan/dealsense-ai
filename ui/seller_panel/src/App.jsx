@@ -112,6 +112,34 @@ function App() {
     callIdRef.current = callId;
   }, [callId]);
 
+  // Fetch context for the initially selected deal on mount
+  useEffect(() => {
+    const fetchInitialContext = async () => {
+      if (selectedDeal?.id) {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/deals/${selectedDeal.id}/context`, {
+            headers: {
+              'X-API-Key': 'ds_vqhB1T22AbkDYXYADNPKsd2LS372cBawHhRTmYHgqaA',
+            },
+          });
+          if (response.ok) {
+            const context = await response.json();
+            setContextData({
+              similarDeals: context.similarDeals || [],
+              references: context.credibleReferences || [],
+              expectedQuestions: context.expectedQuestions || [],
+              talkingPoints: context.suggestedTalkingPoints || [],
+              actionItems: [],
+            });
+          }
+        } catch (error) {
+          console.error('Failed to fetch initial deal context:', error);
+        }
+      }
+    };
+    fetchInitialContext();
+  }, []); // Run once on mount
+
   // Initialize audio service (only once on mount)
   useEffect(() => {
     audioServiceRef.current = getAudioCaptureService();
@@ -202,7 +230,7 @@ function App() {
   }, []);
 
   // Handle deal selection
-  const handleDealSelect = useCallback((deal) => {
+  const handleDealSelect = useCallback(async (deal) => {
     setSelectedDeal(deal);
     setCallPhase('before');
     setIsLiveCall(false);
@@ -217,7 +245,7 @@ function App() {
         metadata: { source: 'system' },
       },
     ]);
-    // Reset context data
+    // Reset context data initially
     setContextData({
       similarDeals: [],
       references: [],
@@ -225,6 +253,29 @@ function App() {
       talkingPoints: [],
       actionItems: [],
     });
+    
+    // Fetch context from API if deal has an id
+    if (deal.id) {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/deals/${deal.id}/context`, {
+          headers: {
+            'X-API-Key': 'ds_vqhB1T22AbkDYXYADNPKsd2LS372cBawHhRTmYHgqaA',
+          },
+        });
+        if (response.ok) {
+          const context = await response.json();
+          setContextData({
+            similarDeals: context.similarDeals || [],
+            references: context.credibleReferences || [],
+            expectedQuestions: context.expectedQuestions || [],
+            talkingPoints: context.suggestedTalkingPoints || [],
+            actionItems: [],
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch deal context:', error);
+      }
+    }
   }, []);
 
   // Handle starting live call
