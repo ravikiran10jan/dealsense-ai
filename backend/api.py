@@ -128,6 +128,16 @@ class QueryResponse(BaseModel):
     answer: str
     sources: List[str]
 
+class TranscriptSummaryRequest(BaseModel):
+    transcript: str
+    action_type: str = "summarize"  # "summarize", "actions", "email"
+    account_name: Optional[str] = None
+    contact_name: Optional[str] = None
+
+class TranscriptSummaryResponse(BaseModel):
+    answer: str
+    source_type: str = "transcript"
+
 class SearchResult(BaseModel):
     content: str
     source: str
@@ -557,6 +567,81 @@ def query_rag(request: QueryRequest, auth: Dict = Depends(verify_api_key)):
         )
     except Exception as e:
         return QueryResponse(answer=f"Error: {str(e)}", sources=[])
+
+@app.post("/api/summarize-transcript", response_model=TranscriptSummaryResponse)
+def summarize_transcript(request: TranscriptSummaryRequest, auth: Dict = Depends(verify_api_key)):
+    """
+    Summarize a call transcript or extract action items from it.
+    This uses LLM to analyze the actual transcript content, not the knowledge base.
+    """
+    try:
+        from llm.answer_llm import answer_with_llm
+        
+        transcript = request.transcript
+        action_type = request.action_type
+        account_name = request.account_name or "the customer"
+        contact_name = request.contact_name or ""
+        
+        # Build query instructions (without transcript - it will be passed as context)
+        if action_type == "summarize":
+            query = """Provide a comprehensive summary of this call transcript that includes:
+1. **Executive Summary**: 2-3 sentences capturing the main purpose and outcome of the call
+2. **Key Discussion Points**: Bullet points of the main topics discussed
+3. **Customer Requirements**: What the customer is looking for
+4. **Our Value Proposition**: What we offered and how it addresses their needs
+5. **Concerns Raised**: Any objections or concerns from the customer
+6. **Next Steps**: Agreed follow-up actions
+
+Format your response in clear markdown."""
+
+        elif action_type == "actions":
+            query = """Extract all action items from this call transcript.
+
+For each action item, provide:
+- **Task**: What needs to be done
+- **Owner**: Who is responsible (Seller/Customer)
+- **Due**: Suggested timeframe
+- **Priority**: High/Medium/Low
+
+Format as a numbered list with clear details for each action item."""
+
+        elif action_type == "email":
+            query = f"""Draft a professional follow-up email based on this call transcript.
+
+The email should be from the seller to {contact_name or 'the customer'} at {account_name}.
+Include:
+- Thank them for their time
+- Summarize key discussion points
+- Reiterate value propositions discussed
+- List agreed next steps
+- Offer to provide additional information
+
+Keep it professional, concise, and actionable."""
+
+        else:
+            query = f"Analyze this call transcript and answer: {action_type}"
+
+        # Use answer_with_llm with transcript as context
+        answer = answer_with_llm(transcript, query)
+        
+        # Audit log
+        audit_log(
+            action='summarize_transcript',
+            resource_type='transcript',
+            auth_info=auth,
+            status='success'
+        )
+        
+        return TranscriptSummaryResponse(
+            answer=answer,
+            source_type="transcript"
+        )
+    except Exception as e:
+        logger.error(f"Transcript summarization error: {e}")
+        return TranscriptSummaryResponse(
+            answer=f"Error summarizing transcript: {str(e)}",
+            source_type="error"
+        )
 
 @app.get("/api/during_call")
 def get_during_call():

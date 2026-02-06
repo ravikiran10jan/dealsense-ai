@@ -119,5 +119,469 @@
     "deal_health_reason": "The customer is engaged and interested, but further information is needed to move forward.",
     "generated_at": "2026-02-05T05:12:15.462046",
     "created_at": "2026-02-05T05:12:15.462048"
+  },
+  {
+    "id": "7a8c2427-1e70-4fb0-9671-411acf707820",
+    "call_id": "b4369014-e9ab-4a48-8b42-de170b4c8d5d",
+    "executive_summary": "The call was positive, with the customer showing interest in the trade finance solution. The next step identified is to provide more detailed information on integration and implementation timelines.",
+    "key_points": [
+      "The trade finance solution offers end-to-end automation.",
+      "Integration with existing systems is supported through APIs.",
+      "Implementation typically takes 12 to 18 months depending on complexity.",
+      "The last major project involved a 45-person team over 18 months.",
+      "Strict regional data compliance requirements are followed."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Provide detailed documentation on integration capabilities and a more precise implementation timeline.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and interested, but further information is needed to address potential concerns.",
+    "generated_at": "2026-02-06T03:31:11.484273",
+    "created_at": "2026-02-06T03:31:11.484276"
+  },
+  {
+    "id": "40044f80-3ee7-4a57-b998-c71ee234881f",
+    "call_id": "e92177ee-c14b-4dde-88d1-21f8a04913c4",
+    "executive_summary": "The call was focused on understanding the trade finance solution offered by DXC Luxoft. The customer showed interest in integration and implementation timelines, indicating a potential for further engagement.",
+    "key_points": [
+      "Customer inquired about the trade finance solution's capabilities.",
+      "Integration with existing systems was a key concern for the customer.",
+      "Implementation timelines were discussed, typically ranging from 12 to 18 months.",
+      "The seller highlighted support for APIs with major banking systems.",
+      "Customer asked about team size for previous projects, indicating interest in resource allocation."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Provide detailed information on integration capabilities and case studies of previous implementations. Schedule a follow-up meeting to discuss specific customer requirements.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and asking relevant questions, indicating interest, but further information is needed to address potential concerns.",
+    "generated_at": "2026-02-06T03:33:05.760037",
+    "created_at": "2026-02-06T03:33:05.760048"
+  },
+  {
+    "id": "bd078510-9056-47c8-a510-1b275fabfd35",
+    "call_id": "a26833b9-29a7-4bb1-a939-028b9817bfc5",
+    "executive_summary": "The call was productive, with positive sentiment from both parties regarding the potential collaboration. The next step identified is to schedule a technical deep dive and prepare a proposal with indicative pricing.",
+    "key_points": [
+      "ANZ Bank is looking to modernize their trade finance platform, focusing on Letters of Credit, Bank Guarantees, and Supply Chain Finance.",
+      "Ravikiran highlighted DXC Luxoft's experience with similar projects, including a successful implementation at CBA that improved processing efficiency by 30%.",
+      "Data privacy and compliance with regional requirements were discussed, with assurances provided regarding data residency controls.",
+      "AI capabilities in the platform are fully operational, achieving 95% accuracy in automated document processing.",
+      "Integration with legacy systems is a strength for DXC Luxoft, with pre-built adapters available for major core banking platforms.",
+      "A phased implementation timeline of approximately 16 months was proposed, starting with LC automation."
+    ],
+    "pain_points": [
+      {
+        "description": "ANZ Bank is currently using a legacy mainframe for back-office processing, which may hinder modernization efforts.",
+        "severity": "high",
+        "context": "Integration with existing systems is a major concern for ANZ Bank."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Ravikiran will prepare a detailed proposal with three pricing options and coordinate a technical session with ANZ's IT architecture team for next Wednesday or Thursday.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The call demonstrated strong interest from ANZ Bank, with clear next steps and a positive response to DXC Luxoft's capabilities.",
+    "generated_at": "2026-02-06T06:29:58.149604",
+    "created_at": "2026-02-06T06:29:58.149612"
+  },
+  {
+    "id": "60801d6e-aa8c-4620-9edf-562a205a2c64",
+    "call_id": "1051278c-60e3-43c4-af53-43656e12719b",
+    "executive_summary": "The call was productive, with a clear focus on modernizing ANZ's trade finance platform. The next step is to prepare a proposal with pricing options and schedule a technical deep dive.",
+    "key_points": [
+      "David Chen expressed the need to modernize ANZ's trade finance platform.",
+      "Key requirements include LC automation, better compliance tracking, and integration with legacy systems.",
+      "The customer has a timeline of ideally within 12 months for implementation.",
+      "Ravikiran suggested delivering the project in phases.",
+      "A proposal with pricing options will be prepared for the customer."
+    ],
+    "pain_points": [
+      {
+        "description": "Need for LC automation and better compliance tracking.",
+        "severity": "high",
+        "context": "Current processes may be inefficient and prone to errors."
+      },
+      {
+        "description": "Integration challenges with legacy systems.",
+        "severity": "medium",
+        "context": "Existing systems may hinder the modernization efforts."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Prepare a proposal with pricing options and schedule a technical deep dive for next week.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer has clear requirements and a timeline, but the deal is still in the discovery phase with no objections raised.",
+    "generated_at": "2026-02-06T06:33:28.473395",
+    "created_at": "2026-02-06T06:33:28.473399"
+  },
+  {
+    "id": "e62fb8fe-fbdf-4748-8402-574e3bce555b",
+    "call_id": "6b211713-6e28-4bf3-a08d-32dbd723be2e",
+    "executive_summary": "The call focused on the trade finance modernization project, with a positive sentiment as both parties expressed interest in moving forward. The key next step identified is the preparation of a proposal and scheduling a follow-up meeting.",
+    "key_points": [
+      "Discussion centered on the trade finance modernization project.",
+      "Ravikiran agreed to prepare a proposal for the customer.",
+      "A follow-up meeting will be scheduled to discuss the proposal."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Ravikiran will prepare a proposal and schedule a follow-up meeting with ANZ Bank.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The call was productive with clear next steps, but no detailed customer requirements or pain points were discussed.",
+    "generated_at": "2026-02-06T06:35:15.491254",
+    "created_at": "2026-02-06T06:35:15.491258"
+  },
+  {
+    "id": "45a955b6-e4b0-4413-b726-f36da929ecc5",
+    "call_id": "bd455838-ac25-4783-9019-a7cf308b0767",
+    "executive_summary": "The call was positive, with ANZ Bank expressing interest in finding a trade finance modernization partner. The next step identified is for Ravikiran to prepare a detailed proposal for ANZ Bank.",
+    "key_points": [
+      "ANZ Bank is seeking a partner for trade finance modernization.",
+      "Ravikiran will prepare a detailed proposal tailored to ANZ Bank's needs.",
+      "The discussion indicates a clear interest from ANZ Bank in exploring solutions.",
+      "No specific technical details or pricing were discussed during this brief call."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Ravikiran to prepare and send a detailed proposal to ANZ Bank.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer has shown interest and is in the discovery phase, but no specific requirements or pain points were discussed.",
+    "generated_at": "2026-02-06T06:36:44.206393",
+    "created_at": "2026-02-06T06:36:44.206406"
+  },
+  {
+    "id": "7519e9b0-1cca-4df3-a8bb-5faa8eabe355",
+    "call_id": "c92bf85d-68f4-42d3-bc4e-20c2c1a3081b",
+    "executive_summary": "The call was productive, with the customer expressing interest in the trade finance solution and discussing specific requirements. The next step identified is for the seller to prepare a detailed proposal for the customer.",
+    "key_points": [
+      "The trade finance solution offers end-to-end automation.",
+      "Integration with existing systems is supported through APIs.",
+      "Implementation typically takes 12 to 18 months depending on complexity.",
+      "A previous project for CBA involved a 45-person team over 18 months.",
+      "Data privacy compliance is strictly followed."
+    ],
+    "pain_points": [
+      {
+        "description": "Need for trade finance modernization with LC automation.",
+        "severity": "high",
+        "context": "The customer is looking to improve their current trade finance processes."
+      }
+    ],
+    "objections": [],
+    "next_steps": "Ravikiran will prepare a proposal with a technical deep dive for the customer by next week.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and has specific needs, but the lengthy implementation timeline may pose a risk.",
+    "generated_at": "2026-02-06T06:37:59.066822",
+    "created_at": "2026-02-06T06:37:59.066831"
+  },
+  {
+    "id": "171988c7-cfa7-475f-8d53-760e8cfc30e9",
+    "call_id": "f981f3ab-ae76-410a-9997-4bf109bc33f7",
+    "executive_summary": "The call was positive, with the customer expressing interest in the trade finance solution. The next step identified is the preparation of a proposal with pricing options.",
+    "key_points": [
+      "The trade finance solution offers end-to-end automation.",
+      "Integration with existing systems is supported through APIs.",
+      "Implementation typically takes 12 to 18 months depending on complexity.",
+      "A 45-person team was involved in the last major project for CBA.",
+      "Strict regional data compliance requirements are followed."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Ravikiran will prepare a proposal with pricing options for next week.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and interested, but further details are needed to solidify the opportunity.",
+    "generated_at": "2026-02-06T06:45:13.129448",
+    "created_at": "2026-02-06T06:45:13.129464"
+  },
+  {
+    "id": "ce920f13-0151-476b-abe0-70023505f9a6",
+    "call_id": "4bb9b03f-391d-4582-8b33-8ce746f6283d",
+    "executive_summary": "The call was positive, with the customer showing interest in the trade finance solution. The next step identified is to provide more detailed information on integration and implementation timelines.",
+    "key_points": [
+      "The trade finance solution offers end-to-end automation.",
+      "Integration with existing systems is supported through APIs.",
+      "Implementation typically takes 12 to 18 months depending on complexity.",
+      "A 45-person team was involved in the last major project for CBA.",
+      "Strict regional data compliance requirements are followed."
+    ],
+    "pain_points": [],
+    "objections": [],
+    "next_steps": "Provide detailed documentation on integration capabilities and a more precise implementation timeline.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and interested, but further information is needed to move forward.",
+    "generated_at": "2026-02-06T07:09:21.127237",
+    "created_at": "2026-02-06T07:09:21.127239"
+  },
+  {
+    "id": "43b6f20f-5822-4169-a175-3943230aea3f",
+    "call_id": "da7925bf-1d87-4b1a-a8cb-53fcb6af7dd2",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is to schedule a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars.",
+      "AI capabilities for document processing and fraud detection are in production at two client sites."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is wary of promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the implementation timeline based on past experiences.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Share case studies and security documentation."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is engaged and interested, but there are concerns about implementation timelines and compliance that need to be addressed.",
+    "generated_at": "2026-02-06T07:20:45.243779",
+    "created_at": "2026-02-06T07:20:45.243786"
+  },
+  {
+    "id": "71ec2358-28a4-47d4-b879-7dece6aa7c0c",
+    "call_id": "d97e100a-b706-4b84-b475-1efac663d104",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is to schedule a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars.",
+      "AI capabilities for document processing and fraud detection are in production at two client sites."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is wary of promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the implementation timeline based on past experiences.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Share case studies and security documentation."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is engaged and interested, but there are concerns about implementation timelines and compliance that need to be addressed.",
+    "generated_at": "2026-02-06T07:37:26.097251",
+    "created_at": "2026-02-06T07:37:26.097255"
+  },
+  {
+    "id": "376389dd-c7f1-4e71-9b88-65fe2242d62b",
+    "call_id": "d9ac7e34-6ccb-493c-933c-91abab054cea",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is to schedule a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars.",
+      "AI capabilities for document processing and fraud detection are in production at two client sites."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is cautious about promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the length of implementation time.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Share case studies and security documentation."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is interested and within budget, but there are concerns about implementation timelines and compliance.",
+    "generated_at": "2026-02-06T07:41:05.999309",
+    "created_at": "2026-02-06T07:41:05.999316"
+  },
+  {
+    "id": "9871435d-3286-4430-8c01-ac593095b467",
+    "call_id": "ef477451-9146-4e97-aefc-80485f9e7504",
+    "executive_summary": "The call was positive, with the customer expressing interest in DXC Luxoft's trade finance solutions. The next step identified is to schedule a technical deep-dive session to gather more specific requirements.",
+    "key_points": [
+      "Discussion on DXC Luxoft's end-to-end trade finance automation covering Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Customer expressed concern about integration with legacy systems and the need for a modular architecture.",
+      "Implementation timeline discussed, estimated at 14-16 months for full deployment.",
+      "AI capabilities for document processing and fraud detection were highlighted, with successful use cases presented.",
+      "Pricing for a full implementation was discussed, estimated at 4 to 5 million dollars.",
+      "Customer needs to provide details on transaction volumes and specific products for a formal proposal."
+    ],
+    "pain_points": [
+      {
+        "description": "Integration with existing legacy core banking systems is challenging.",
+        "severity": "high",
+        "context": "Customer cannot easily replace their current systems."
+      },
+      {
+        "description": "Concerns about data privacy and regulatory compliance across APAC regions.",
+        "severity": "high",
+        "context": "Customer operates in multiple jurisdictions and needs to ensure compliance."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "medium",
+        "context": "Customer is wary of promises of quick delivery."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the implementation timeline based on past experiences.",
+        "category": "timeline",
+        "response_suggested": "Provide case studies and references from similar-sized banks to build confidence."
+      },
+      {
+        "description": "Need for assurance on data privacy and compliance.",
+        "category": "general",
+        "response_suggested": "Share detailed compliance certifications and examples of successful implementations."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week to gather more information on transaction volumes and specific products for a formal proposal.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is interested and within budget, but has significant concerns about integration and implementation timelines.",
+    "generated_at": "2026-02-06T07:44:09.738853",
+    "created_at": "2026-02-06T07:44:09.738860"
+  },
+  {
+    "id": "f0e03bc8-ca39-4a38-b12e-c07b496b58d7",
+    "call_id": "5541b8fa-c62a-4413-8df4-6bc301a1684e",
+    "executive_summary": "The call was positive, with the customer expressing interest in DXC Luxoft's trade finance solutions. The next step identified is to provide more detailed information on implementation timelines and case studies.",
+    "key_points": [
+      "Discussion on DXC Luxoft's end-to-end trade finance automation covering Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Customer expressed concern about integration with legacy systems and the need for a modular architecture.",
+      "Implementation timeline discussed, estimated at 14-16 months for a bank of ANZ's size.",
+      "Customer inquired about data privacy, regulatory compliance, and regional data sovereignty, which were addressed with specific examples.",
+      "AI capabilities for document processing and fraud detection were highlighted, showcasing a successful POC with CBA."
+    ],
+    "pain_points": [
+      {
+        "description": "Integration with existing legacy core banking systems",
+        "severity": "high",
+        "context": "Customer cannot easily replace their current systems."
+      },
+      {
+        "description": "Concerns about implementation timelines based on past vendor experiences",
+        "severity": "medium",
+        "context": "Customer has had bad experiences with long implementation periods."
+      },
+      {
+        "description": "Need for compliance with regional data sovereignty across APAC",
+        "severity": "high",
+        "context": "Customer operates in multiple regions and requires data isolation."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the length of implementation",
+        "category": "timeline",
+        "response_suggested": "Provide detailed case studies and timelines from previous projects."
+      }
+    ],
+    "next_steps": "Follow up with detailed case studies, implementation timelines, and information on AI capabilities. Schedule a follow-up meeting to discuss further.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is engaged and interested but has significant concerns about implementation timelines and integration with legacy systems.",
+    "generated_at": "2026-02-06T07:47:45.198767",
+    "created_at": "2026-02-06T07:47:45.198776"
+  },
+  {
+    "id": "b84db884-6359-4907-8132-17bb02119733",
+    "call_id": "c9331016-33de-4561-aaf8-12436dd2f47d",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is to schedule a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars.",
+      "AI capabilities for document processing and fraud detection are in production at two client sites."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is cautious about promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the length of implementation time.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Share case studies and security documentation."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is engaged and interested, but there are concerns about implementation timelines and compliance that need to be addressed.",
+    "generated_at": "2026-02-06T07:49:46.256248",
+    "created_at": "2026-02-06T07:49:46.256263"
   }
 ]

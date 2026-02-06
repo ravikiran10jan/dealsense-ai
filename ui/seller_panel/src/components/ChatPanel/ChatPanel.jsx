@@ -28,6 +28,9 @@ async function queryRAG(query) {
   }
 }
 
+// Web Speech API support check
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
 const ChatPanel = ({
   messages,
   onSendMessage,
@@ -48,20 +51,116 @@ const ChatPanel = ({
   const [isTyping, setIsTyping] = useState(false);
   const [processingStatus, setProcessingStatus] = useState(null);
   const [liveQueryInput, setLiveQueryInput] = useState('');
+  const [isRecognizing, setIsRecognizing] = useState(false);
+  const [recognitionError, setRecognitionError] = useState(null);
   const messagesEndRef = useRef(null);
   const transcriptEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const liveQueryInputRef = useRef('');
+
+  // Keep ref in sync with state for use in callbacks
+  useEffect(() => {
+    liveQueryInputRef.current = liveQueryInput;
+  }, [liveQueryInput]);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if (SpeechRecognition && isLiveCall) {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onstart = () => {
+        console.log('Speech recognition started');
+        setIsRecognizing(true);
+        setRecognitionError(null);
+      };
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+
+        // Update the input with recognized text
+        const currentText = finalTranscript || interimTranscript;
+        if (currentText) {
+          setLiveQueryInput((prev) => {
+            // If we have final transcript, append it
+            if (finalTranscript) {
+              return (prev + ' ' + finalTranscript).trim();
+            }
+            // For interim, show current recognition
+            return (prev.split(' ').slice(0, -1).join(' ') + ' ' + interimTranscript).trim() || interimTranscript;
+          });
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setRecognitionError(event.error);
+        setIsRecognizing(false);
+      };
+
+      recognition.onend = () => {
+        console.log('Speech recognition ended');
+        setIsRecognizing(false);
+      };
+
+      recognitionRef.current = recognition;
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {
+          // Ignore errors on cleanup
+        }
+      }
+    };
+  }, [isLiveCall]);
 
   // Push-to-talk hook - only enabled during live call
   const { isListening, hotkeyLabel } = usePushToTalk({
     enabled: isLiveCall,
     onStart: () => {
       console.log('Push-to-talk activated');
+      setLiveQueryInput('');
+      setRecognitionError(null);
+      // Start speech recognition
+      if (recognitionRef.current && SpeechRecognition) {
+        try {
+          recognitionRef.current.start();
+        } catch (e) {
+          console.error('Failed to start speech recognition:', e);
+          setRecognitionError('Failed to start');
+        }
+      }
     },
     onEnd: () => {
       console.log('Push-to-talk deactivated');
-      // Submit the query if there's input
-      if (liveQueryInput.trim() && onLiveQuery) {
-        onLiveQuery(liveQueryInput.trim());
+      // Stop speech recognition
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {
+          // Ignore errors
+        }
+      }
+      // Submit the query if there's input (use ref for latest value)
+      const queryText = liveQueryInputRef.current.trim();
+      if (queryText && onLiveQuery) {
+        console.log('Submitting voice query:', queryText);
+        onLiveQuery(queryText);
         setLiveQueryInput('');
       }
     },
@@ -79,7 +178,7 @@ const ChatPanel = ({
     }
   }, [transcriptChunks, showTranscript]);
 
-  // Handle action chip clicks - queries RAG backend
+  // Handle action chip clicks - queries RAG backend or transcript summarization
   const handleAction = useCallback(async (action) => {
     // Add user action as a message
     onSendMessage({
@@ -88,7 +187,73 @@ const ChatPanel = ({
       metadata: { action: action.id },
     });
 
-    // Show RAG search status
+    // Check if this is a transcript-based action (after call with transcript data)
+    const transcriptBasedActions = ['summarize', 'tasks', 'email'];
+    const hasTranscript = transcriptChunks && transcriptChunks.length > 0;
+    const isAfterCall = callPhase === 'after';
+    
+    if (transcriptBasedActions.includes(action.id) && hasTranscript && isAfterCall) {
+      // Use transcript summarization endpoint
+      setProcessingStatus('Analyzing call transcript...');
+      onSendMessage({
+        type: 'system',
+        content: 'Analyzing your call transcript...',
+        metadata: { status: 'processing', source: 'transcript' },
+      });
+
+      try {
+        // Build transcript text from chunks
+        const transcriptText = transcriptChunks
+          .map(chunk => `${chunk.speaker}: ${chunk.text}`)
+          .join('\n');
+
+        // Map action ID to action type
+        const actionTypeMap = {
+          'summarize': 'summarize',
+          'tasks': 'actions',
+          'email': 'email',
+        };
+
+        const response = await fetch(`${API_BASE_URL}/api/summarize-transcript`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': API_KEY,
+          },
+          body: JSON.stringify({
+            transcript: transcriptText,
+            action_type: actionTypeMap[action.id],
+            account_name: selectedDeal?.accountName,
+            contact_name: selectedDeal?.contactName,
+          }),
+        });
+
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+        const result = await response.json();
+
+        setProcessingStatus(null);
+        setIsTyping(true);
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        setIsTyping(false);
+
+        onSendMessage({
+          type: 'assistant',
+          content: result.answer,
+          metadata: { source: 'transcript', badge: 'Transcript' },
+        });
+      } catch (error) {
+        console.error('Transcript summarization failed:', error);
+        setProcessingStatus(null);
+        onSendMessage({
+          type: 'assistant',
+          content: `Error analyzing transcript: ${error.message}`,
+          metadata: { source: 'error' },
+        });
+      }
+      return;
+    }
+
+    // Standard RAG flow for other actions
     setProcessingStatus('Searching knowledge base...');
     onSendMessage({
       type: 'system',
@@ -170,7 +335,7 @@ const ChatPanel = ({
         ],
       });
     }
-  }, [selectedDeal, onSendMessage, onUpdateContext]);
+  }, [selectedDeal, onSendMessage, onUpdateContext, transcriptChunks, callPhase]);
 
   // Handle text input - queries RAG backend
   const handleSendMessage = useCallback(async (text) => {
@@ -345,7 +510,7 @@ const ChatPanel = ({
       {isLiveCall && (isListening || isPushToTalkActive) && (
         <div className={styles.pushToTalkOverlay}>
           <div className={styles.pushToTalkIndicator}>
-            <div className={styles.micIcon}>
+            <div className={`${styles.micIcon} ${isRecognizing ? styles.recording : ''}`}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
@@ -354,18 +519,27 @@ const ChatPanel = ({
               </svg>
             </div>
             <span className={styles.pushToTalkText}>
-              Listening... Type your question
+              {recognitionError 
+                ? `Error: ${recognitionError}` 
+                : isRecognizing 
+                  ? 'Listening... Speak your question'
+                  : 'Starting voice recognition...'}
             </span>
+            {liveQueryInput && (
+              <div className={styles.recognizedText}>
+                &quot;{liveQueryInput}&quot;
+              </div>
+            )}
             <input
               type="text"
               className={styles.pushToTalkInput}
               value={liveQueryInput}
               onChange={(e) => setLiveQueryInput(e.target.value)}
-              placeholder="Ask a question..."
-              autoFocus
+              placeholder={SpeechRecognition ? 'Speak or type your question...' : 'Type your question...'}
             />
             <span className={styles.pushToTalkHint}>
               Release {hotkeyLabel} to submit
+              {!SpeechRecognition && ' (Voice not supported in this browser)'}
             </span>
           </div>
         </div>

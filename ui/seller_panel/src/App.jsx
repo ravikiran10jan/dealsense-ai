@@ -205,6 +205,10 @@ function App() {
         console.error('Failed to fetch summary:', error);
       }
       setSummaryLoading(false);
+      // Disconnect WebSocket after receiving summary
+      if (audioServiceRef.current?.isConnected()) {
+        audioServiceRef.current.disconnect();
+      }
     });
     
     audioServiceRef.current.setOnError((error) => {
@@ -341,10 +345,43 @@ function App() {
     setCallPhase('after');
     setSummaryLoading(true);
     
-    // Send end call message and disconnect
+    // Capture call ID before any state changes
+    const currentCallId = callIdRef.current;
+    
+    // Send end call message
     if (audioServiceRef.current?.isConnected()) {
       audioServiceRef.current.sendEndCall();
-      audioServiceRef.current.disconnect();
+    }
+    
+    // Fallback: poll for summary after 5 seconds
+    // This runs regardless of WebSocket state to ensure summary is fetched
+    if (currentCallId) {
+      setTimeout(async () => {
+        try {
+          console.log('Fallback: fetching summary for call', currentCallId);
+          const response = await fetch(`${API_BASE_URL}/api/calls/${currentCallId}/summary`, {
+            headers: { 'X-API-Key': API_KEY },
+          });
+          if (response.ok) {
+            const summaryData = await response.json();
+            if (summaryData.summary) {
+              console.log('Fallback: summary fetched successfully');
+              setCallSummary(summaryData.summary);
+              setContextData((prev) => ({
+                ...prev,
+                actionItems: summaryData.action_items || [],
+              }));
+            }
+          }
+        } catch (error) {
+          console.error('Fallback summary fetch failed:', error);
+        }
+        setSummaryLoading(false);
+        // Disconnect WebSocket after fetching summary
+        if (audioServiceRef.current?.isConnected()) {
+          audioServiceRef.current.disconnect();
+        }
+      }, 5000);
     }
     
     setMessages((prev) => [

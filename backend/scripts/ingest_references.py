@@ -190,6 +190,175 @@ KEY ACHIEVEMENTS:
     )
 
 
+def ingest_ihyeeddine_elfeki():
+    """Ingest Ihyeeddine Elfeki's full profile"""
+    return ingest_person_to_vector_store(
+        person_name="Ihyeeddine Elfeki",
+        title="EVP - Global Head FSI Solutions",
+        company="DXC Technology",
+        linkedin_url="https://www.linkedin.com/in/ihyeeddine-elfeki/",
+        content="""Ihyeeddine Elfeki is the EVP and Global Head of FSI Solutions at DXC Technology, based in London Area, United Kingdom.
+
+ABOUT:
+EVP @ DXC | Financial Services, RegTech, Cloud & AI. I have solid experience building Trading and Risk Management practices. Over time, my responsibilities have expanded to cover Banking and Insurance. In my current role as Head of FSI Solutions at DXC, I focus on driving growth through a consultative sales approach. My main focus areas are modernization, compliance, and innovation through AI. We help clients improve profitability by supporting both revenue-generating initiatives and cost optimization. I have achieved continuous growth over the years and take pride in delivering results. While I have a global remit, I stay quite close to our clients in the different regions.
+
+CURRENT ROLE AT DXC TECHNOLOGY (1 year 9 months):
+
+Financial Services Industry - Global Head FSI Solutions
+May 2025 - Present (10 months)
+London Area, United Kingdom · Hybrid, Full-time
+I lead FSI Capital Markets, Banking and Insurance solutions within Consulting & Engineering Services at DXC
+
+Financial Services Industry - Global Head Capital Markets Solutions
+Jun 2024 - Apr 2025 (11 months)
+
+EXPERIENCE AT LUXOFT (7 years 8 months):
+
+Global Head Trading and Risk Management Solutions
+Feb 2021 - May 2024 (3 years 4 months)
+Greater London, England, United Kingdom · Hybrid, Full-time
+- Global head of practice
+- Global P&L ownership - 1100+ headcount; 140M+ yearly target revenue
+- Consistently overperforming for the last 5 years with 15% to 20% growth YoY
+- Treasury, Sell-side, Buy-side, Commodity, Corporate lending, Reg Reporting, Data Management, Trade Surveillance, Liquidity management, Cloud
+- Murex, Calypso, Finastra, Orchestrade, AxiomSL, Moody's
+Skills: Business Case Preparation, Customer Service Management
+
+EMEA Head of Vendor Solutions
+Oct 2016 - Jan 2021 (4 years 4 months)
+London Area, United Kingdom
+- P&L ownership in EMEA; 500+ headcount; 45M yearly target revenue
+- Consistently overperforming YoY
+- Murex, Calypso, Finastra, Orchestrade, AxiomSL, Moody's
+Skills: Business Case Preparation, Programme Delivery
+
+PREVIOUS EXPERIENCE:
+
+Director - Head of Financial Services practice at WEVIOO
+Feb 2011 - Sep 2016 (5 years 8 months)
+Dubai / Paris
+Wevioo is a global Consulting company specialised in software development and deployment in Europe, Middle East and Africa. Wevioo operate out of 5 offices in Paris, Dubai, Tunis, Algiers and Abidjan.
+- Launched and developed the Financial Services practice
+- Launched and managed 2 new offices in Paris (2011 - 2014) and Dubai (2014 - 2016)
+- 100+ headcount, started the practice from 0 and reached 5M revenue per year
+Skills: Business Case Preparation, Programme Delivery
+
+Principal at Murex
+Jan 2005 - Feb 2011 (6 years 2 months)
+Greater Paris Metropolitan Region
+Murex is the leading provider of cross-asset trading, risk management and processing solutions.
+- Co-launched the professional services department
+- Built project methodologies (MXpress, FEM, MXplus)
+- Managed the deployment of project methodologies in regions (EMEA / NA / APAC)
+- Built sales proposals and responses to RFPs
+- Was actively involved in internal consulting, marketing campaigns, training initiatives and alliance management
+- Was actively involved in several projects delivery and support as a Murex expert and project manager
+Skills: Programme Delivery, Communication
+
+Consultant - Prime Brokerage at BNP Paribas
+Sep 2003 - Dec 2004 (1 year 4 months)
+Greater Paris Metropolitan Region
+- Prime Brokerage business
+- Client services (MO / BO)
+- Murex expertise
+- Reporting / Accounting / P&L calculation
+- Settlements - Swifts
+Skills: Communication
+
+EXPERTISE AREAS:
+- Financial Services Industry (FSI) Solutions
+- Capital Markets Solutions
+- Banking and Insurance Solutions
+- Trading and Risk Management
+- RegTech and Compliance
+- Cloud and AI Innovation
+- Vendor Solutions (Murex, Calypso, Finastra, Orchestrade, AxiomSL, Moody's)
+- Treasury and Liquidity Management
+- Trade Surveillance and Data Management
+- Global P&L Management
+- Consultative Sales and Business Development
+- Team Leadership (1100+ headcount globally)
+
+KEY ACHIEVEMENTS:
+- Manages 140M+ yearly target revenue with consistent 15-20% YoY growth
+- Built and scaled multiple practices from zero to significant revenue
+- Global reach across EMEA, NA, and APAC regions
+- Expert in modernization, compliance, and AI-driven innovation for financial services""",
+        metadata={
+            "region": "Global",
+            "location": "London",
+            "expertise": "FSI Solutions, Capital Markets, Trading & Risk Management, RegTech, Cloud & AI",
+            "reference_type": "dxc_leadership",
+            "relationship": "DXC Global FSI Solutions Leader",
+        }
+    )
+
+
+def ingest_sridhar_chittepu():
+    """Ingest Sridhar Reddy Chittepu's full profile"""
+    return ingest_person_to_vector_store(
+        person_name="Sridhar Reddy Chittepu",
+        title="Director",
+        company="Luxoft",
+        linkedin_url="https://www.linkedin.com/in/sridhar-reddy-chittepu/",
+        content="""Sridhar Reddy Chittepu is a Director at Luxoft, based in Singapore.
+
+ABOUT:
+I am an Account Manager / Project Manager / Business Analyst with 16+ years of experience leading cross-functional teams in the development and delivery of programs across various leading Global investment banks in APAC.
+
+CURRENT ROLE:
+Director at Luxoft
+Oct 2017 - Present (8 years 5 months)
+Singapore · On-site, Full-time
+
+At Luxoft, I lead delivery and client engagement for APAC banking clients, driving revenue through solution-oriented pitches and strong relationship management. I oversee cross-regional delivery teams (Singapore, India, China, and Malaysia), ensuring seamless execution and client satisfaction. With deep pre-sales and RFP expertise, I also mentor sales and pre-sales teams, while managing full P&L responsibilities to support sustainable business growth with a focus on value and profitability.
+
+Skills: Stakeholder Management, New Business Development
+
+PREVIOUS EXPERIENCE:
+
+Senior Delivery Manager at derivIT Solutions
+Aug 2009 - Sep 2017 (8 years 2 months)
+Singapore · On-site, Full-time
+As part of the core management team, successfully led multiple project deliveries, actively involved in pre-sales, sales, RFP responses, solutioning, and strategic planning for client engagements across ASIA clients
+
+Skills: Project Delivery, Strategic Planning
+
+Solutions Architect at Mindtree
+May 2004 - Jul 2009 (5 years 3 months)
+Singapore, Singapore · On-site, Full-time
+
+EXPERTISE AREAS:
+- Account Management and Client Engagement
+- Project Management and Delivery
+- Business Analysis
+- Pre-Sales and RFP Expertise
+- Cross-Regional Delivery Management (Singapore, India, China, Malaysia)
+- Banking Technology Solutions
+- P&L Management
+- Team Mentoring and Leadership
+- Solution-Oriented Selling
+- Stakeholder Management
+- Investment Banking Technology
+- APAC Financial Services
+
+KEY ACHIEVEMENTS:
+- 16+ years of experience in investment banking technology
+- Leads client engagement for major APAC banking clients at Luxoft
+- Manages cross-regional delivery teams across 4 countries
+- Full P&L responsibility for APAC operations
+- Strong track record in pre-sales, RFP responses, and strategic client engagements
+- Deep expertise in Singapore and APAC financial markets""",
+        metadata={
+            "region": "Asia-Pacific",
+            "location": "Singapore",
+            "expertise": "Account Management, Project Delivery, Banking Technology, APAC",
+            "reference_type": "dxc_team",
+            "relationship": "Luxoft Director - APAC Banking Clients",
+        }
+    )
+
+
 def ingest_andrew_marvin():
     """Ingest Andrew Marvin's full profile"""
     return ingest_person_to_vector_store(
@@ -323,10 +492,26 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"   Error: {e}")
     
+    print("\n4. Ingesting Ihyeeddine Elfeki profile...")
+    try:
+        ingest_ihyeeddine_elfeki()
+        print("   Done!")
+    except Exception as e:
+        print(f"   Error: {e}")
+    
+    print("\n5. Ingesting Sridhar Reddy Chittepu profile...")
+    try:
+        ingest_sridhar_chittepu()
+        print("   Done!")
+    except Exception as e:
+        print(f"   Error: {e}")
+    
     print("\n" + "=" * 60)
     print("Ingestion complete!")
     print("You can now query about these people in the chat:")
     print("  - 'Who is Vidyut Shetty?'")
     print("  - 'Tell me about Ian Stephenson from Standard Chartered'")
     print("  - 'What is Andrew Marvin's experience at CBA?'")
+    print("  - 'Who is Ihyeeddine Elfeki?'")
+    print("  - 'Tell me about Sridhar Chittepu'")
     print("=" * 60)

@@ -16,6 +16,7 @@
   min-width: 0;
   height: 100%;
   position: relative;
+  overflow-y: auto;
 }
 
 /* Architecture Link Button */
