@@ -1,0 +1,35 @@
+services:
+  # Backend API Service
+  - type: web
+    name: dealsense-api
+    runtime: python
+    pythonVersion: 3.10
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.api:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: FRONTEND_URL
+        fromService:
+          name: dealsense-ui
+          property: url
+      - key: PORT
+        value: 10000
+
+  # Frontend Service
+  - type: web
+    name: dealsense-ui
+    runtime: node
+    buildCommand: cd ui/seller_panel && npm install && npm run build
+    startCommand: cd ui/seller_panel && npm start
+    plan: free
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: dealsense-api
+          property: url
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
