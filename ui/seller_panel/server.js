@@ -6,7 +6,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+// Get backend URL - support both local dev and production (Render.com)
+const BACKEND_URL = process.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
 // Middleware
 app.use(express.json());
@@ -14,8 +17,7 @@ app.use(express.json());
 // Simple proxy for API calls to backend (avoid CORS during local dev)
 app.use('/api', async (req, res) => {
   try {
-    const backendBase = 'http://127.0.0.1:8000';
-    const target = backendBase + req.originalUrl;
+    const target = BACKEND_URL + req.originalUrl;
 
     const fetchOptions = {
       method: req.method,
