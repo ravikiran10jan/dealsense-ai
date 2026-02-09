@@ -1,12 +1,24 @@
+import logging
 from typing import Dict, Any, Optional
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores
 from retrieval.web_search import web_search
 from llm.answer_llm import answer_with_llm
 
+logger = logging.getLogger(__name__)
+
 # TF-IDF FAISS uses L2 distance - lower is better
 # Threshold adjusted to allow more relevant results from vector DB
 # Typical good matches are < 1.8, less relevant matches are > 2.0
 SIMILARITY_THRESHOLD = 1.8
+
+
+def _get_track_decorator():
+    """Return opik.track when enabled, identity decorator otherwise."""
+    try:
+        from observability.opik_config import track_if_enabled
+        return track_if_enabled()
+    except Exception:
+        return lambda fn=None, **kw: fn if fn else (lambda f: f)
 
 
 def answer_query(query: str) -> Dict[str, Any]:
@@ -19,6 +31,21 @@ def answer_query(query: str) -> Dict[str, Any]:
     
     Returns: dict with 'answer', 'sources', 'source_type'
     """
+    _track = _get_track_decorator()
+
+    @_track(name="hybrid_rag_query", tags=["rag", "query"])
+    def _run_query(q: str) -> Dict[str, Any]:
+        return _answer_query_impl(q)
+
+    try:
+        return _run_query(query)
+    except Exception:
+        # Fallback if tracking wrapper fails
+        return _answer_query_impl(query)
+
+
+def _answer_query_impl(query: str) -> Dict[str, Any]:
+    """Core implementation of answer_query (separated for trackability)."""
     # Get RAG results with similarity scores (k=5 to include more relevant docs)
     results_with_scores = semantic_search_with_scores(query, k=5)
     
@@ -73,18 +100,24 @@ def answer_query_with_context(
     """
     Enhanced RAG query that incorporates live call context.
     Used for push-to-talk queries during active calls.
-    
-    Args:
-        query: The user's question
-        call_context: Optional context from active call containing:
-            - recent_transcript: Last 2 minutes of conversation
-            - account_name: Customer name
-            - deal_id: Associated deal ID
-            - industry: Customer industry
-    
-    Returns:
-        dict with 'answer', 'sources', 'source_type', 'confidence'
     """
+    _track = _get_track_decorator()
+
+    @_track(name="hybrid_rag_with_context", tags=["rag", "live-call"])
+    def _run(q, ctx):
+        return _answer_query_with_context_impl(q, ctx)
+
+    try:
+        return _run(query, call_context)
+    except Exception:
+        return _answer_query_with_context_impl(query, call_context)
+
+
+def _answer_query_with_context_impl(
+    query: str,
+    call_context: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Core implementation of answer_query_with_context."""
     recent_transcript = ""
     account_name = "Unknown"
     

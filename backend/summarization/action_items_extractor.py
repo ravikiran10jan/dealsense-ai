@@ -24,6 +24,18 @@ llm = ChatOpenAI(
 )
 
 
+def _get_llm_callbacks() -> list:
+    """Return Opik tracer callback list if enabled, else empty."""
+    try:
+        from observability.opik_config import get_opik_tracer
+        tracer = get_opik_tracer()
+        if tracer:
+            return [tracer]
+    except Exception:
+        pass
+    return []
+
+
 async def extract_action_items(
     transcript: str,
     account_name: str = "Customer",
@@ -64,7 +76,9 @@ async def extract_action_items(
     
     try:
         # Generate action items
-        response = llm.invoke(prompt)
+        callbacks = _get_llm_callbacks()
+        config = {"callbacks": callbacks} if callbacks else {}
+        response = llm.invoke(prompt, config=config) if config else llm.invoke(prompt)
         response_text = response.content.strip()
         
         # Parse JSON response

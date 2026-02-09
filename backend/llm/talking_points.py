@@ -5,11 +5,14 @@ Uses semantic search to retrieve relevant context about similar deals,
 then generates tailored talking points using LLM.
 """
 import os
+import logging
 from typing import List, Dict, Any, Optional
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 # Lazy initialization of LLM
 _llm = None
@@ -25,6 +28,18 @@ def get_llm():
             api_key=os.getenv("OPENAI_API_KEY")
         )
     return _llm
+
+
+def _get_llm_callbacks() -> list:
+    """Return Opik tracer callback list if enabled, else empty."""
+    try:
+        from observability.opik_config import get_opik_tracer
+        tracer = get_opik_tracer()
+        if tracer:
+            return [tracer]
+    except Exception:
+        pass
+    return []
 
 
 def generate_talking_points(
@@ -77,7 +92,9 @@ AI document classification: 92% accuracy in production POC
 Generate talking points now:"""
 
     try:
-        response = get_llm().invoke(prompt)
+        callbacks = _get_llm_callbacks()
+        config = {"callbacks": callbacks} if callbacks else {}
+        response = get_llm().invoke(prompt, config=config) if config else get_llm().invoke(prompt)
         content = response.content.strip()
         
         # Parse response into list of talking points

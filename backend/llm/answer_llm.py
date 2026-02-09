@@ -1,14 +1,18 @@
 import os
+import logging
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0,
     api_key=os.getenv("OPENAI_API_KEY")
 )
+
 
 def answer_with_llm(context, query):
     prompt = f"""You are a helpful sales assistant for DXC Luxoft, specializing in trade finance solutions.
@@ -26,4 +30,14 @@ USER QUESTION:
 {query}
 
 Provide a clear, helpful answer. If you're using general knowledge instead of the provided context, that's fine - just answer the question to the best of your ability."""
+
+    # Attach Opik tracer callback when enabled
+    try:
+        from observability.opik_config import get_opik_tracer
+        tracer = get_opik_tracer()
+        if tracer:
+            return llm.invoke(prompt, config={"callbacks": [tracer]}).content
+    except Exception as exc:
+        logger.debug(f"Opik tracer unavailable: {exc}")
+
     return llm.invoke(prompt).content

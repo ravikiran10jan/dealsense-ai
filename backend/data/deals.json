@@ -150,5 +150,269 @@
       "SCB: Singapore-only rollout for data privacy compliance",
       "AI use cases in POC stage - 92% doc classification accuracy"
     ]
+  },
+  {
+    "id": 3,
+    "accountName": "ANZ Bank",
+    "stage": "Discovery",
+    "nextCallDate": "2026-02-10",
+    "nextCallTime": "10:00",
+    "dealAmount": "$4.5M",
+    "contactName": "David Chen",
+    "contactRole": "Head of Trade Finance Operations",
+    "industry": "Banking & Financial Services",
+    "description": "Trade Finance Platform modernization - LC automation, AI document processing, compliance",
+    "additionalContacts": [
+      {
+        "name": "Sarah Mitchell",
+        "role": "VP Technology"
+      },
+      {
+        "name": "James Wong",
+        "role": "Director of Digital Transformation"
+      }
+    ],
+    "pii_tokens": [],
+    "similarDeals": [
+      {
+        "name": "CBA - Trade Finance Platform",
+        "value": "$5.2M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SMBC - LC Automation",
+        "value": "$3.8M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SCB - Trade Digitization",
+        "value": "$4.1M",
+        "industry": "Banking",
+        "status": "In Progress"
+      }
+    ],
+    "credibleReferences": [
+      {
+        "name": "Andrew Marvin",
+        "company": "CBA (Commonwealth Bank of Australia)",
+        "role": "Head of Trade Finance Technology",
+        "relationship": "Previous project sponsor - Trade Finance Platform",
+        "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"
+      },
+      {
+        "name": "Ian Stephenson",
+        "company": "Standard Chartered Bank",
+        "role": "VP Trade Operations",
+        "relationship": "Reference client - Trade Digitization",
+        "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"
+      }
+    ],
+    "expectedQuestions": [
+      {
+        "theme": "Team & Delivery",
+        "questions": [
+          "What was CBA team size?",
+          "Implementation timeline?"
+        ]
+      },
+      {
+        "theme": "Data Privacy",
+        "questions": [
+          "How do you handle regional data?",
+          "SCB privacy approach?"
+        ]
+      },
+      {
+        "theme": "AI Capabilities",
+        "questions": [
+          "Is AI in production?",
+          "Accuracy metrics?"
+        ]
+      }
+    ],
+    "suggestedTalkingPoints": [
+      "CBA's trade finance modernization achieved a 30% reduction in processing times through LC automation and AI integration.",
+      "OCBC Bank's platform upgrade focused on compliance with MAS guidelines, ensuring regulatory alignment while enhancing operational efficiency.",
+      "Standard Chartered's trade digitization initiative led to a 40% increase in transaction throughput, showcasing the benefits of streamlined processes.",
+      "AI document processing solutions have demonstrated 95% accuracy in compliance checks, significantly reducing manual intervention and error rates."
+    ]
+  },
+  {
+    "id": 4,
+    "accountName": "ANZ Bank",
+    "stage": "Discovery",
+    "nextCallDate": "2026-02-10",
+    "nextCallTime": "10:00",
+    "dealAmount": "$4.5M",
+    "contactName": "David Chen",
+    "contactRole": "Head of Trade Finance Operations",
+    "industry": "Banking & Financial Services",
+    "description": "Trade Finance Platform modernization - LC automation, AI document processing, compliance",
+    "additionalContacts": [
+      {
+        "name": "Sarah Mitchell",
+        "role": "VP Technology"
+      },
+      {
+        "name": "James Wong",
+        "role": "Director of Digital Transformation"
+      }
+    ],
+    "pii_tokens": [],
+    "similarDeals": [
+      {
+        "name": "CBA - Trade Finance Platform",
+        "value": "$5.2M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SMBC - LC Automation",
+        "value": "$3.8M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SCB - Trade Digitization",
+        "value": "$4.1M",
+        "industry": "Banking",
+        "status": "In Progress"
+      }
+    ],
+    "credibleReferences": [
+      {
+        "name": "Andrew Marvin",
+        "company": "CBA (Commonwealth Bank of Australia)",
+        "role": "Head of Trade Finance Technology",
+        "relationship": "Previous project sponsor - Trade Finance Platform",
+        "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"
+      },
+      {
+        "name": "Ian Stephenson",
+        "company": "Standard Chartered Bank",
+        "role": "VP Trade Operations",
+        "relationship": "Reference client - Trade Digitization",
+        "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"
+      }
+    ],
+    "expectedQuestions": [
+      {
+        "theme": "Team & Delivery",
+        "questions": [
+          "What was CBA team size?",
+          "Implementation timeline?"
+        ]
+      },
+      {
+        "theme": "Data Privacy",
+        "questions": [
+          "How do you handle regional data?",
+          "SCB privacy approach?"
+        ]
+      },
+      {
+        "theme": "AI Capabilities",
+        "questions": [
+          "Is AI in production?",
+          "Accuracy metrics?"
+        ]
+      }
+    ],
+    "suggestedTalkingPoints": [
+      "CBA's trade finance modernization achieved a 30% reduction in processing time through LC automation and AI integration.",
+      "OCBC Bank's platform upgrade focused on compliance with MAS guidelines, ensuring regulatory adherence while enhancing operational efficiency.",
+      "Standard Chartered's trade digitization initiative resulted in a 25% increase in transaction volume within the first year of implementation.",
+      "AI document processing solutions have demonstrated a 92% accuracy rate in production, significantly reducing manual intervention and errors."
+    ]
+  },
+  {
+    "id": 5,
+    "accountName": "ANZ Bank",
+    "stage": "Discovery",
+    "nextCallDate": "2026-02-10",
+    "nextCallTime": "10:00",
+    "dealAmount": "$4.5M",
+    "contactName": "David Chen",
+    "contactRole": "Head of Trade Finance Operations",
+    "industry": "Banking & Financial Services",
+    "description": "Trade Finance Platform modernization - LC automation, AI document processing, compliance",
+    "additionalContacts": [
+      {
+        "name": "Sarah Mitchell",
+        "role": "VP Technology"
+      },
+      {
+        "name": "James Wong",
+        "role": "Director of Digital Transformation"
+      }
+    ],
+    "pii_tokens": [],
+    "similarDeals": [
+      {
+        "name": "CBA - Trade Finance Platform",
+        "value": "$5.2M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SMBC - LC Automation",
+        "value": "$3.8M",
+        "industry": "Banking",
+        "status": "Won"
+      },
+      {
+        "name": "SCB - Trade Digitization",
+        "value": "$4.1M",
+        "industry": "Banking",
+        "status": "In Progress"
+      }
+    ],
+    "credibleReferences": [
+      {
+        "name": "Andrew Marvin",
+        "company": "CBA (Commonwealth Bank of Australia)",
+        "role": "Head of Trade Finance Technology",
+        "relationship": "Previous project sponsor - Trade Finance Platform",
+        "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"
+      },
+      {
+        "name": "Ian Stephenson",
+        "company": "Standard Chartered Bank",
+        "role": "VP Trade Operations",
+        "relationship": "Reference client - Trade Digitization",
+        "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"
+      }
+    ],
+    "expectedQuestions": [
+      {
+        "theme": "Team & Delivery",
+        "questions": [
+          "What was CBA team size?",
+          "Implementation timeline?"
+        ]
+      },
+      {
+        "theme": "Data Privacy",
+        "questions": [
+          "How do you handle regional data?",
+          "SCB privacy approach?"
+        ]
+      },
+      {
+        "theme": "AI Capabilities",
+        "questions": [
+          "Is AI in production?",
+          "Accuracy metrics?"
+        ]
+      }
+    ],
+    "suggestedTalkingPoints": [
+      "CBA's trade finance modernization achieved a 30% reduction in processing time through LC automation and AI integration.",
+      "OCBC Bank's platform upgrade focused on compliance with Singapore MAS guidelines, ensuring regulatory adherence while enhancing efficiency.",
+      "Standard Chartered's trade digitization initiative led to a 25% increase in transaction volume within the first year of implementation.",
+      "Our AI document processing solution demonstrated a 92% accuracy rate in pilot tests, significantly reducing manual intervention and errors."
+    ]
   }
 ]

@@ -5,13 +5,14 @@ With privacy protection, authentication, and audit logging.
 """
 import os
 import json
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from uuid import UUID, uuid4
 from fastapi import FastAPI, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,12 +21,24 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Configure Opik observability (no-op when OPIK_ENABLED != true)
+try:
+    from observability.opik_config import configure_opik
+    from observability.opik_tracer import setup_openai_tracking
+    configure_opik()
+    setup_openai_tracking()
+except Exception as _opik_err:
+    logger.debug(f"Opik configuration skipped: {_opik_err}")
+
 # Import RAG components
 from orchestration.hybrid_answer import answer_query, answer_query_with_context
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores, load_vector_store
 from ingestion.deal_ingestion import ingest_deal_to_vector_store
 from llm.talking_points import generate_talking_points_from_query
 from llm.credible_references import get_credible_references_for_deal
+
+# Import Agent orchestration layer
+from agents import PreCallPrepAgent, RiskDetectionAgent, FollowUpOrchestrationAgent
 
 # Import privacy components
 from privacy.auth import verify_api_key, get_auth_manager, require_permission, ROLES
@@ -64,7 +77,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "DELETE", "PUT"],
+    allow_methods=["GET", "POST", "DELETE", "PUT", "PATCH"],
     allow_headers=["Content-Type", "X-API-Key", "Authorization"],
 )
 
@@ -163,19 +176,46 @@ def populate_deal_context(deal: dict) -> dict:
     account_name = deal.get('accountName', '')
     industry = deal.get('industry', '')
     description = deal.get('description', '')
+
+    # Wrap entire pipeline in an Opik trace when enabled
+    try:
+        from observability.opik_tracer import OpikTrace
+    except Exception:
+        OpikTrace = None
+
+    trace_ctx = (
+        OpikTrace(
+            "populate_deal_context",
+            input_data={"account_name": account_name, "industry": industry},
+            tags=["deal", "context"],
+        )
+        if OpikTrace
+        else None
+    )
+
+    if trace_ctx:
+        trace_ctx.__enter__()
+
+    try:
+        # Query for similar deals
+        similar_query = f"Similar trade finance implementations to {account_name} in {industry}"
+        similar_result = answer_query(similar_query)
+        if trace_ctx:
+            trace_ctx.log_step("similar_deals_query", {"query": similar_query, "source_type": similar_result.get("source_type")})
     
-    # Query for similar deals
-    similar_query = f"Similar trade finance implementations to {account_name} in {industry}"
-    similar_result = answer_query(similar_query)
+        # Query for expected questions
+        questions_query = f"Expected questions in a discovery call for {description} with {account_name}"
+        questions_result = answer_query(questions_query)
     
-    # Query for expected questions
-    questions_query = f"Expected questions in a discovery call for {description} with {account_name}"
-    questions_result = answer_query(questions_query)
-    
-    # Query for references
-    references_query = f"Reference contacts and case studies for trade finance projects similar to {account_name}"
-    references_result = answer_query(references_query)
-    
+        # Query for references
+        references_query = f"Reference contacts and case studies for trade finance projects similar to {account_name}"
+        references_result = answer_query(references_query)
+    except Exception as e:
+        logger.warning(f"Failed to query RAG for deal context: {e}")
+        similar_result = {}
+        questions_result = {}
+        references_result = {}
+
     # Generate dynamic talking points using RAG + LLM
     try:
         talking_points_result = generate_talking_points_from_query(
@@ -237,6 +277,10 @@ def populate_deal_context(deal: dict) -> dict:
     deal['credibleReferences'] = credible_references
     deal['expectedQuestions'] = expected_questions
     deal['suggestedTalkingPoints'] = talking_points
+
+    if trace_ctx:
+        trace_ctx.set_output({"num_talking_points": len(talking_points), "num_references": len(credible_references)})
+        trace_ctx.__exit__(None, None, None)
     
     return deal
 
@@ -757,6 +801,120 @@ def health_check():
     return {"status": "healthy"}
 
 
+# ==================== Agent API Endpoints ====================
+
+# --- Pydantic models for Agent requests/responses ---
+
+class PreCallPrepRequest(BaseModel):
+    deal_id: Optional[int] = None
+    account_name: str
+    industry: str = ""
+    description: str = ""
+    deal_stage: str = "Discovery"
+    deal_amount: str = ""
+    contact_name: str = ""
+    contact_role: str = ""
+
+
+class RiskDetectionRequest(BaseModel):
+    transcript: str
+    account_name: str = "Unknown"
+    deal_id: Optional[int] = None
+    deal_stage: str = "Unknown"
+    industry: str = ""
+
+
+class FollowUpRequest(BaseModel):
+    transcript: str
+    account_name: str = "Unknown"
+    seller_name: str = "Seller"
+    deal_id: Optional[int] = None
+    deal_stage: str = "Unknown"
+    industry: str = ""
+    contact_name: str = ""
+
+
+@app.post("/api/agents/pre-call-prep")
+async def agent_pre_call_prep(
+    request: PreCallPrepRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Pre-Call Prep Agent (Agentic AI).
+
+    Autonomously gathers similar deals, references, talking points,
+    and anticipated questions for an upcoming call.
+
+    Agent Loop: Perception -> Planning -> Tool Execution -> Reflection -> Action
+    """
+    agent = PreCallPrepAgent()
+    result = await agent.run(request.dict())
+
+    audit_log(
+        action="agent_pre_call_prep",
+        resource_type="agent",
+        resource_id=str(request.deal_id) if request.deal_id else "none",
+        auth_info=auth,
+        status="success" if result.success else "error",
+    )
+
+    return result.to_dict()
+
+
+@app.post("/api/agents/risk-detection")
+async def agent_risk_detection(
+    request: RiskDetectionRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Risk Detection Agent (Agentic AI).
+
+    Scans a call transcript for red flags: competitor mentions,
+    pricing pushback, no next step, timeline slippage, stakeholder misalignment.
+
+    Agent Loop: Perception -> Planning -> Tool Execution -> Reflection -> Action
+    """
+    agent = RiskDetectionAgent()
+    result = await agent.run(request.dict())
+
+    audit_log(
+        action="agent_risk_detection",
+        resource_type="agent",
+        resource_id=str(request.deal_id) if request.deal_id else "none",
+        auth_info=auth,
+        status="success" if result.success else "error",
+    )
+
+    return result.to_dict()
+
+
+@app.post("/api/agents/follow-up")
+async def agent_follow_up(
+    request: FollowUpRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Follow-Up Orchestration Agent (Agentic AI).
+
+    Post-call agent that generates MoM, extracts action items,
+    checks for qualification gaps (MEDDPICC), and scores deal health.
+
+    Agent Loop: Perception -> Planning -> Tool Execution -> Reflection -> Action
+    """
+    agent = FollowUpOrchestrationAgent()
+    result = await agent.run(request.dict())
+
+    audit_log(
+        action="agent_follow_up",
+        resource_type="agent",
+        resource_id=str(request.deal_id) if request.deal_id else "none",
+        auth_info=auth,
+        status="success" if result.success else "error",
+    )
+
+    return result.to_dict()
+
+
 # ==================== Privacy API Endpoints ====================
 
 class DetokenizeRequest(BaseModel):
@@ -867,6 +1025,162 @@ def detokenize_pii(request: DetokenizeRequest, auth: Dict = Depends(verify_api_k
 def get_roles(auth: Dict = Depends(verify_api_key)):
     """Get available roles and their permissions."""
     return {"roles": ROLES}
+
+
+# ==================== Observability & Evaluation Endpoints ====================
+
+class EvalDatasetRequest(BaseModel):
+    name: str = "dealsense-rag-eval"
+    description: str = "RAG evaluation dataset for DealSense AI"
+    items: Optional[List[Dict[str, Any]]] = None
+
+
+class RunEvalRequest(BaseModel):
+    dataset_name: str = "dealsense-rag-eval"
+    experiment_name: Optional[str] = None
+    model_version: Optional[str] = None
+    use_defaults: bool = True
+
+
+class RunAgentEvalRequest(BaseModel):
+    agent_type: str = "pre_call_prep"
+    dataset_name: Optional[str] = None
+    experiment_name: Optional[str] = None
+    model_version: Optional[str] = None
+    test_cases: Optional[List[Dict[str, Any]]] = None
+
+
+@app.get("/api/observability/status")
+def observability_status(auth: Dict = Depends(verify_api_key)):
+    """Check Opik observability status."""
+    try:
+        from observability.opik_config import is_opik_enabled, get_opik_client
+        enabled = is_opik_enabled()
+        client = get_opik_client()
+        return {
+            "opik_enabled": enabled,
+            "client_connected": client is not None,
+            "project_name": os.getenv("OPIK_PROJECT_NAME", "dealsense-ai"),
+        }
+    except Exception as e:
+        return {
+            "opik_enabled": False,
+            "client_connected": False,
+            "error": str(e),
+        }
+
+
+@app.post("/api/observability/datasets")
+def create_eval_dataset(request: EvalDatasetRequest, auth: Dict = Depends(verify_api_key)):
+    """
+    Create or update an evaluation dataset in Opik.
+
+    Requires admin role. Items should contain 'input' and 'expected_output' keys.
+    """
+    if auth.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    try:
+        from observability.evaluation import create_rag_dataset
+        result = create_rag_dataset(
+            name=request.name,
+            items=request.items,
+            description=request.description,
+        )
+        if result is None:
+            raise HTTPException(status_code=503, detail="Opik is not enabled or not reachable")
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/observability/evaluate/rag")
+def run_rag_eval(request: RunEvalRequest, auth: Dict = Depends(verify_api_key)):
+    """
+    Trigger a RAG evaluation run.
+
+    Runs the hybrid RAG pipeline against the specified dataset and
+    scores each output for answer relevance and hallucination.
+    Results are recorded as an experiment in Opik.
+    """
+    if auth.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    try:
+        from observability.evaluation import run_rag_evaluation
+        result = run_rag_evaluation(
+            dataset_name=request.dataset_name,
+            experiment_name=request.experiment_name,
+            model_version=request.model_version,
+            use_defaults=request.use_defaults,
+        )
+        if result is None:
+            raise HTTPException(status_code=503, detail="Opik is not enabled or not reachable")
+
+        audit_log(
+            action="run_rag_evaluation",
+            resource_type="evaluation",
+            auth_info=auth,
+            status="success" if result.get("status") == "completed" else "error",
+        )
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/observability/evaluate/agent")
+def run_agent_eval(request: RunAgentEvalRequest, auth: Dict = Depends(verify_api_key)):
+    """
+    Trigger an agent evaluation run.
+
+    Runs the specified agent against test cases and scores outputs.
+    Results are recorded as an experiment in Opik.
+    """
+    if auth.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    try:
+        from observability.evaluation import run_agent_evaluation
+        result = run_agent_evaluation(
+            agent_type=request.agent_type,
+            dataset_name=request.dataset_name,
+            experiment_name=request.experiment_name,
+            model_version=request.model_version,
+            test_cases=request.test_cases,
+        )
+        if result is None:
+            raise HTTPException(status_code=503, detail="Opik is not enabled or not reachable")
+
+        audit_log(
+            action="run_agent_evaluation",
+            resource_type="evaluation",
+            auth_info=auth,
+            status="success" if result.get("status") == "completed" else "error",
+        )
+        return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/observability/experiments")
+def list_experiments_endpoint(auth: Dict = Depends(verify_api_key)):
+    """List evaluation datasets / experiments tracked in Opik."""
+    try:
+        from observability.evaluation import list_experiments
+        result = list_experiments()
+        if result is None:
+            raise HTTPException(status_code=503, detail="Opik is not enabled or not reachable")
+        return {"experiments": result}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ==================== Live Call API Endpoints ====================
@@ -1006,7 +1320,12 @@ async def end_call(call_id: str, background_tasks: BackgroundTasks, auth: Dict =
     async def generate_summary_task():
         try:
             # Generate summary
-            summary_data = await generate_call_summary(full_transcript, call.deal_id)
+            summary_data = await generate_call_summary(
+                transcript=full_transcript,
+                account_name=call.account_name or "Unknown",
+                deal_id=call.deal_id,
+                duration_minutes=(call.duration_seconds // 60) if call.duration_seconds else 0,
+            )
             
             # Save summary
             summary_create = CallSummaryCreate(
@@ -1017,7 +1336,7 @@ async def end_call(call_id: str, background_tasks: BackgroundTasks, auth: Dict =
                 objections=summary_data.get("objections", []),
                 next_steps=summary_data.get("next_steps", []),
                 deal_health_score=summary_data.get("deal_health_score", 5),
-                deal_health_reason=summary_data.get("deal_health_reasoning", "")
+                deal_health_reason=summary_data.get("deal_health_reason", "")
             )
             call_repository.create_summary(summary_create)
             
@@ -1255,6 +1574,353 @@ async def add_mock_transcript(
     )
     
     return {"status": "added", "call_id": call_id}
+
+
+# ==================== Bulk Mock Transcript ====================
+
+class BulkMockTranscriptRequest(BaseModel):
+    """Feed an entire transcript at once for demo/testing."""
+    transcript_text: str  # Full markdown or plain-text transcript
+    account_name: Optional[str] = None
+
+import re as _re
+
+def _parse_transcript_lines(raw: str) -> List[Dict[str, str]]:
+    """Parse a markdown-style transcript into speaker/text chunks.
+
+    Supports formats like:
+        **[00:01:20] Speaker Name (Org):**
+        Text on next line(s)
+
+        Speaker Name: text on same line
+    """
+    chunks = []
+    # Pattern: detects a speaker header line (with optional bold, timestamp, org)
+    header_pattern = _re.compile(
+        r"^\*{0,2}\[[\d:]+\]\s*(.+?)\s*(?:\([^)]*\))?\s*\*{0,2}:\s*\*{0,2}\s*(.*)",
+    )
+    # Simpler fallback: "Speaker Name: text"
+    simple_pattern = _re.compile(
+        r"^([A-Z][A-Za-z\s\.\-]{1,40}):\s+(.*)",
+    )
+
+    for line in raw.strip().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or line.startswith("---") or line.startswith("|"):
+            continue
+
+        m = header_pattern.match(line)
+        if not m:
+            m = simple_pattern.match(line)
+
+        if m:
+            speaker = m.group(1).strip().strip("*").strip()
+            text = m.group(2).strip().strip("*").strip()
+            if speaker:
+                chunks.append({"speaker": speaker, "text": text})
+        elif chunks:
+            # Continuation of previous speaker's text
+            cleaned = line.strip("*").strip()
+            if cleaned:
+                if chunks[-1]["text"]:
+                    chunks[-1]["text"] += " " + cleaned
+                else:
+                    chunks[-1]["text"] = cleaned
+
+    # Remove any chunks with empty text
+    return [c for c in chunks if c["text"]]
+
+
+@app.post("/api/calls/{call_id}/bulk-mock-transcript")
+async def add_bulk_mock_transcript(
+    call_id: str,
+    request: BulkMockTranscriptRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Feed an entire transcript (markdown or plain-text) in one shot.
+    Parses speaker turns and adds them as individual transcript chunks.
+    """
+    call_uuid = UUID(call_id)
+    live_call_handler = get_live_call_handler()
+    redis_client = get_redis_client()
+
+    # Optionally set call metadata with account name
+    if request.account_name:
+        existing = redis_client.get_call_metadata(call_uuid)
+        if not existing:
+            redis_client.set_call_metadata(call_uuid, {
+                "account_name": request.account_name,
+                "started_at": datetime.utcnow().isoformat(),
+            })
+
+    parsed = _parse_transcript_lines(request.transcript_text)
+    if not parsed:
+        raise HTTPException(status_code=400, detail="Could not parse any speaker turns from transcript")
+
+    current_time = 0.0
+    for chunk in parsed:
+        words = len(chunk["text"].split())
+        duration = max(1.0, words / 2.5)
+        await live_call_handler.add_mock_transcript_chunk(
+            call_id=call_uuid,
+            speaker=chunk["speaker"],
+            text=chunk["text"],
+            start_time=current_time,
+            end_time=current_time + duration,
+        )
+        current_time += duration + 0.5
+
+    return {
+        "status": "bulk_added",
+        "call_id": call_id,
+        "chunks_added": len(parsed),
+        "total_duration_seconds": round(current_time, 1),
+    }
+
+
+# ==================== Pre-Call Prep Agent Endpoint ====================
+
+@app.post("/api/deals/{deal_id}/agent-prep")
+async def run_pre_call_prep_agent(deal_id: int, auth: Dict = Depends(verify_api_key)):
+    """
+    Run the PreCallPrepAgent to generate a comprehensive pre-call brief.
+    Returns the full agentic trace (perception, planning, execution, reflection, action).
+    """
+    deals = load_deals()
+    deal = next((d for d in deals if d.get("id") == deal_id), None)
+    if not deal:
+        raise HTTPException(status_code=404, detail="Deal not found")
+
+    agent = PreCallPrepAgent()
+    result = await agent.run({
+        "deal_id": deal_id,
+        "account_name": deal.get("accountName", ""),
+        "industry": deal.get("industry", ""),
+        "description": deal.get("description", ""),
+        "deal_stage": deal.get("stage", "Discovery"),
+        "deal_amount": deal.get("dealAmount", ""),
+        "contact_name": deal.get("contactName", ""),
+        "contact_role": deal.get("contactRole", ""),
+    })
+
+    # Audit log
+    audit_log(
+        action="agent_pre_call_prep",
+        resource_type="deal",
+        resource_id=str(deal_id),
+        auth_info=auth,
+        status="success" if result.success else "failure",
+    )
+
+    raw = result.to_dict()
+    return _sanitize_for_json(raw)
+
+
+def _sanitize_for_json(obj):
+    """Recursively convert numpy/non-standard types to JSON-safe Python types."""
+    try:
+        import numpy as np
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+    except ImportError:
+        pass
+    if isinstance(obj, dict):
+        return {k: _sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_sanitize_for_json(v) for v in obj]
+    return obj
+
+class MoMApprovalRequest(BaseModel):
+    """Seller approves the summary and triggers MoM write to SharePoint."""
+    approved: bool = True
+    sharepoint_folder: Optional[str] = "/sites/DealSense/Shared Documents/MoMs"
+    additional_notes: Optional[str] = None
+
+
+@app.post("/api/calls/{call_id}/approve-mom")
+async def approve_and_write_mom(
+    call_id: str,
+    request: MoMApprovalRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Seller approves the call summary.
+    Generates a Minutes-of-Meeting document and writes it to SharePoint
+    via Microsoft Graph API (mock implementation for demo).
+    """
+    call_uuid = UUID(call_id)
+    call_repository = get_call_repository()
+
+    # Retrieve summary
+    summary = call_repository.get_summary(call_uuid)
+    if not summary:
+        raise HTTPException(status_code=404, detail="Summary not found. Generate one first via /api/calls/{call_id}/end")
+
+    # Retrieve call record
+    call = call_repository.get_call(call_uuid)
+    if not call:
+        raise HTTPException(status_code=404, detail="Call not found")
+
+    # Retrieve action items
+    action_items = call_repository.get_action_items(call_uuid)
+
+    if not request.approved:
+        return {"status": "rejected", "call_id": call_id, "message": "MoM was not approved by the seller."}
+
+    # Build MoM content (Markdown)
+    mom_content = _build_mom_document(call, summary, action_items, request.additional_notes)
+
+    # Write to SharePoint via Graph API (mock for demo)
+    sharepoint_result = await _write_mom_to_sharepoint(
+        call_id=call_id,
+        account_name=call.account_name,
+        mom_content=mom_content,
+        folder_path=request.sharepoint_folder,
+    )
+
+    # Audit log
+    audit_log(
+        action="mom_approved_and_written",
+        resource_type="call",
+        resource_id=call_id,
+        auth_info=auth,
+        status="success",
+    )
+
+    return {
+        "status": "written_to_sharepoint",
+        "call_id": call_id,
+        "sharepoint": sharepoint_result,
+        "mom_preview": mom_content[:2000],
+    }
+
+
+def _build_mom_document(call, summary, action_items, additional_notes=None) -> str:
+    """Build a structured Minutes-of-Meeting Markdown document."""
+    lines = [
+        f"# Minutes of Meeting  {call.account_name}",
+        "",
+        f"**Date:** {call.started_at.strftime('%B %d, %Y') if call.started_at else 'N/A'}",
+        f"**Duration:** {(call.duration_seconds // 60) if call.duration_seconds else 'N/A'} minutes",
+        f"**Deal ID:** {call.deal_id}",
+        f"**Contact:** {call.contact_name or 'N/A'}",
+        "",
+        "---",
+        "",
+        "## Executive Summary",
+        summary.executive_summary or "No summary available.",
+        "",
+        "## Key Discussion Points",
+    ]
+    for kp in (summary.key_points or []):
+        lines.append(f"- {kp}")
+    lines.append("")
+
+    if summary.pain_points:
+        lines.append("## Customer Pain Points")
+        for pp in summary.pain_points:
+            desc = pp.description if hasattr(pp, "description") else pp.get("description", str(pp))
+            severity = pp.severity if hasattr(pp, "severity") else pp.get("severity", "medium")
+            lines.append(f"- **[{severity.upper()}]** {desc}")
+        lines.append("")
+
+    if summary.objections:
+        lines.append("## Objections Raised")
+        for obj in summary.objections:
+            desc = obj.description if hasattr(obj, "description") else obj.get("description", str(obj))
+            lines.append(f"- {desc}")
+        lines.append("")
+
+    lines.append("## Next Steps")
+    lines.append(summary.next_steps if isinstance(summary.next_steps, str) else ", ".join(summary.next_steps) if summary.next_steps else "TBD")
+    lines.append("")
+
+    lines.append("## Deal Health")
+    lines.append(f"- **Score:** {summary.deal_health_score}/10")
+    lines.append(f"- **Assessment:** {summary.deal_health_reason}")
+    lines.append("")
+
+    if action_items:
+        lines.append("## Action Items")
+        lines.append("| # | Task | Owner | Due Date | Priority | Status |")
+        lines.append("|---|------|-------|----------|----------|--------|")
+        for i, item in enumerate(action_items, 1):
+            due = item.due_date.isoformat() if item.due_date else "TBD"
+            lines.append(
+                f"| {i} | {item.task} | {item.owner} | {due} | {item.priority.value} | {item.status.value} |"
+            )
+        lines.append("")
+
+    if additional_notes:
+        lines.append("## Additional Notes")
+        lines.append(additional_notes)
+        lines.append("")
+
+    lines.append("---")
+    lines.append("*Generated by DealSense AI*")
+    return "\n".join(lines)
+
+
+async def _write_mom_to_sharepoint(
+    call_id: str,
+    account_name: str,
+    mom_content: str,
+    folder_path: str,
+) -> Dict[str, Any]:
+    """
+    Write MoM document to SharePoint via Microsoft Graph API.
+
+    In production: Uses MSAL + Graph API PUT /sites/{site-id}/drive/items/...
+    For demo: Returns a mock success response.
+    """
+    graph_token = os.getenv("MS_GRAPH_ACCESS_TOKEN")
+    sharepoint_site_id = os.getenv("SHAREPOINT_SITE_ID")
+
+    filename = f"MoM_{account_name.replace(' ', '_')}_{call_id[:8]}_{datetime.utcnow().strftime('%Y%m%d')}.md"
+
+    if graph_token and sharepoint_site_id:
+        # --- Real Graph API call ---
+        import httpx
+
+        upload_url = (
+            f"https://graph.microsoft.com/v1.0/sites/{sharepoint_site_id}"
+            f"/drive/root:{folder_path}/{filename}:/content"
+        )
+        async with httpx.AsyncClient() as client:
+            resp = await client.put(
+                upload_url,
+                content=mom_content.encode("utf-8"),
+                headers={
+                    "Authorization": f"Bearer {graph_token}",
+                    "Content-Type": "text/markdown",
+                },
+            )
+        if resp.status_code in (200, 201):
+            data = resp.json()
+            return {
+                "method": "graph_api",
+                "file_name": filename,
+                "web_url": data.get("webUrl", ""),
+                "id": data.get("id", ""),
+            }
+        else:
+            logger.warning(f"SharePoint upload failed ({resp.status_code}): {resp.text}")
+            # Fall through to mock
+
+    # --- Mock response for demo ---
+    logger.info(f"[MOCK] Writing MoM to SharePoint: {folder_path}/{filename}")
+    return {
+        "method": "mock",
+        "file_name": filename,
+        "folder": folder_path,
+        "web_url": f"https://dxcluxoft.sharepoint.com{folder_path}/{filename}",
+        "message": "Mock write-back successful. Set MS_GRAPH_ACCESS_TOKEN and SHAREPOINT_SITE_ID env vars for real Graph API integration.",
+    }
 
 
 if __name__ == "__main__":

@@ -9,6 +9,18 @@ from uuid import UUID
 from fastapi import WebSocket, WebSocketDisconnect
 from datetime import datetime
 
+
+def _json_safe(obj):
+    """Recursively convert numpy/non-standard types to JSON-serializable Python types."""
+    if isinstance(obj, dict):
+        return {k: _json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_json_safe(v) for v in obj]
+    # Handle numpy scalar types (float32, float64, int32, int64, etc.)
+    if hasattr(obj, 'item'):
+        return obj.item()
+    return obj
+
 logger = logging.getLogger(__name__)
 
 
@@ -112,6 +124,9 @@ class ConnectionManager:
         # Add timestamp if not present
         if "timestamp" not in message:
             message["timestamp"] = datetime.utcnow().isoformat()
+        
+        # Ensure all values are JSON-serializable (e.g. numpy float32)
+        message = _json_safe(message)
         
         # Send to all connections
         disconnected = []
