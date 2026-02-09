@@ -548,5 +548,104 @@
     "status": "pending",
     "created_at": "2026-02-06T07:49:46.268054",
     "updated_at": "2026-02-06T07:49:46.268056"
+  },
+  {
+    "id": "1bced500-4ff9-4542-86f1-f345ff5df5ba",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "task": "Send case studies and security documentation to the customer.",
+    "owner": "Seller",
+    "due_date": "2026-02-06",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-06T13:45:29.351333",
+    "updated_at": "2026-02-06T13:45:29.351335"
+  },
+  {
+    "id": "7d6e75d5-470b-4a8d-817a-f49fbd062e32",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "task": "Prepare the technical requirements document.",
+    "owner": "Customer",
+    "due_date": "2026-02-13",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-06T13:45:29.351920",
+    "updated_at": "2026-02-06T13:45:29.351921"
+  },
+  {
+    "id": "9af7dc22-abae-4a95-ab84-1bcdc639ffb9",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "task": "Schedule a technical deep-dive session.",
+    "owner": "Seller",
+    "due_date": "2026-02-13",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-06T13:45:29.352734",
+    "updated_at": "2026-02-06T13:45:29.352735"
+  },
+  {
+    "id": "43acc480-4066-4b08-b4c8-6ac96cfded6c",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "task": "Provide details on current transaction volumes and specific products to automate.",
+    "owner": "Customer",
+    "due_date": "2026-02-13",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-06T13:45:29.353999",
+    "updated_at": "2026-02-06T13:45:29.354000"
+  },
+  {
+    "id": "d411d266-2418-49f5-8976-a297b82a3277",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "task": "Send high-level solution architecture to the customer.",
+    "owner": "Seller",
+    "due_date": "2026-02-06",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-06T13:45:29.358157",
+    "updated_at": "2026-02-06T13:45:29.358160"
+  },
+  {
+    "id": "c75c9f4d-1d55-4b7e-8c3c-13149cdead17",
+    "call_id": "e1c76f84-da6b-4de7-947b-a65a1330d690",
+    "task": "Provide detailed information about the trade finance solution and its unique features.",
+    "owner": "Seller",
+    "due_date": "2026-02-13",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-06T13:48:11.272455",
+    "updated_at": "2026-02-06T13:48:11.272456"
+  },
+  {
+    "id": "bb4cf9eb-2a63-4ef6-9b48-1860230ae0a2",
+    "call_id": "e1c76f84-da6b-4de7-947b-a65a1330d690",
+    "task": "Send integration details for existing systems, including APIs for Temenos, Finastra, and SWIFT.",
+    "owner": "Seller",
+    "due_date": "2026-02-13",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-06T13:48:11.273764",
+    "updated_at": "2026-02-06T13:48:11.273765"
+  },
+  {
+    "id": "227e466d-a511-4aa9-b5d5-78e3b9b194f5",
+    "call_id": "e1c76f84-da6b-4de7-947b-a65a1330d690",
+    "task": "Estimate the implementation timeline based on ANZ Bank's specific requirements.",
+    "owner": "Seller",
+    "due_date": "2026-02-13",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-06T13:48:11.274617",
+    "updated_at": "2026-02-06T13:48:11.274617"
+  },
+  {
+    "id": "d6478432-eecc-460e-9e9e-a99e716e4ed7",
+    "call_id": "e1c76f84-da6b-4de7-947b-a65a1330d690",
+    "task": "Schedule a follow-up meeting to discuss the next steps in the evaluation process.",
+    "owner": "Seller",
+    "due_date": "2026-02-13",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-06T13:48:11.275792",
+    "updated_at": "2026-02-06T13:48:11.275792"
   }
 ]

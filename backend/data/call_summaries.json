@@ -583,5 +583,86 @@
     "deal_health_reason": "The customer is engaged and interested, but there are concerns about implementation timelines and compliance that need to be addressed.",
     "generated_at": "2026-02-06T07:49:46.256248",
     "created_at": "2026-02-06T07:49:46.256263"
+  },
+  {
+    "id": "3594613e-b5b1-48a7-b947-98ca16abfa47",
+    "call_id": "37f88342-859f-47a6-8983-5a3c3de4469e",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is scheduling a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "AI capabilities for document processing and fraud detection are in production, achieving 92% accuracy.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is wary of promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the length of the implementation timeline.",
+        "category": "timeline",
+        "response_suggested": "Reassure the customer about the typical timeline and provide case studies of successful implementations."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Provide detailed security documentation and case studies demonstrating compliance."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is interested and within budget, but there are concerns about implementation timelines and compliance that need to be addressed.",
+    "generated_at": "2026-02-06T13:45:29.348983",
+    "created_at": "2026-02-06T13:45:29.348986"
+  },
+  {
+    "id": "be4f8d89-5c5f-4425-a55e-ee3e8e1bfec2",
+    "call_id": "e1c76f84-da6b-4de7-947b-a65a1330d690",
+    "executive_summary": "The call was positive, with ANZ Bank expressing interest in DXC Luxoft's trade finance solutions. The next step is to provide more detailed information on integration and implementation timelines.",
+    "key_points": [
+      "Discussion on DXC Luxoft's end-to-end trade finance automation covering Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Customer emphasized the need for integration with existing legacy core banking systems.",
+      "Seller highlighted support for APIs and modular architecture for seamless integration.",
+      "Implementation timeline discussed, estimated at 14-16 months for ANZ Bank's size and complexity."
+    ],
+    "pain_points": [
+      {
+        "description": "Integration with legacy core banking systems is challenging.",
+        "severity": "high",
+        "context": "ANZ Bank cannot easily replace their existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "medium",
+        "context": "Customer is cautious about promises of quick delivery."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the length of the implementation process.",
+        "category": "timeline",
+        "response_suggested": "Reassure the customer about the structured approach and support during the implementation phase."
+      }
+    ],
+    "next_steps": "Provide detailed information on integration capabilities and a more precise implementation plan. Schedule a follow-up meeting to discuss further.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is interested but has significant concerns about integration and implementation timelines.",
+    "generated_at": "2026-02-06T13:48:11.269221",
+    "created_at": "2026-02-06T13:48:11.269231"
   }
 ]
