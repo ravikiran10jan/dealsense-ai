@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './AddDealModal.module.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const stageOptions = ['Discovery', 'Proposal', 'Negotiation', 'Closed'];
 const industryOptions = [
   'Banking - Trade Finance',
@@ -34,7 +36,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
     setIsFetchingOutlook(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/outlook/upcoming-meetings');
+      const response = await fetch(`${API_BASE_URL}/api/outlook/upcoming-meetings`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch from Outlook');
@@ -83,7 +85,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/deals/create', {
+      const response = await fetch(`${API_BASE_URL}/api/deals/create`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -101,7 +103,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
       // If sendInvite is true, send calendar invite
       if (sendInvite) {
         try {
-          const inviteResponse = await fetch('http://localhost:8000/api/outlook/send-invite', {
+          const inviteResponse = await fetch(`${API_BASE_URL}/api/outlook/send-invite`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

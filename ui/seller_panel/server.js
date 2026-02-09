@@ -6,7 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const BACKEND_URL = process.env.BACKEND_URL || 'http://127.0.0.1:8000';
 
 // Middleware
 app.use(express.json());
@@ -14,8 +15,7 @@ app.use(express.json());
 // Simple proxy for API calls to backend (avoid CORS during local dev)
 app.use('/api', async (req, res) => {
   try {
-    const backendBase = 'http://127.0.0.1:8000';
-    const target = backendBase + req.originalUrl;
+    const target = BACKEND_URL + req.originalUrl;
 
     const fetchOptions = {
       method: req.method,
@@ -56,7 +56,8 @@ app.listen(PORT, () => {
   ========================================
   DealSense AI - Sales Intelligence UI
   ========================================
-  Server running at http://localhost:${PORT}
+  Server running on port ${PORT}
+  Backend URL: ${BACKEND_URL}
   ========================================
   `);
 });

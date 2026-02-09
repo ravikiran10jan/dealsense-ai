@@ -4,6 +4,8 @@ import DealSelector from './DealSelector';
 import DealDetailsPanel from './DealDetailsPanel';
 import LiveNotes from './LiveNotes';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 /**
  * DuringCall Tab Component
  * Live assistance during sales call with deal reference and note-taking
@@ -15,7 +17,7 @@ const DuringCall = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/during_call')
+    fetch(`${API_BASE_URL}/api/during_call`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch call iterations');
         return res.json();
