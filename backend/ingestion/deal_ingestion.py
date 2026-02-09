@@ -5,7 +5,7 @@ With PII sanitization to protect sensitive information.
 """
 import os
 import pickle
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
 from ingestion.vector_store import TfidfEmbeddings
 from privacy.sanitizer import sanitize_text
