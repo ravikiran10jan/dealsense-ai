@@ -35,7 +35,7 @@ Sanitization is invoked during deal ingestion (`api.py` -- `ingest_deal_to_vecto
 
 ### RAG-First Retrieval with Source Citation
 
-The hybrid answer pipeline in [`backend/orchestration/hybrid_answer.py`](backend/orchestration/hybrid_answer.py) enforces a strict retrieval hierarchy:
+The hybrid answer pipeline in [`backend/orchestration/hybrid_answer.py`](../backend/orchestration/hybrid_answer.py) enforces a strict retrieval hierarchy:
 
 1. **Vector DB search** -- FAISS semantic search retrieves `k=5` (general queries) or `k=3` (live-call queries) candidate chunks with L2 distance scores.
 2. **Similarity threshold gate** -- Only results with `best_score < 1.8` (L2 distance) are considered relevant. Scores above 1.8 are treated as irrelevant and the pipeline moves to the next fallback.
@@ -110,7 +110,7 @@ DealSense AI does **not** autonomously send emails, update CRM records, or write
 
 ### Comprehensive Audit Logger
 
-The audit system ([`backend/privacy/audit_logger.py`](backend/privacy/audit_logger.py)) records every significant operation with the following fields:
+The audit system ([`backend/privacy/audit_logger.py`](../backend/privacy/audit_logger.py)) records every significant operation with the following fields:
 
 | Field | Description |
 |-------|-------------|

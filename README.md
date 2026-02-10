@@ -1,5 +1,9 @@
 # DealSense AI - Sales Assist Agent
 
+> **Live Demo:** [Frontend](https://dealsense-ai-frontend.onrender.com/) | [API](https://dealsense-ai-api.onrender.com/)
+>
+> **Hackathon Submission:** [HACKATHON.md](HACKATHON.md) | **Demo Script:** [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) | **Live Demo Guide:** [docs/LIVE_DEMO_GUIDE.md](docs/LIVE_DEMO_GUIDE.md) | **Responsible AI:** [docs/responsible_ai.md](docs/responsible_ai.md)
+
 An AI-powered sales assistant that leverages meeting notes (MoMs) to provide intelligent insights and automate post-call documentation.
 
 ## Business Problem
@@ -64,7 +68,7 @@ AI generates a structured MoM with deal health score, key discussion points, pai
 | Vector DB          | Azure AI Search (vector)           | Managed vector search       |
 | Retrieval (RAG)    | Azure Function / API App           | Stateless logic             |
 | Reasoning LLM      | Azure OpenAI (GPT-4.x)             | Enterprise controls         |
-| UI                 | Static Web App / Teams tab         | Fast MVP                    |
+| UI                 | Render (React + Express)            | Seller dashboard      |
 | Write-back         | Graph API -> SharePoint            | Source of truth             |
 
 ## Project Structure
@@ -199,6 +203,15 @@ Every agent response includes an `agent_trace` array showing the execution of ea
 
 ## Getting Started
 
+### Prerequisites
+
+- Python 3.10+
+- Node.js 18+ and npm
+- Azure subscription with Azure OpenAI access
+- Microsoft 365 tenant with SharePoint access (for write-back features)
+
+### Backend Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/ravikiran10jan/dealsense-ai.git
@@ -211,17 +224,53 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Copy environment template
+# Copy environment template and configure
 cp .env.example .env
-# Edit .env with your configuration
+# Edit .env with your Azure OpenAI, AI Search, and SharePoint credentials
+
+# Ingest reference profiles into the vector store
+python backend/scripts/ingest_references.py
+
+# Start the backend
+python backend/api.py
+# Backend runs on http://localhost:8000
 ```
 
-## Prerequisites
+### Frontend Setup
 
-- Python 3.10+
-- Azure subscription
-- Microsoft 365 tenant with SharePoint access
-- Azure OpenAI access
+```bash
+cd ui/seller_panel
+
+# Install dependencies
+npm install
+
+# Build for production
+npm run build
+
+# Start the server (serves built app + proxies API calls to backend)
+npm run start
+# Frontend runs on http://localhost:3000
+```
+
+For development with hot reload:
+
+```bash
+cd ui/seller_panel
+npm run dev
+```
+
+### Environment Variables
+
+See [.env.example](.env.example) for the full list. Key variables:
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `AZURE_OPENAI_ENDPOINT` | Yes | Azure OpenAI service endpoint |
+| `AZURE_OPENAI_API_KEY` | Yes | Azure OpenAI API key |
+| `AZURE_OPENAI_CHAT_DEPLOYMENT` | Yes | GPT-4 deployment name |
+| `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` | Yes | Embedding model deployment name |
+| `BACKEND_URL` | No | Backend URL for frontend proxy (default: `http://127.0.0.1:8000`) |
+| `FRONTEND_URL` | No | Frontend URL for CORS (default: localhost origins) |
 
 ## License
 

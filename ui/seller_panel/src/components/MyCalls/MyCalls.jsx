@@ -5,7 +5,7 @@ import styles from './MyCalls.module.css';
  * MyCalls Component
  * Displays call history and upcoming calls based on deals data
  */
-const MyCalls = ({ deals }) => {
+const MyCalls = ({ deals, onPrepare }) => {
   // Generate dummy call data from deals
   const generateCallsFromDeals = () => {
     const calls = [];
@@ -28,7 +28,7 @@ const MyCalls = ({ deals }) => {
 
       // Add some past calls for the first few deals
       if (index < 2) {
-        const pastDates = ['2026-01-28', '2026-01-20', '2026-01-15'];
+        const pastDates = ['2026-02-07', '2026-02-03', '2026-01-28'];
         const outcomes = ['Follow-up scheduled', 'Proposal requested', 'Discovery completed'];
         const durations = ['32 min', '45 min', '28 min'];
         
@@ -141,7 +141,10 @@ const MyCalls = ({ deals }) => {
                       <span>{formatDate(call.date)}</span>
                       <span className={styles.time}>{call.time}</span>
                     </div>
-                    <button className={styles.joinButton}>
+                    <button 
+                      className={styles.joinButton}
+                      onClick={() => onPrepare && onPrepare(deals.find(d => d.accountName === call.dealName))}
+                    >
                       Prepare
                     </button>
                   </div>

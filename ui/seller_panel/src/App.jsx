@@ -24,7 +24,7 @@ const initialDeals = [
     id: 1,
     accountName: 'ANZ Bank',
     stage: 'Discovery',
-    nextCallDate: '2026-02-04',
+    nextCallDate: '2026-02-11',
     nextCallTime: '10:00 AM',
     dealAmount: '$4.5M',
     contactName: 'David Chen',
@@ -40,7 +40,7 @@ const initialDeals = [
     id: 2,
     accountName: 'PNB (Philippine National Bank)',
     stage: 'Proposal',
-    nextCallDate: '2026-02-08',
+    nextCallDate: '2026-02-13',
     nextCallTime: '2:00 PM',
     dealAmount: '$2.8M',
     contactName: 'Maria Santos',
@@ -52,7 +52,7 @@ const initialDeals = [
     id: 3,
     accountName: 'Westpac',
     stage: 'Discovery',
-    nextCallDate: '2026-02-12',
+    nextCallDate: '2026-02-17',
     nextCallTime: '11:00 AM',
     dealAmount: '$3.6M',
     contactName: 'Robert Taylor',
@@ -64,7 +64,7 @@ const initialDeals = [
     id: 4,
     accountName: 'NAB (National Australia Bank)',
     stage: 'Discovery',
-    nextCallDate: '2026-02-15',
+    nextCallDate: '2026-02-19',
     nextCallTime: '9:30 AM',
     dealAmount: '$3.2M',
     contactName: 'Amanda Foster',
@@ -475,7 +475,15 @@ function App() {
       {/* Main Content Area */}
       <div className={styles.mainArea}>
         {activeNav === 'calls' ? (
-          <MyCalls deals={deals} />
+          <MyCalls 
+            deals={deals} 
+            onPrepare={(deal) => {
+              if (deal) {
+                handleDealSelect(deal);
+                setActiveNav('inbox');
+              }
+            }}
+          />
         ) : (
           <>
             {/* Live Call Strip - shown during active call */}
