@@ -2,7 +2,7 @@
 Prompt templates for call summarization and action items extraction.
 """
 
-SUMMARY_PROMPT_TEMPLATE = """You are analyzing a sales call transcript for DXC Luxoft trade finance solutions.
+SUMMARY_PROMPT_TEMPLATE = """You are analyzing a sales call transcript for Nexora Solutions trade finance solutions.
 
 CALL DETAILS:
 - Customer: {account_name}

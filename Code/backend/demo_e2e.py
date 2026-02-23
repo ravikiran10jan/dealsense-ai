@@ -4,10 +4,10 @@ DealSense AI - End-to-End Demo Script
 ========================================
 Runs the complete 3-minute demo flow:
 
-  1. Seller creates deal for "ANZ Bank - Trade Finance Platform"
+  1. Seller creates deal for "Apex National Bank - Trade Finance Platform"
   2. Pre-call agent populates context (similar deals, references, talking points)
-  3. Mock transcript is fed in (ANZ discovery call)
-  4. Push-to-talk query: "What was CBA's implementation timeline?"
+  3. Mock transcript is fed in (Apex National discovery call)
+  4. Push-to-talk query: "What was PTB's implementation timeline?"
   5. Post-call agent generates summary with deal health score
   6. Seller approves -> MoM written to SharePoint (mock)
 
@@ -30,7 +30,7 @@ import httpx
 DEFAULT_BASE_URL = "http://localhost:8000"
 TRANSCRIPT_FILE = os.path.join(
     os.path.dirname(__file__), "data", "transcripts",
-    "ANZ_TradeFinance_Discovery_Call_2026-02-04.md",
+    "ApexNational_TradeFinance_Discovery_Call_2026-02-04.md",
 )
 
 HEADERS = {"Content-Type": "application/json"}  # No API key needed in dev mode
@@ -65,23 +65,23 @@ def run_demo(base: str):
     # --------------------------------------------------------
     # STEP 1 - Create the deal
     # --------------------------------------------------------
-    section("STEP 1: Create Deal - ANZ Bank Trade Finance Platform")
+    section("STEP 1: Create Deal - Apex National Bank Trade Finance Platform")
 
     deal_payload = {
-        "accountName": "ANZ Bank",
+        "accountName": "Apex National Bank",
         "stage": "Discovery",
         "nextCallDate": "2026-02-10",
         "nextCallTime": "10:00",
         "dealAmount": "$4.5M",
-        "contactName": "David Chen",
+        "contactName": "Mark Johnson",
         "contactRole": "Head of Trade Finance Operations",
         "industry": "Banking & Financial Services",
         "description": "Trade Finance Platform modernization - LC automation, AI document processing, compliance",
         "additionalContacts": [
-            {"name": "Sarah Mitchell", "role": "VP Technology"},
-            {"name": "James Wong", "role": "Director of Digital Transformation"},
+            {"name": "Lisa Park", "role": "VP Technology"},
+            {"name": "Kevin Brown", "role": "Director of Digital Transformation"},
         ],
-        "notes": "ANZ looking to modernize trade finance. Pain points: 3-4 day processing, paper-based workflows. Interest in AI doc extraction.",
+        "notes": "Apex National looking to modernize trade finance. Pain points: 3-4 day processing, paper-based workflows. Interest in AI doc extraction.",
     }
 
     resp = client.post("/api/deals/create", json=deal_payload)
@@ -128,8 +128,8 @@ def run_demo(base: str):
     step(1, "Starting call...")
     resp = client.post("/api/calls/start", json={
         "deal_id": deal_id,
-        "account_name": "ANZ Bank",
-        "contact_name": "David Chen",
+        "account_name": "Apex National Bank",
+        "contact_name": "Mark Johnson",
     })
     if resp.status_code != 200:
         fail(f"Start call: {resp.status_code} - {resp.text}")
@@ -137,7 +137,7 @@ def run_demo(base: str):
     call_id = call_info["call_id"]
     ok(f"Call started  id={call_id}")
 
-    step(2, "Loading ANZ transcript...")
+    step(2, "Loading Apex National transcript...")
     if not os.path.exists(TRANSCRIPT_FILE):
         fail(f"Transcript file not found: {TRANSCRIPT_FILE}")
     with open(TRANSCRIPT_FILE, "r") as f:
@@ -147,7 +147,7 @@ def run_demo(base: str):
     step(3, "Feeding bulk transcript into call...")
     resp = client.post(f"/api/calls/{call_id}/bulk-mock-transcript", json={
         "transcript_text": transcript_text,
-        "account_name": "ANZ Bank",
+        "account_name": "Apex National Bank",
     })
     if resp.status_code != 200:
         fail(f"Bulk transcript: {resp.status_code} - {resp.text}")
@@ -159,7 +159,7 @@ def run_demo(base: str):
     # --------------------------------------------------------
     section("STEP 4: Push-to-Talk Query During Call")
 
-    query = "What was CBA's implementation timeline?"
+    query = "What was PTB's implementation timeline?"
     step(1, f'Query: "{query}"')
 
     resp = client.post(f"/api/calls/{call_id}/query", json={
@@ -173,7 +173,7 @@ def run_demo(base: str):
     ok(f"Source: {answer.get('source_type')}  Confidence: {answer.get('confidence')}")
 
     # Second demo query
-    query2 = "How is SCB handling data privacy?"
+    query2 = "How is Eastern Commerce Bank handling data privacy?"
     step(2, f'Query: "{query2}"')
     resp = client.post(f"/api/calls/{call_id}/query", json={
         "query": query2,
@@ -228,7 +228,7 @@ def run_demo(base: str):
     resp = client.post(f"/api/calls/{call_id}/approve-mom", json={
         "approved": True,
         "sharepoint_folder": "/sites/DealSense/Shared Documents/MoMs",
-        "additional_notes": "Follow up with ANZ technical team re: architecture deep-dive next week.",
+        "additional_notes": "Follow up with Apex National technical team re: architecture deep-dive next week.",
     })
     if resp.status_code != 200:
         fail(f"Approve MoM: {resp.status_code} - {resp.text}")

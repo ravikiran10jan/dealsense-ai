@@ -268,10 +268,10 @@ const ChatPanel = ({
         query = `Prepare a call briefing for ${selectedDeal?.accountName}. Include information about trade finance capabilities, similar implementations, team sizes, and key differentiators.`;
         break;
       case 'similar':
-        query = `What are similar trade finance implementations to ${selectedDeal?.accountName}? Include details about team sizes, timelines, outcomes, and key success factors from CBA, SMBC, and SCB projects.`;
+        query = `What are similar trade finance implementations to ${selectedDeal?.accountName}? Include details about team sizes, timelines, outcomes, and key success factors from PTB, Global Trade Bank, and Eastern Commerce Bank projects.`;
         break;
       case 'questions':
-        query = `What are the expected questions in a trade finance discovery call? Include questions about team size at CBA, data privacy handling, AI capabilities status, and DXC Luxoft history.`;
+        query = `What are the expected questions in a trade finance discovery call? Include questions about team size at PTB, data privacy handling, AI capabilities status, and Nexora Solutions history.`;
         break;
       case 'discovery':
         query = `What are good discovery questions to ask ${selectedDeal?.accountName} about their trade finance transformation needs?`;
@@ -283,7 +283,7 @@ const ChatPanel = ({
         query = `Summarize the key points from the trade finance knowledge base that would be relevant for a call summary with ${selectedDeal?.accountName}.`;
         break;
       case 'email':
-        query = `Draft a follow-up email for ${selectedDeal?.accountName} about trade finance transformation, referencing CBA, SMBC, and SCB implementations.`;
+        query = `Draft a follow-up email for ${selectedDeal?.accountName} about trade finance transformation, referencing PTB, Global Trade Bank, and Eastern Commerce Bank implementations.`;
         break;
       case 'salesforce':
         query = `What key deal information should be captured in Salesforce for ${selectedDeal?.accountName} trade finance opportunity?`;
@@ -329,9 +329,9 @@ const ChatPanel = ({
     if (action.id === 'prepare' || action.id === 'similar') {
       onUpdateContext({
         similarDeals: [
-          { name: 'CBA - Trade Finance Platform', value: '$5.2M', industry: 'Banking', status: 'Won' },
-          { name: 'SMBC - LC Automation', value: '$3.8M', industry: 'Banking', status: 'Won' },
-          { name: 'SCB - Trade Digitization', value: '$4.1M', industry: 'Banking', status: 'In Progress' },
+          { name: 'PTB - Trade Finance Platform', value: '$5.2M', industry: 'Banking', status: 'Won' },
+          { name: 'Global Trade Bank - LC Automation', value: '$3.8M', industry: 'Banking', status: 'Won' },
+          { name: 'Eastern Commerce Bank - Trade Digitization', value: '$4.1M', industry: 'Banking', status: 'In Progress' },
         ],
       });
     }

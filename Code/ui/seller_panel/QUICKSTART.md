@@ -5,7 +5,7 @@
 ### Step 1: Open PowerShell/Terminal
 ```powershell
 # Navigate to project folder
-cd "c:\D\LUXOFT-DXC\2026\OFFICE\HACKTHON\workspace\dealsense-ai\ui\seller_panel\trial-1"
+cd /path/to/dealsense-ai/Code/ui/seller_panel
 ```
 
 ### Step 2: Install Dependencies

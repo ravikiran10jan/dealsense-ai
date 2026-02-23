@@ -6,14 +6,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* DXC Brand Colors */
-  /* Primary - Orange/Coral (from DXC logo) */
+  /* Brand Colors */
+  /* Primary - Orange/Coral */
   --color-primary: #E8854A;
   --color-primary-dark: #D4703A;
   --color-primary-light: #F5A060;
   --color-primary-subtle: #FEF3EB;
   
-  /* Secondary - Blue (from DXC logo accents) */
+  /* Secondary - Blue */
   --color-secondary: #5B8DEF;
   --color-secondary-light: #7BA3F5;
   --color-secondary-subtle: #EEF4FF;
@@ -23,7 +23,7 @@
   --color-accent-light: #14B8A6;
   --color-accent-subtle: #F0FDFA;
   
-  /* Neutrals - DXC palette */
+  /* Neutrals */
   --color-bg: #F5F2EF;
   --color-surface: #FFFFFF;
   --color-sidebar: #161B26;
@@ -50,7 +50,7 @@
   --color-info: #3B82F6;
   --color-info-bg: #EFF6FF;
   
-  /* Chat bubbles - DXC themed */
+  /* Chat bubbles */
   --color-bubble-user: #E8854A;
   --color-bubble-user-text: #FFFFFF;
   --color-bubble-assistant: #F5F2EF;

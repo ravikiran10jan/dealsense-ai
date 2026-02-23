@@ -2,11 +2,11 @@
   {
     "id": "ed939597-fe1e-4799-beb5-8fbfba344341",
     "call_id": "a0f9f883-bce4-4c32-997e-f92c03457988",
-    "executive_summary": "The call was productive, with ANZ Bank expressing interest in DXC Luxoft's trade finance solutions to modernize their operations. The next step is to schedule a technical deep-dive session for further exploration of the platform.",
+    "executive_summary": "The call was productive, with Apex National Bank expressing interest in Nexora Solutions's trade finance solutions to modernize their operations. The next step is to schedule a technical deep-dive session for further exploration of the platform.",
     "key_points": [
-      "ANZ Bank is looking to modernize trade finance operations due to current inefficiencies.",
+      "Apex National Bank is looking to modernize trade finance operations due to current inefficiencies.",
       "Key pain points include a 3-4 day processing time for transactions and reliance on manual document processing.",
-      "DXC Luxoft discussed their experience with similar implementations, including a recent project with Commonwealth Bank of Australia.",
+      "Nexora Solutions discussed their experience with similar implementations, including a recent project with Pacific Trust Bank.",
       "AI capabilities for document extraction and validation are currently in proof-of-concept stage, with promising accuracy results.",
       "A phased implementation timeline of 12-18 months was proposed, starting with Letters of Credit automation.",
       "Flexible pricing models were discussed, including fixed-price for core deliverables and T&M for customizations."
@@ -21,20 +21,20 @@
     "objections": [],
     "next_steps": "Schedule a technical deep-dive session for next week and send reference materials including case studies and ROI metrics.",
     "deal_health_score": 8,
-    "deal_health_reason": "Strong interest from ANZ Bank and clear next steps identified, though further technical validation is needed.",
+    "deal_health_reason": "Strong interest from Apex National Bank and clear next steps identified, though further technical validation is needed.",
     "generated_at": "2026-02-09T08:02:48.415310",
     "created_at": "2026-02-09T08:02:48.415334"
   },
   {
     "id": "aadc6b3f-38b9-4655-a9ae-07e60789e650",
     "call_id": "b717228f-b7c0-408e-a541-bc21724417af",
-    "executive_summary": "The call was positive, with the customer expressing interest in DXC Luxoft's trade finance solutions. The next step is to provide more detailed information about integration and implementation timelines.",
+    "executive_summary": "The call was positive, with the customer expressing interest in Nexora Solutions's trade finance solutions. The next step is to provide more detailed information about integration and implementation timelines.",
     "key_points": [
-      "Discussion on DXC Luxoft's end-to-end trade finance automation capabilities.",
+      "Discussion on Nexora Solutions's end-to-end trade finance automation capabilities.",
       "Customer expressed concern about integration with legacy systems.",
-      "Implementation timeline estimated at 14-16 months for ANZ Bank.",
-      "Previous success with CBA highlighted, including reduced processing times and errors.",
-      "Inquiry about experience with other Australian banks and competitors."
+      "Implementation timeline estimated at 14-16 months for Apex National Bank.",
+      "Previous success with PTB highlighted, including reduced processing times and errors.",
+      "Inquiry about experience with other regional banks and competitors."
     ],
     "pain_points": [
       {
@@ -55,7 +55,7 @@
         "response_suggested": "Provide case studies and testimonials from similar projects to build confidence."
       }
     ],
-    "next_steps": "Follow up with detailed information on integration capabilities and case studies from other Australian banks. Schedule a follow-up meeting to discuss further.",
+    "next_steps": "Follow up with detailed information on integration capabilities and case studies from other regional banks. Schedule a follow-up meeting to discuss further.",
     "deal_health_score": 7,
     "deal_health_reason": "Customer is interested but has significant concerns about integration and implementation timelines.",
     "generated_at": "2026-02-09T09:50:29.638091",
@@ -66,7 +66,7 @@
     "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
     "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is scheduling a technical deep-dive session to discuss specific requirements.",
     "key_points": [
-      "Discussion on DXC Luxoft's end-to-end trade finance automation solution.",
+      "Discussion on Nexora Solutions's end-to-end trade finance automation solution.",
       "Customer expressed concerns about integration with legacy systems and implementation timelines.",
       "Seller provided details on previous successful projects and outcomes.",
       "Pricing for a full implementation was discussed, estimated at 4 to 5 million dollars.",
@@ -112,9 +112,9 @@
     "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
     "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is scheduling a technical deep-dive session to discuss specific requirements.",
     "key_points": [
-      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Nexora Solutions's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
       "Integration with existing legacy systems is supported through APIs and a modular architecture.",
-      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "Implementation typically takes 14-16 months for a bank of Apex National's size.",
       "AI capabilities for document processing and fraud detection are in production, achieving 92% accuracy.",
       "Pricing for a full implementation is estimated at 4 to 5 million dollars."
     ],

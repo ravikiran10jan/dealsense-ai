@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Header.module.css';
-import logo from '../../assets/dxc-mark.svg';
+import logo from '../../assets/logo-mark.svg';
 
 /**
  * Header Component
@@ -11,7 +11,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <img src={logo} alt="DXC logo" className={styles.logoImg} />
+          <img src={logo} alt="DealSense logo" className={styles.logoImg} />
           <div className={styles.brandText}>
             <h1 className={styles.appName}>DealSenseAI</h1>
           </div>

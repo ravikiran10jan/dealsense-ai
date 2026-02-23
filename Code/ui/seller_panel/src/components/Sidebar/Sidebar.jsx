@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Sidebar.module.css';
-import logo from '../../assets/dxc-mark.svg';
+import logo from '../../assets/logo-mark.svg';
 
 const navItems = [
   { id: 'inbox', label: 'Inbox', icon: 'inbox' },
@@ -152,11 +152,11 @@ const Sidebar = ({ deals, selectedDeal, onDealSelect, collapsed, onToggleCollaps
       {/* User Section */}
       <div className={styles.userSection}>
         <div className={styles.userAvatar}>
-          <span>RK</span>
+          <span>AM</span>
         </div>
         {!collapsed && (
           <div className={styles.userInfo}>
-            <span className={styles.userName}>Ravikiran</span>
+            <span className={styles.userName}>Alex Morgan</span>
             <span className={styles.userRole}>Sales Rep</span>
           </div>
         )}

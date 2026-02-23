@@ -1,4 +1,5 @@
 import os
+import sys
 from ingestion.pptx_loader import load_pptx_folder
 from ingestion.text_chunker import chunk_documents
 from ingestion.vector_store import create_vector_store
@@ -21,44 +22,47 @@ def chat():
         query = input("\nAsk a question (type 'exit' or 'quit' to quit): ").strip()
 
         if query.lower() in ["exit", "quit"]:
-            print("👋 Exiting. Bye!")
-            break   # ⬅️ exits immediately
+            print("Exiting. Bye!")
+            break
 
         answer = answer_query(query)
         print("\n" + answer)
 
 
-def ingest():
-    print("📥 Loading PPTX files...")
+def ingest(multimodal=False):
+    print("Loading PPTX files...")
 
     case_docs = load_pptx_folder(
         folder_path="data/case_studies",
-        document_type="case_study"
+        document_type="case_study",
+        multimodal=multimodal,
     )
 
     offering_docs = load_pptx_folder(
         folder_path="data/offerings",
-        document_type="offering"
+        document_type="offering",
+        multimodal=multimodal,
     )
 
     all_docs = case_docs + offering_docs
 
-    print(f"✅ Loaded {len(all_docs)} slides")
+    print(f"Loaded {len(all_docs)} slides/sections")
 
-    print("✂️ Chunking documents...")
+    print("Chunking documents...")
     chunks = chunk_documents(all_docs)
-    print(f"✅ Created {len(chunks)} chunks")
+    print(f"Created {len(chunks)} chunks")
 
-    print("🧠 Creating vector store...")
+    print("Creating vector store...")
     create_vector_store(chunks, VECTOR_DB_PATH)
 
-    print("🎉 Vector store created successfully!")
+    print("Vector store created successfully!")
+
 '''
 def test_search():
-    print("🔍 Testing semantic search...")
+    print("Testing semantic search...")
     vector_db = load_vector_store()
 
-    query = "when DXC integrated with Luxoft"
+    query = "when Nexora Technologies integrated with Nexora Solutions"
     results = semantic_search(query)
 
     for r in results:
@@ -68,8 +72,9 @@ def test_search():
         print(r.page_content[:300])'''
 
 if __name__ == "__main__":
-    if vector_store_exists():
-        print("✅ Vector store already exists, skipping ingestion...")
+    multimodal = "--multimodal" in sys.argv
+    if vector_store_exists() and "--reingest" not in sys.argv:
+        print("Vector store already exists, skipping ingestion...")
     else:
-        ingest()
+        ingest(multimodal=multimodal)
     chat()

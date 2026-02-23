@@ -23,23 +23,23 @@ const hotkeyLabel = 'Shift+Space';
 const initialDeals = [
   {
     id: 1,
-    accountName: 'ANZ Bank',
+    accountName: 'Apex National Bank',
     stage: 'Discovery',
     nextCallDate: '2026-02-11',
     nextCallTime: '10:00 AM',
     dealAmount: '$4.5M',
-    contactName: 'David Chen',
+    contactName: 'Mark Johnson',
     contactRole: 'Head of Trade Finance Operations',
     industry: 'Banking - Trade Finance',
     description: 'Trade Finance Transformation Journey',
     additionalContacts: [
-      { name: 'Sarah Mitchell', role: 'VP Technology' },
-      { name: 'James Wong', role: 'Director of Digital Transformation' },
+      { name: 'Lisa Park', role: 'VP Technology' },
+      { name: 'Kevin Brown', role: 'Director of Digital Transformation' },
     ],
   },
   {
     id: 2,
-    accountName: 'PNB (Philippine National Bank)',
+    accountName: 'Island Pacific Bank',
     stage: 'Proposal',
     nextCallDate: '2026-02-13',
     nextCallTime: '2:00 PM',
@@ -51,7 +51,7 @@ const initialDeals = [
   },
   {
     id: 3,
-    accountName: 'Westpac',
+    accountName: 'Summit Financial Group',
     stage: 'Discovery',
     nextCallDate: '2026-02-17',
     nextCallTime: '11:00 AM',
@@ -63,7 +63,7 @@ const initialDeals = [
   },
   {
     id: 4,
-    accountName: 'NAB (National Australia Bank)',
+    accountName: 'Meridian Bank',
     stage: 'Discovery',
     nextCallDate: '2026-02-19',
     nextCallTime: '9:30 AM',

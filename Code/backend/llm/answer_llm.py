@@ -28,7 +28,7 @@ def _get_feedback_adjustments() -> str:
 def answer_with_llm(context, query):
     feedback_adjustments = _get_feedback_adjustments()
 
-    prompt = f"""You are a helpful sales assistant for DXC Luxoft, specializing in trade finance solutions.
+    prompt = f"""You are a helpful sales assistant for Nexora Solutions, specializing in trade finance solutions.
 
 INSTRUCTIONS:
 1. First, check if the provided context contains information relevant to the question.

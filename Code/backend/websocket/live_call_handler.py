@@ -226,6 +226,9 @@ class LiveCallHandler:
     ) -> None:
         """
         Handle push_to_talk_query - process RAG query with call context.
+
+        Uses the async, timeout-protected query path so the WebSocket
+        never blocks longer than GLOBAL_QUERY_TIMEOUT (12 s).
         """
         query = message.get("query", "")
         deal_id = message.get("deal_id")
@@ -247,17 +250,17 @@ class LiveCallHandler:
         metadata = self.redis.get_call_metadata(call_id)
         account_name = metadata.get("account_name", "Unknown")
         
-        # Build context-aware query
+        # Build context-aware query with timeout protection
         try:
-            from orchestration.hybrid_answer import answer_query_with_context
+            from orchestration.hybrid_answer import answer_query_with_context_async
             
-            result = answer_query_with_context(
+            result = await answer_query_with_context_async(
                 query=query,
                 call_context={
                     "recent_transcript": recent_transcript,
                     "account_name": account_name,
                     "deal_id": deal_id,
-                }
+                },
             )
             
             # Send response
@@ -269,7 +272,7 @@ class LiveCallHandler:
             )
             
         except ImportError:
-            # Fallback to regular query if context-aware not available
+            # Fallback to sync query if async not available
             from orchestration.hybrid_answer import answer_query
             
             # Prepend context to query

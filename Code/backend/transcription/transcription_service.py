@@ -97,12 +97,12 @@ class TranscriptionService:
         # Get current time
         current_time = self._time_trackers.get(call_id_str, 0.0)
         
-        # Mock transcripts that simulate a 4-minute sales call between ANZ Bank and DXC Luxoft
+        # Mock transcripts that simulate a 4-minute sales call between Apex National Bank and Nexora Solutions
         mock_phrases = [
             # Opening (0:00 - 0:30)
-            ("Customer", "Good morning! Thanks for taking the time to meet with us today. I'm David Chen, Head of Trade Finance Operations at ANZ Bank."),
-            ("Seller", "Good morning David, great to meet you. I'm Ravikiran from DXC Luxoft. We're excited to discuss how we can help modernize ANZ's trade finance operations."),
-            ("Customer", "Perfect. So tell me more about your trade finance solution and what makes DXC Luxoft different from other vendors we've spoken to."),
+            ("Customer", "Good morning! Thanks for taking the time to meet with us today. I'm Mark Johnson, Head of Trade Finance Operations at Apex National Bank."),
+            ("Seller", "Good morning Mark, great to meet you. I'm Alex from Nexora Solutions. We're excited to discuss how we can help modernize Apex National's trade finance operations."),
+            ("Customer", "Perfect. So tell me more about your trade finance solution and what makes Nexora Solutions different from other vendors we've spoken to."),
             
             # Solution Overview (0:30 - 1:15)
             ("Seller", "Our platform provides end-to-end trade finance automation covering Letters of Credit, Bank Guarantees, and Documentary Collections. What sets us apart is our deep banking domain expertise combined with modern technology."),
@@ -113,19 +113,19 @@ class TranscriptionService:
             
             # Reference Cases (1:15 - 2:00)
             ("Customer", "What was the team size for your last major project? And can you share some specific outcomes?"),
-            ("Seller", "For CBA we had a 45-person team over 18 months. We achieved 30% reduction in processing times and 40% fewer manual errors. They now process over 50,000 transactions monthly."),
-            ("Customer", "That's impressive. What about other Australian banks? Have you worked with any of our competitors?"),
-            ("Seller", "Yes, we've also worked with SMBC on LC automation where we integrated 3 core systems including SWIFT. They saw a 25% increase in straight-through processing rates."),
+            ("Seller", "For PTB we had a 45-person team over 18 months. We achieved 30% reduction in processing times and 40% fewer manual errors. They now process over 50,000 transactions monthly."),
+            ("Customer", "That's impressive. What about other major banks? Have you worked with any of our competitors?"),
+            ("Seller", "Yes, we've also worked with Global Trade Bank on LC automation where we integrated 3 core systems including SWIFT. They saw a 25% increase in straight-through processing rates."),
             ("Customer", "That sounds reasonable. What about data privacy and regulatory compliance? This is a critical concern for us."),
             
             # Data Privacy & Compliance (2:00 - 2:45)
-            ("Seller", "We follow strict regional data compliance requirements. For SCB in Singapore, we implemented data residency controls to meet MAS guidelines. All data stays within the specified jurisdiction."),
+            ("Seller", "We follow strict regional data compliance requirements. For Eastern Commerce Bank in Singapore, we implemented data residency controls to meet regulatory guidelines. All data stays within the specified jurisdiction."),
             ("Customer", "How do you handle regional data sovereignty? We have operations across APAC and need to ensure compliance in each market."),
             ("Seller", "Our platform supports multi-region deployment with data isolation. Each region can have its own data store while sharing business logic. We're certified for SOC 2 Type II and ISO 27001."),
             ("Customer", "What about AI capabilities? We've been exploring how AI can help with document processing and fraud detection."),
             
             # AI Capabilities (2:45 - 3:30)
-            ("Seller", "Great question. We have AI-powered document classification that achieved 92% accuracy in our POC with CBA. It handles trade documents like Bills of Lading, Invoices, and Certificates of Origin."),
+            ("Seller", "Great question. We have AI-powered document classification that achieved 92% accuracy in our POC with PTB. It handles trade documents like Bills of Lading, Invoices, and Certificates of Origin."),
             ("Customer", "Is this AI actually in production or still experimental?"),
             ("Seller", "It's in production at two client sites. We use Azure OpenAI for document understanding and have built custom models for trade finance specific terminology and compliance checking."),
             ("Customer", "What about pricing? Can you give me a ballpark figure for a project of our scale?"),
@@ -135,8 +135,8 @@ class TranscriptionService:
             ("Customer", "That's within our budget range. What would you need from us to put together a formal proposal?"),
             ("Seller", "I'd need details on your current transaction volumes, the specific products you want to automate first, and your integration landscape. Could we schedule a technical deep-dive session next week?"),
             ("Customer", "Yes, let's do that. I'll have my team prepare the technical requirements document. Can you send over some case studies and your security documentation in the meantime?"),
-            ("Seller", "Absolutely. I'll send those over today along with a high-level solution architecture. Thank you for your time today, David. I'm confident we can help ANZ achieve significant operational improvements."),
-            ("Customer", "Thank you Ravikiran. Looking forward to the next steps. Have a great day."),
+            ("Seller", "Absolutely. I'll send those over today along with a high-level solution architecture. Thank you for your time today, Mark. I'm confident we can help Apex National achieve significant operational improvements."),
+            ("Customer", "Thank you Alex. Looking forward to the next steps. Have a great day."),
         ]
         
         # Pick a phrase based on sequence

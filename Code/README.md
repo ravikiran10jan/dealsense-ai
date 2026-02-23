@@ -24,7 +24,7 @@ DealSense AI reduces seller admin time by 60-70% and increases follow-up complet
 
 ## Target User
 
-Enterprise account executives at DXC's Financial Services and Banking clients (ANZ, Westpac, CBA) who manage complex, multi-stakeholder deal cycles and need reliable post-call automation.
+Enterprise account executives at Financial Services and Banking clients who manage complex, multi-stakeholder deal cycles and need reliable post-call automation.
 
 ## Impact Metrics
 
@@ -44,7 +44,7 @@ The seller selects a deal and instantly gets AI-curated context: similar deals w
 ![Before Call Panel](docs/screenshots/before-call-panel.png)
 
 ### During Call -- Live AI Assistant
-Real-time RAG-powered answers via push-to-talk (Shift+Space). The seller asks "What was CBA team size?" and gets a sourced answer in under 5 seconds.
+Real-time RAG-powered answers via push-to-talk (Shift+Space). The seller asks "What was PTB team size?" and gets a sourced answer in under 5 seconds.
 
 ![During Call Assistant](docs/screenshots/during-call-assistant.png)
 
@@ -164,7 +164,7 @@ Every agent response includes an `agent_trace` array showing the execution of ea
   "confidence": 0.85,
   "output": { ... },
   "agent_trace": [
-    {"phase": "perception", "description": "Parsed deal context for ANZ Bank", "duration_ms": 2.1},
+    {"phase": "perception", "description": "Parsed deal context for Apex National Bank", "duration_ms": 2.1},
     {"phase": "planning", "description": "Planned 4 tool calls", "duration_ms": 0.3},
     {"phase": "tool_execution", "description": "Executed semantic_search", "duration_ms": 450.2},
     {"phase": "tool_execution", "description": "Executed credible_references", "duration_ms": 120.5},
@@ -214,7 +214,7 @@ Every agent response includes an `agent_trace` array showing the execution of ea
 
 ```bash
 # Clone the repository
-git clone https://github.com/ravikiran10jan/dealsense-ai.git
+git clone https://www.github.com/in/example-profile/dealsense-ai.git
 cd dealsense-ai
 
 # Create a virtual environment
@@ -274,4 +274,4 @@ See [.env.example](.env.example) for the full list. Key variables:
 
 ## License
 
-Proprietary - Internal Use Only
+MIT License

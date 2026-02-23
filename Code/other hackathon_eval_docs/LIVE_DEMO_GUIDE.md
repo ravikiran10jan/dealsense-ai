@@ -5,14 +5,14 @@
 | **Frontend** | [https://dealsense-ai-frontend.onrender.com](https://dealsense-ai-frontend.onrender.com/) |
 | **API Backend** | [https://dealsense-ai-api.onrender.com](https://dealsense-ai-api.onrender.com/) |
 
-This guide walks you through testing DealSense AI on the live deployment. The app is pre-loaded with Trade Finance deals for DXC's Financial Services & Banking clients.
+This guide walks you through testing DealSense AI on the live deployment. The app is pre-loaded with Trade Finance deals for Financial Services & Banking clients.
 
 ---
 
 ## Quick Start
 
 1. Open [https://dealsense-ai-frontend.onrender.com](https://dealsense-ai-frontend.onrender.com/) in your browser (Chrome or Edge recommended)
-2. The app loads with **ANZ Bank -- Trade Finance** pre-selected
+2. The app loads with **Apex National Bank -- Trade Finance** pre-selected
 3. Follow the three-act walkthrough below
 
 > **Note:** The first load may take 30-60 seconds if the Render instance is cold-starting. Refresh if you see a blank page on initial load.
@@ -35,13 +35,13 @@ The UI is a three-panel layout:
 
 ### Step 1: Review the Deal Context (automatic)
 
-When the app loads, the **Context Panel** on the right shows AI-curated context for the ANZ Bank deal:
+When the app loads, the **Context Panel** on the right shows AI-curated context for the Apex National Bank deal:
 
-- **Call Details** -- Customer: ANZ Bank, Contact: David Chen (Head of Trade Finance Operations), Stage: Discovery, Deal: $4.5M
-- **Similar Deals** -- 3 comparable deals: CBA Trade Finance Platform ($5.2M, Won), SMBC LC Automation ($3.8M, Won), SCB Trade Digitization ($4.1M, In Progress)
-- **Credible References** -- Andrew Marvin (ASX/ex-CBA) and Ian Stephenson (Standard Chartered) with LinkedIn profile links
+- **Call Details** -- Customer: Apex National Bank, Contact: Mark Johnson (Head of Trade Finance Operations), Stage: Discovery, Deal: $4.5M
+- **Similar Deals** -- 3 comparable deals: Pacific Trust Bank Trade Finance Platform ($5.2M, Won), Global Trade Bank LC Automation ($3.8M, Won), Eastern Commerce Bank Trade Digitization ($4.1M, In Progress)
+- **Credible References** -- Robert Clarke (National Securities Exchange/ex-PTB) and Thomas Blake (Eastern Commerce Bank) with LinkedIn profile links
 - **Expected Questions** -- Grouped by theme: Team & Delivery, Data Privacy, AI Capabilities
-- **Suggested Talking Points** -- Key data points from prior deals (CBA team size, SMBC integrations, SCB privacy model, AI accuracy)
+- **Suggested Talking Points** -- Key data points from prior deals (PTB team size, Global Trade Bank integrations, Eastern Commerce Bank privacy model, AI accuracy)
 
 ### Step 2: Use the AI Chat Assistant
 
@@ -55,7 +55,7 @@ Click the action chips at the bottom of the chat panel:
 | **Draft discovery questions** | AI generates discovery questions tailored to the deal |
 
 You can also type free-form questions in the chat input, such as:
-- "What was the CBA team size?"
+- "What was the Pacific Trust Bank team size?"
 - "Tell me about our trade finance capabilities"
 - "What are the key risks for this deal?"
 
@@ -65,10 +65,10 @@ Click other deals in the sidebar to see context change:
 
 | Deal | Customer | Stage | Amount |
 |------|----------|-------|--------|
-| ANZ Bank | David Chen | Discovery | $4.5M |
-| PNB (Philippine National Bank) | Maria Santos | Proposal | $2.8M |
-| Westpac | Robert Taylor | Discovery | $3.6M |
-| NAB (National Australia Bank) | Amanda Foster | Discovery | $3.2M |
+| Apex National Bank | Mark Johnson | Discovery | $4.5M |
+| Island Pacific Bank | Anna Lee | Proposal | $2.8M |
+| Summit Financial Group | James Reed | Discovery | $3.6M |
+| Meridian Bank | Rachel Grant | Discovery | $3.2M |
 
 Each deal loads its own context panel with relevant similar deals, references, and talking points.
 
@@ -84,7 +84,7 @@ Each deal loads its own context panel with relevant similar deals, references, a
 
 ### Step 1: Start a Live Call
 
-1. Select **ANZ Bank** from the sidebar
+1. Select **Apex National Bank** from the sidebar
 2. Click the **Start Live Call** button in the Context Panel
 3. The **LiveCallStrip** appears at the top showing:
    - Red "LIVE" badge with pulse animation
@@ -105,7 +105,7 @@ During an active call, the action chips change to During Call mode:
 | **Pricing guidance** | Pricing context from similar deals |
 | **Handle objection** | AI generates grounded objection responses |
 
-Type a question like "What was CBA team size?" -- the AI responds with sourced answers from the knowledge base.
+Type a question like "What was Pacific Trust Bank team size?" -- the AI responds with sourced answers from the knowledge base.
 
 ### Step 3: Observe the Push-to-Talk Flow
 
@@ -183,7 +183,7 @@ Click the context panel toggle button (top-right of the chat panel) to show/hide
 - **Risk Detection**: The system identifies deal risks from transcript analysis (competitor mentions, stalling signals, stakeholder gaps)
 
 ### RAG Pipeline Quality
-- Ask factual questions like "What was CBA team size?" or "Tell me about SCB's privacy approach" -- answers should be grounded in the knowledge base with source citations
+- Ask factual questions like "What was Pacific Trust Bank team size?" or "Tell me about Eastern Commerce Bank's privacy approach" -- answers should be grounded in the knowledge base with source citations
 - Note the `source_type` in responses: RAG (vector search), WEB (web search fallback), LLM (model knowledge only)
 
 ### Responsible AI
@@ -193,7 +193,7 @@ Click the context panel toggle button (top-right of the chat panel) to show/hide
 - See [docs/responsible_ai.md](responsible_ai.md) for the full Responsible AI framework
 
 ### UI/UX Design
-- DXC brand colors (orange primary, dark navy sidebar, warm off-white background)
+- Brand colors (orange primary, dark navy sidebar, warm off-white background)
 - Three-phase workflow (Before/During/After) with smooth transitions
 - Responsive context panel with expandable sections
 - Live call strip with real-time connection status

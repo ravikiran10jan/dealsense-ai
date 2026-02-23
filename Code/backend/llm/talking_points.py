@@ -92,9 +92,9 @@ Each talking point should:
 Format: Return ONLY the talking points, one per line, without numbering or bullet points.
 
 Example format:
-CBA implementation: 45-person team, 18-month timeline with zero downtime
-SMBC: Integrated 3 core systems + SWIFT connectivity in 12 months
-SCB: Singapore-only rollout ensured data privacy compliance
+PTB implementation: 45-person team, 18-month timeline with zero downtime
+Global Trade Bank: Integrated 3 core systems + SWIFT connectivity in 12 months
+Eastern Commerce Bank: Singapore-only rollout ensured data privacy compliance
 AI document classification: 92% accuracy in production POC
 {feedback_adjustments}
 Generate talking points now:"""

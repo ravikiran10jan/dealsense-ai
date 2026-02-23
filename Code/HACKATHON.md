@@ -17,17 +17,17 @@ See the [Live Demo Guide](docs/LIVE_DEMO_GUIDE.md) for a step-by-step walkthroug
 
 | Name | Role | Focus |
 |------|------|-------|
-| Ravi Kiran Reddy Gajula | Lead Developer | Full-stack: backend API, agentic AI, RAG pipeline, frontend, deployment |
+| Alex Morgan | Lead Developer | Full-stack: backend API, agentic AI, RAG pipeline, frontend, deployment |
 
 ## Problem Statement
 
-Enterprise B2B sellers in DXC's Financial Services & Banking vertical spend **1-2 hours per day** on post-call administrative tasks -- writing meeting notes (MoMs), updating CRM records, drafting follow-up emails, and tracking action items. This leads to:
+Enterprise B2B sellers in the Financial Services & Banking vertical spend **1-2 hours per day** on post-call administrative tasks -- writing meeting notes (MoMs), updating CRM records, drafting follow-up emails, and tracking action items. This leads to:
 
 - **Missed follow-ups and lost deals** -- critical action items slip through the cracks
 - **Inconsistent deal documentation** -- MoM quality varies by rep, making handoffs unreliable
 - **Leadership blind spots on deal health** -- managers lack timely, structured signals to intervene early
 
-For an enterprise account executive managing 15-20 active deals across ANZ, Westpac, CBA, and other banking clients, this admin overhead directly reduces selling time and deal velocity.
+For an enterprise account executive managing 15-20 active deals across major banking clients, this admin overhead directly reduces selling time and deal velocity.
 
 ## Solution
 
@@ -163,13 +163,13 @@ Full details: [docs/responsible_ai.md](docs/responsible_ai.md)
 
 ## Target Market
 
-Enterprise account executives at DXC's Financial Services and Banking clients (ANZ, Westpac, CBA, NAB, PNB) managing complex, multi-stakeholder trade finance deals.
+Enterprise account executives at Financial Services and Banking clients managing complex, multi-stakeholder trade finance deals.
 
 ## How to Run Locally
 
 ```bash
 # Backend
-git clone https://github.com/ravikiran10jan/dealsense-ai.git
+git clone https://www.linkedin.com/in/example-profile/dealsense-ai.git
 cd dealsense-ai
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -204,7 +204,7 @@ dealsense-ai/
 
 - **Live Demo (Frontend):** [https://dealsense-ai-frontend.onrender.com](https://dealsense-ai-frontend.onrender.com/)
 - **Live Demo (API):** [https://dealsense-ai-api.onrender.com](https://dealsense-ai-api.onrender.com/)
-- **GitHub:** [https://github.com/ravikiran10jan/dealsense-ai](https://github.com/ravikiran10jan/dealsense-ai)
+- **GitHub:** [https://www.linkedin.com/in/example-profile/dealsense-ai](https://www.linkedin.com/in/example-profile/dealsense-ai)
 - **Demo Script:** [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md)
 - **Live Demo Guide:** [docs/LIVE_DEMO_GUIDE.md](docs/LIVE_DEMO_GUIDE.md)
 - **Responsible AI:** [docs/responsible_ai.md](docs/responsible_ai.md)

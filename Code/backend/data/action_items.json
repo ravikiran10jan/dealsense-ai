@@ -2,7 +2,7 @@
   {
     "id": "2c229b9d-f26b-4d4f-af18-c1f2a34707ef",
     "call_id": "a0f9f883-bce4-4c32-997e-f92c03457988",
-    "task": "Send trade finance capabilities deck, CBA case study, SMBC implementation overview, and standard ROI calculator.",
+    "task": "Send trade finance capabilities deck, PTB case study, Global Trade Bank implementation overview, and standard ROI calculator.",
     "owner": "Seller",
     "due_date": "2026-02-16",
     "priority": "high",
@@ -13,7 +13,7 @@
   {
     "id": "1bbbb458-628f-4ffd-bacc-9c1da3afd05e",
     "call_id": "a0f9f883-bce4-4c32-997e-f92c03457988",
-    "task": "Arrange a technical deep-dive session for ANZ's architecture team.",
+    "task": "Arrange a technical deep-dive session for Apex National's architecture team.",
     "owner": "Seller",
     "due_date": "2026-02-16",
     "priority": "high",
@@ -24,7 +24,7 @@
   {
     "id": "555e0ce6-a579-4b6b-b072-642f1a46f870",
     "call_id": "a0f9f883-bce4-4c32-997e-f92c03457988",
-    "task": "Prepare a detailed proposal based on ANZ's requirements documentation.",
+    "task": "Prepare a detailed proposal based on Apex National's requirements documentation.",
     "owner": "Seller",
     "due_date": "2026-02-23",
     "priority": "medium",
@@ -35,7 +35,7 @@
   {
     "id": "63d277ea-0088-46e4-84e2-3dc0d558eb92",
     "call_id": "a0f9f883-bce4-4c32-997e-f92c03457988",
-    "task": "Share requirements documentation with DXC Luxoft.",
+    "task": "Share requirements documentation with Nexora Solutions.",
     "owner": "Customer",
     "due_date": "2026-02-16",
     "priority": "high",
@@ -101,7 +101,7 @@
   {
     "id": "3d7a8506-ae08-434f-a263-07b6ed5f22d8",
     "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
-    "task": "Send case studies and security documentation to ANZ Bank",
+    "task": "Send case studies and security documentation to Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-17",
     "priority": "high",
@@ -123,7 +123,7 @@
   {
     "id": "11a711ba-0547-4ce7-a30a-2c3007de1b5c",
     "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
-    "task": "Schedule a technical deep-dive session with ANZ Bank",
+    "task": "Schedule a technical deep-dive session with Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-24",
     "priority": "medium",
@@ -145,7 +145,7 @@
   {
     "id": "25a7f570-162a-4387-8539-dd76f9079d29",
     "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
-    "task": "Send high-level solution architecture to ANZ Bank",
+    "task": "Send high-level solution architecture to Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-17",
     "priority": "high",
@@ -156,7 +156,7 @@
   {
     "id": "21938f7c-2273-42d9-a43e-4a6cd49f264f",
     "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
-    "task": "Send case studies and security documentation to ANZ Bank",
+    "task": "Send case studies and security documentation to Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-17",
     "priority": "high",
@@ -178,7 +178,7 @@
   {
     "id": "4bebef2a-f8e4-46b8-a704-23db21458817",
     "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
-    "task": "Schedule a technical deep-dive session with ANZ Bank",
+    "task": "Schedule a technical deep-dive session with Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-24",
     "priority": "medium",
@@ -200,7 +200,7 @@
   {
     "id": "cb1b885e-9886-4ddc-bd3f-d3d608c21ad5",
     "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
-    "task": "Send high-level solution architecture to ANZ Bank",
+    "task": "Send high-level solution architecture to Apex National Bank",
     "owner": "Seller",
     "due_date": "2026-02-17",
     "priority": "high",

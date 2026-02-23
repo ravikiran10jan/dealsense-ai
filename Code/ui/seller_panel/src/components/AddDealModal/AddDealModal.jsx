@@ -206,7 +206,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
                 value={formData.accountName}
                 onChange={handleChange}
                 className={styles.input}
-                placeholder="e.g., ANZ Bank"
+                placeholder="e.g., Apex National Bank"
                 required
               />
             </div>
@@ -286,7 +286,7 @@ const AddDealModal = ({ isOpen, onClose, onAddDeal }) => {
                 value={formData.contactName}
                 onChange={handleChange}
                 className={styles.input}
-                placeholder="e.g., David Chen"
+                placeholder="e.g., Mark Johnson"
                 required
               />
             </div>

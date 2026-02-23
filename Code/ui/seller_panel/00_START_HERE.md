@@ -125,7 +125,7 @@ Download Node.js from: **nodejs.org**
 
 ### Quick Setup (3 commands)
 ```powershell
-cd "c:\D\LUXOFT-DXC\2026\OFFICE\HACKTHON\workspace\dealsense-ai\ui\seller_panel\trial-1"
+cd /path/to/dealsense-ai/Code/ui/seller_panel
 npm install
 npm run build
 npm run dev

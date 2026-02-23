@@ -352,7 +352,7 @@ App (Root)
 # Install Node.js 16+ from nodejs.org
 
 # 2. Navigate to project
-cd "c:\D\LUXOFT-DXC\2026\OFFICE\HACKTHON\workspace\dealsense-ai\ui\seller_panel\trial-1"
+cd /path/to/dealsense-ai/Code/ui/seller_panel
 
 # 3. Install dependencies
 npm install

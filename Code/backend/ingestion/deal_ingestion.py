@@ -323,6 +323,132 @@ Profile:
         raise e
 
 
+def ingest_document_to_vector_store(
+    file_bytes: bytes,
+    filename: str,
+    mime_type: str = None,
+    deal_id: int = None,
+    account_name: str = None,
+    metadata: dict = None,
+) -> dict:
+    """
+    Ingest a multimodal document (PDF, PPTX, image) into the vector store.
+
+    Uses GPT-4o Vision to describe visual content (charts, diagrams, tables),
+    then stores the text descriptions in the existing FAISS index.
+
+    Args:
+        file_bytes: Raw file data.
+        filename: Original filename.
+        mime_type: Optional MIME type.
+        deal_id: Optional associated deal ID.
+        account_name: Optional account name.
+        metadata: Additional metadata.
+
+    Returns:
+        Dict with status, chunks_created, and documents info.
+    """
+    from ingestion.multimodal_processor import process_document_bytes
+    from ingestion.text_chunker import chunk_documents
+
+    try:
+        # 1. Process document (extract text + describe images)
+        doc_metadata = {"document_type": "multimodal_upload"}
+        if deal_id is not None:
+            doc_metadata["deal_id"] = deal_id
+        if account_name:
+            source_ref = f"doc_{filename}"
+            sanitized_account, account_tokens = sanitize_text(account_name, source=f"{source_ref}_name")
+            doc_metadata["account_name"] = sanitized_account
+        if metadata:
+            doc_metadata.update(metadata)
+
+        documents = process_document_bytes(
+            file_bytes=file_bytes,
+            filename=filename,
+            mime_type=mime_type,
+            metadata=doc_metadata,
+        )
+
+        if not documents:
+            return {"status": "empty", "chunks_created": 0, "message": "No content extracted"}
+
+        # 2. Chunk the extracted documents
+        chunks = chunk_documents(documents)
+
+        # 3. Sanitize content in each chunk
+        for chunk in chunks:
+            source_ref = f"doc_{filename}_{chunks.index(chunk)}"
+            sanitized_content, tokens = sanitize_text(chunk.page_content, source=source_ref)
+            chunk.page_content = sanitized_content
+            if tokens:
+                chunk.metadata["pii_tokens"] = tokens
+
+        # 4. Add to vector store
+        vector_db, embeddings = load_vector_store_for_update()
+        vector_db.add_documents(chunks)
+        vector_db.save_local(VECTOR_DB_PATH)
+
+        # 5. Audit log
+        audit_log(
+            action='multimodal_ingest',
+            resource_type='document',
+            resource_id=filename,
+            status='success',
+        )
+
+        doc_types = set()
+        for d in documents:
+            doc_types.add(d.metadata.get("type", "unknown"))
+
+        print(f"Successfully ingested multimodal document '{filename}': "
+              f"{len(chunks)} chunks from {len(documents)} sections "
+              f"(types: {', '.join(doc_types)})")
+
+        return {
+            "status": "success",
+            "filename": filename,
+            "sections_extracted": len(documents),
+            "chunks_created": len(chunks),
+            "content_types": list(doc_types),
+        }
+
+    except Exception as e:
+        print(f"Error ingesting multimodal document: {e}")
+        raise e
+
+
+def ingest_document_file_to_vector_store(
+    file_path: str,
+    deal_id: int = None,
+    account_name: str = None,
+    metadata: dict = None,
+) -> dict:
+    """
+    Ingest a multimodal document from a file path into the vector store.
+
+    Args:
+        file_path: Path to the document file.
+        deal_id: Optional associated deal ID.
+        account_name: Optional account name.
+        metadata: Additional metadata.
+
+    Returns:
+        Dict with ingestion results.
+    """
+    filename = os.path.basename(file_path)
+    with open(file_path, "rb") as f:
+        file_bytes = f.read()
+
+    return ingest_document_to_vector_store(
+        file_bytes=file_bytes,
+        filename=filename,
+        deal_id=deal_id,
+        account_name=account_name,
+        metadata=metadata,
+    )
+
+
 def ingest_reference_contact(
     name: str,
     company: str,

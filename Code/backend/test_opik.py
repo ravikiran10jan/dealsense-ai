@@ -31,7 +31,7 @@ print("\n2. Sending a programmatic trace...")
 trace = client.trace(
     name="test:smoke_test",
     input={"query": "What is DealSense AI?"},
-    output={"answer": "An AI-powered sales assistant by DXC Luxoft."},
+    output={"answer": "An AI-powered sales assistant by Nexora Solutions."},
     tags=["test", "smoke"],
     metadata={"source": "test_opik.py"},
 )
@@ -57,7 +57,7 @@ print(f"   Decorated function returned: {result}")
 
 # ── 4. OpikTrace context manager ─────────────────────────────────
 print("\n4. Testing OpikTrace context manager...")
-with OpikTrace("test:deal_context", input_data={"deal_id": 42, "account": "ANZ Bank"}, tags=["test"]) as t:
+with OpikTrace("test:deal_context", input_data={"deal_id": 42, "account": "Apex National Bank"}, tags=["test"]) as t:
     t.log_step("fetch_similar_deals", {"count": 3})
     t.log_step("generate_talking_points", {"num_points": 4})
     t.set_output({"success": True})
@@ -67,7 +67,7 @@ print("   OpikTrace completed.")
 print("\n5. Logging a custom event...")
 log_event(
     "test_event",
-    {"action": "smoke_test_complete", "user": "ravikiran"},
+    {"action": "smoke_test_complete", "user": "dev-user"},
     tags=["test"],
 )
 print("   Event logged.")

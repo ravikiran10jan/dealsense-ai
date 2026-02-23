@@ -66,24 +66,24 @@ def _get_default_rag_dataset_items() -> List[Dict[str, Any]]:
     """
     return [
         {
-            "input": "What was the CBA trade finance implementation team size?",
-            "expected_output": "The CBA trade finance implementation involved a team of approximately 45 members.",
+            "input": "What was the PTB trade finance implementation team size?",
+            "expected_output": "The PTB trade finance implementation involved a team of approximately 45 members.",
         },
         {
-            "input": "How long did the SMBC LC automation project take?",
-            "expected_output": "The SMBC LC (Letter of Credit) automation project was completed in approximately 12 months.",
+            "input": "How long did the Global Trade Bank LC automation project take?",
+            "expected_output": "The Global Trade Bank LC (Letter of Credit) automation project was completed in approximately 12 months.",
         },
         {
-            "input": "What AI capabilities does DXC Luxoft offer for trade finance?",
-            "expected_output": "DXC Luxoft offers AI-powered document classification, trade finance monitoring, and analytics capabilities.",
+            "input": "What AI capabilities does Nexora Solutions offer for trade finance?",
+            "expected_output": "Nexora Solutions offers AI-powered document classification, trade finance monitoring, and analytics capabilities.",
         },
         {
-            "input": "What data privacy approach was used for the SCB project?",
-            "expected_output": "The SCB project used a Singapore-only rollout to ensure data residency and privacy compliance.",
+            "input": "What data privacy approach was used for the Eastern Commerce Bank project?",
+            "expected_output": "The Eastern Commerce Bank project used a Singapore-only rollout to ensure data residency and privacy compliance.",
         },
         {
             "input": "Who are credible references for trade finance projects?",
-            "expected_output": "Credible references include Andrew Marvin (ASX, ex-CBA) and Ian Stephenson (Standard Chartered Bank).",
+            "expected_output": "Credible references include Robert Clarke (National Securities Exchange, ex-PTB) and Thomas Blake (Eastern Commerce Bank).",
         },
         {
             "input": "What cloud migration outcomes did the banking platform achieve?",
@@ -318,7 +318,7 @@ def _get_default_agent_test_cases(agent_type: str) -> List[Dict[str, Any]]:
         return [
             {
                 "input": {
-                    "account_name": "ANZ Bank",
+                    "account_name": "Apex National Bank",
                     "industry": "Banking",
                     "description": "Trade finance platform modernization",
                     "deal_stage": "Discovery",
@@ -329,7 +329,7 @@ def _get_default_agent_test_cases(agent_type: str) -> List[Dict[str, Any]]:
             },
             {
                 "input": {
-                    "account_name": "Westpac",
+                    "account_name": "Summit Financial Group",
                     "industry": "Banking",
                     "description": "Digital banking transformation",
                     "deal_stage": "Proposal",

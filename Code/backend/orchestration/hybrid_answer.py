@@ -1,5 +1,9 @@
+import asyncio
 import logging
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, Any, Optional
+
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores
 from retrieval.web_search import web_search
 from llm.answer_llm import answer_with_llm
@@ -11,6 +15,17 @@ logger = logging.getLogger(__name__)
 # Typical good matches are < 1.8, less relevant matches are > 2.0
 SIMILARITY_THRESHOLD = 1.8
 
+# ---------- Timeout / latency budget constants ----------
+# Maximum time (seconds) the entire query pipeline is allowed to take.
+# After this, the caller gets whatever partial result is available.
+GLOBAL_QUERY_TIMEOUT = 12.0
+
+# Maximum time allocated to the web-search leg alone.
+WEB_SEARCH_TIMEOUT = 6.0
+
+# Thread pool for running sync functions (RAG, web search) off the event loop
+_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="rag-pool")
+
 
 def _get_track_decorator():
     """Return opik.track when enabled, identity decorator otherwise."""
@@ -20,6 +35,10 @@ def _get_track_decorator():
     except Exception:
         return lambda fn=None, **kw: fn if fn else (lambda f: f)
 
+
+# =====================================================================
+# Synchronous API (used by /api/query and non-live-call paths)
+# =====================================================================
 
 def answer_query(query: str) -> Dict[str, Any]:
     """
@@ -82,7 +101,7 @@ def _answer_query_impl(query: str) -> Dict[str, Any]:
                 "source_type": "WEB"
             }
     except Exception as e:
-        print(f"Web search failed: {e}")
+        logger.warning(f"Web search failed: {e}")
     
     # Final fallback: just use LLM's knowledge without context
     answer = answer_with_llm("No specific context available from knowledge base or web. Use your general knowledge.", query)
@@ -91,6 +110,40 @@ def _answer_query_impl(query: str) -> Dict[str, Any]:
         "sources": ["LLM Knowledge"],
         "source_type": "LLM"
     }
+
+
+# =====================================================================
+# Async API with timeouts (used by live-call and latency-sensitive paths)
+# =====================================================================
+
+async def answer_query_async(
+    query: str,
+    timeout: float = GLOBAL_QUERY_TIMEOUT,
+) -> Dict[str, Any]:
+    """
+    Async version of answer_query with a hard global timeout.
+
+    Runs the synchronous RAG pipeline in a thread-pool and wraps
+    the whole thing with asyncio.wait_for().
+    """
+    loop = asyncio.get_running_loop()
+
+    try:
+        result = await asyncio.wait_for(
+            loop.run_in_executor(_executor, _answer_query_impl, query),
+            timeout=timeout,
+        )
+        return result
+    except asyncio.TimeoutError:
+        logger.warning(f"answer_query_async timed out after {timeout}s for: {query[:60]}")
+        return {
+            "answer": "I'm taking longer than expected to find a detailed answer. "
+                      "Based on my general knowledge, please ask me a more specific "
+                      "question and I'll do my best to help.",
+            "sources": ["Timeout Fallback"],
+            "source_type": "TIMEOUT",
+            "timed_out": True,
+        }
 
 
 def answer_query_with_context(
@@ -113,6 +166,57 @@ def answer_query_with_context(
         return _answer_query_with_context_impl(query, call_context)
 
 
+async def answer_query_with_context_async(
+    query: str,
+    call_context: Optional[Dict[str, Any]] = None,
+    timeout: float = GLOBAL_QUERY_TIMEOUT,
+) -> Dict[str, Any]:
+    """
+    Async, timeout-protected version of answer_query_with_context.
+
+    Priority queue strategy:
+      1. RAG search runs first (fast, ~50-100 ms)
+      2. If RAG hits, return immediately — skip web search entirely
+      3. If RAG misses, fire web search with its own sub-timeout
+      4. Global timeout wraps everything — user never waits > timeout
+    """
+    loop = asyncio.get_running_loop()
+    start = time.monotonic()
+
+    try:
+        result = await asyncio.wait_for(
+            loop.run_in_executor(
+                _executor,
+                _answer_query_with_context_impl,
+                query,
+                call_context,
+            ),
+            timeout=timeout,
+        )
+        elapsed = time.monotonic() - start
+        logger.info(
+            f"Live-call query answered in {elapsed:.2f}s "
+            f"(source={result.get('source_type')})"
+        )
+        return result
+
+    except asyncio.TimeoutError:
+        elapsed = time.monotonic() - start
+        logger.warning(
+            f"Live-call query timed out after {elapsed:.2f}s for: {query[:60]}"
+        )
+        # Return a graceful degradation response instead of hanging
+        return {
+            "answer": "I couldn't retrieve a detailed answer in time. "
+                      "Let me give you a quick response based on what I know — "
+                      "please try rephrasing or asking a more specific question.",
+            "sources": ["Timeout Fallback"],
+            "source_type": "TIMEOUT",
+            "confidence": 0.3,
+            "timed_out": True,
+        }
+
+
 def _answer_query_with_context_impl(
     query: str,
     call_context: Optional[Dict[str, Any]] = None,
@@ -130,10 +234,9 @@ def _answer_query_with_context_impl(
     if account_name and account_name != "Unknown":
         enhanced_query = f"In the context of {account_name}: {query}"
     
-    # Get RAG results with similarity scores
+    # ---- Phase 1: RAG search (fast, priority) ----
     results_with_scores = semantic_search_with_scores(enhanced_query, k=3)
     
-    # Check if we have relevant RAG results
     has_relevant_rag = False
     rag_context = ""
     rag_sources = []
@@ -159,7 +262,7 @@ def _answer_query_with_context_impl(
     if has_relevant_rag:
         combined_context += f"RELEVANT KNOWLEDGE BASE INFORMATION:\n{rag_context}\n\n"
     
-    # If we have either context, use it
+    # If we have either context, use it (skip web search -- priority queue)
     if combined_context:
         # Use special prompt for live call assistance
         prompt = f"""You are assisting a sales representative during a live call with {account_name}.
@@ -183,9 +286,9 @@ If you're referencing specific data, include the numbers. Be confident and helpf
             "confidence": confidence
         }
     
-    # Fall back to web search
+    # ---- Phase 2: Web search fallback (with its own timeout) ----
     try:
-        web_context = web_search(query)
+        web_context = web_search(query, timeout_seconds=WEB_SEARCH_TIMEOUT)
         if web_context and web_context.strip():
             answer = answer_with_llm(f"[Web Search Results]\n{web_context}", query)
             return {
@@ -195,9 +298,9 @@ If you're referencing specific data, include the numbers. Be confident and helpf
                 "confidence": 0.7
             }
     except Exception as e:
-        print(f"Web search failed: {e}")
+        logger.warning(f"Web search failed: {e}")
     
-    # Final fallback: LLM knowledge
+    # ---- Phase 3: LLM-only fallback ----
     answer = answer_with_llm("No specific context available. Use your general knowledge to help.", query)
     return {
         "answer": answer,

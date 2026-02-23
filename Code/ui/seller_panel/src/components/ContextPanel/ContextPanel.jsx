@@ -39,26 +39,26 @@ const ContextPanel = ({
 
   // Trade Finance sample data for demonstration
   const similarDeals = contextData.similarDeals?.length > 0 ? contextData.similarDeals : [
-    { name: 'CBA - Trade Finance Platform', value: '$5.2M', industry: 'Banking', status: 'Won' },
-    { name: 'SMBC - LC Automation', value: '$3.8M', industry: 'Banking', status: 'Won' },
-    { name: 'SCB - Trade Digitization', value: '$4.1M', industry: 'Banking', status: 'In Progress' },
+    { name: 'PTB - Trade Finance Platform', value: '$5.2M', industry: 'Banking', status: 'Won' },
+    { name: 'Global Trade Bank - LC Automation', value: '$3.8M', industry: 'Banking', status: 'Won' },
+    { name: 'Eastern Commerce Bank - Trade Digitization', value: '$4.1M', industry: 'Banking', status: 'In Progress' },
   ];
 
   const references = contextData.references?.length > 0 ? contextData.references : [
-    { name: 'Andrew Marvin', company: 'ASX (ex-CBA)', role: 'Head of Derivatives Clearing & Clearing Risk Technology', linkedin_url: 'https://www.linkedin.com/in/andrew-marvin-2138799/' },
-    { name: 'Ian Stephenson', company: 'Standard Chartered Bank', role: 'CIO, Trade and Working Capital', linkedin_url: 'https://www.linkedin.com/in/ianstephenson/' },
+    { name: 'Robert Clarke', company: 'National Securities Exchange (ex-PTB)', role: 'Head of Derivatives Clearing & Clearing Risk Technology', linkedin_url: 'https://www.linkedin.com/in/example-profile/' },
+    { name: 'Thomas Blake', company: 'Eastern Commerce Bank', role: 'CIO, Trade and Working Capital', linkedin_url: 'https://www.linkedin.com/in/example-profile/' },
   ];
 
   const expectedQuestions = contextData.expectedQuestions?.length > 0 ? contextData.expectedQuestions : [
-    { theme: 'Team & Delivery', questions: ['CBA team size?', 'Timeline?'] },
-    { theme: 'Data Privacy', questions: ['SCB privacy approach?', 'Regional data?'] },
+    { theme: 'Team & Delivery', questions: ['PTB team size?', 'Timeline?'] },
+    { theme: 'Data Privacy', questions: ['Eastern Commerce Bank privacy approach?', 'Regional data?'] },
     { theme: 'AI Capabilities', questions: ['AI in production?', 'Accuracy?'] },
   ];
 
   const talkingPoints = contextData.talkingPoints?.length > 0 ? contextData.talkingPoints : [
-    'CBA: 45-person team, 18-month timeline',
-    'SMBC: Integrated 3 core systems + SWIFT',
-    'SCB: Singapore-only for data privacy',
+    'PTB: 45-person team, 18-month timeline',
+    'Global Trade Bank: Integrated 3 core systems + SWIFT',
+    'Eastern Commerce Bank: Singapore-only for data privacy',
     'AI POC: 92% doc classification accuracy',
   ];
 

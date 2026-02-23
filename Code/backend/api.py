@@ -9,7 +9,7 @@ import asyncio
 import logging
 from datetime import datetime, timedelta
 from uuid import UUID, uuid4
-from fastapi import FastAPI, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Depends, Security, WebSocket, WebSocketDisconnect, BackgroundTasks, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -33,7 +33,7 @@ except Exception as _opik_err:
 # Import RAG components
 from orchestration.hybrid_answer import answer_query, answer_query_with_context
 from retrieval.semantic_search import semantic_search, semantic_search_with_scores, load_vector_store
-from ingestion.deal_ingestion import ingest_deal_to_vector_store
+from ingestion.deal_ingestion import ingest_deal_to_vector_store, ingest_document_to_vector_store
 from llm.talking_points import generate_talking_points_from_query
 from llm.credible_references import get_credible_references_for_deal
 
@@ -239,9 +239,9 @@ def populate_deal_context(deal: dict) -> dict:
     
     # Parse and structure the results (these can be enhanced similarly in the future)
     similar_deals = [
-        {"name": "CBA - Trade Finance Platform", "value": "$5.2M", "industry": "Banking", "status": "Won"},
-        {"name": "SMBC - LC Automation", "value": "$3.8M", "industry": "Banking", "status": "Won"},
-        {"name": "SCB - Trade Digitization", "value": "$4.1M", "industry": "Banking", "status": "In Progress"},
+        {"name": "Pacific Trust Bank - Trade Finance Platform", "value": "$5.2M", "industry": "Banking", "status": "Won"},
+        {"name": "Global Trade Bank - LC Automation", "value": "$3.8M", "industry": "Banking", "status": "Won"},
+        {"name": "Eastern Commerce Bank - Trade Digitization", "value": "$4.1M", "industry": "Banking", "status": "In Progress"},
     ]
     
     # Retrieve credible references from RAG
@@ -257,19 +257,19 @@ def populate_deal_context(deal: dict) -> dict:
         else:
             # Fallback if no references found
             credible_references = [
-                {"name": "Andrew Marvin", "company": "ASX (ex-CBA)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous CBA project sponsor", "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"},
-                {"name": "Ian Stephenson", "company": "Standard Chartered Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"},
+                {"name": "Robert Clarke", "company": "National Securities Exchange (ex-PTB)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous PTB project sponsor", "linkedin_url": "https://www.linkedin.com/in/example-profile/"},
+                {"name": "Thomas Blake", "company": "Eastern Commerce Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/example-profile/"},
             ]
     except Exception as e:
         logger.warning(f"Failed to retrieve credible references: {e}")
         credible_references = [
-            {"name": "Andrew Marvin", "company": "ASX (ex-CBA)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous CBA project sponsor", "linkedin_url": "https://www.linkedin.com/in/andrew-marvin-2138799/"},
-            {"name": "Ian Stephenson", "company": "Standard Chartered Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/ianstephenson/"},
+            {"name": "Robert Clarke", "company": "National Securities Exchange (ex-PTB)", "role": "Head of Derivatives Clearing & Clearing Risk Technology", "relationship": "Previous PTB project sponsor", "linkedin_url": "https://www.linkedin.com/in/example-profile/"},
+            {"name": "Thomas Blake", "company": "Eastern Commerce Bank", "role": "CIO, Trade and Working Capital", "relationship": "Reference client - Trade Technology", "linkedin_url": "https://www.linkedin.com/in/example-profile/"},
         ]
     
     expected_questions = [
-        {"theme": "Team & Delivery", "questions": ["What was CBA team size?", "Implementation timeline?"]},
-        {"theme": "Data Privacy", "questions": ["How do you handle regional data?", "SCB privacy approach?"]},
+        {"theme": "Team & Delivery", "questions": ["What was PTB team size?", "Implementation timeline?"]},
+        {"theme": "Data Privacy", "questions": ["How do you handle regional data?", "Eastern Commerce Bank privacy approach?"]},
         {"theme": "AI Capabilities", "questions": ["Is AI in production?", "Accuracy metrics?"]},
     ]
     
@@ -694,7 +694,7 @@ def get_during_call():
         {
             "id": 1,
             "title": "Trade Finance Capabilities",
-            "description": "DXC Trade Finance solution overview",
+            "description": "Nexora Trade Finance solution overview",
             "industry": "Banking & Financial Services",
             "teamSize": "10 members",
             "budget": "$1.5M",
@@ -730,26 +730,26 @@ def get_outlook_meetings():
     mock_meetings = [
         {
             "id": "outlook-meeting-001",
-            "subject": "Trade Finance Platform Discovery Call - ANZ Bank",
-            "accountName": "ANZ Bank",
-            "contactName": "Sarah Mitchell",
+            "subject": "Trade Finance Platform Discovery Call - Apex National Bank",
+            "accountName": "Apex National Bank",
+            "contactName": "Lisa Park",
             "contactRole": "Head of Trade Operations",
             "date": tomorrow.strftime("%Y-%m-%d"),
             "time": "10:00",
             "body": "Initial discovery call to discuss trade finance modernization. Key topics: current pain points, LC processing volumes, integration requirements with existing systems.",
-            "attendees": ["sarah.mitchell@anz.com", "david.chen@anz.com"],
+            "attendees": ["lisa.park@apexbank.com", "mark.johnson@apexbank.com"],
             "location": "Microsoft Teams",
         },
         {
             "id": "outlook-meeting-002", 
-            "subject": "Follow-up: Digital Banking Transformation - Westpac",
-            "accountName": "Westpac",
-            "contactName": "James Wilson",
+            "subject": "Follow-up: Digital Banking Transformation - Summit Financial Group",
+            "accountName": "Summit Financial Group",
+            "contactName": "Kevin White",
             "contactRole": "VP Digital Strategy",
             "date": next_week.strftime("%Y-%m-%d"),
             "time": "14:30",
             "body": "Follow-up discussion on digital banking platform requirements. Agenda: API strategy, mobile banking features, security compliance.",
-            "attendees": ["james.wilson@westpac.com"],
+            "attendees": ["kevin.white@summitfinancial.com"],
             "location": "Zoom",
         },
     ]
@@ -799,6 +799,33 @@ def send_calendar_invite(request: SendInviteRequest):
 @app.get("/api/health")
 def health_check():
     return {"status": "healthy"}
+
+
+@app.get("/api/system/circuit-breaker")
+def circuit_breaker_status(auth: Dict = Depends(verify_api_key)):
+    """
+    Return current state of the web-search circuit breaker.
+    Useful for demo / monitoring dashboards.
+    """
+    from retrieval.web_search import get_circuit_breaker
+    cb = get_circuit_breaker()
+    return {
+        "state": cb.state,
+        "failure_threshold": cb.failure_threshold,
+        "cooldown_seconds": cb.cooldown_seconds,
+    }
+
+
+@app.get("/api/system/latency-config")
+def latency_config(auth: Dict = Depends(verify_api_key)):
+    """
+    Return current latency budget configuration.
+    """
+    from orchestration.hybrid_answer import GLOBAL_QUERY_TIMEOUT, WEB_SEARCH_TIMEOUT
+    return {
+        "global_query_timeout_seconds": GLOBAL_QUERY_TIMEOUT,
+        "web_search_timeout_seconds": WEB_SEARCH_TIMEOUT,
+    }
 
 
 # ==================== Agent API Endpoints ====================
@@ -1918,7 +1945,7 @@ async def _write_mom_to_sharepoint(
         "method": "mock",
         "file_name": filename,
         "folder": folder_path,
-        "web_url": f"https://dxcluxoft.sharepoint.com{folder_path}/{filename}",
+        "web_url": f"https://nexora.sharepoint.com{folder_path}/{filename}",
         "message": "Mock write-back successful. Set MS_GRAPH_ACCESS_TOKEN and SHAREPOINT_SITE_ID env vars for real Graph API integration.",
     }
 
@@ -2023,6 +2050,107 @@ def get_feedback_insights(auth: Dict = Depends(verify_api_key)):
     insights = feedback_store.get_improvement_insights()
     
     return insights
+
+
+# ==================== Multimodal Document Upload API ====================
+
+
+@app.post("/api/documents/upload")
+async def upload_document(
+    file: UploadFile = File(...),
+    deal_id: Optional[int] = Form(None),
+    account_name: Optional[str] = Form(None),
+    document_type: Optional[str] = Form(None),
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Upload and ingest a multimodal document (PDF, PPTX, or image) into the RAG vector store.
+
+    The document is processed using GPT-4o Vision to extract text descriptions
+    from images, charts, tables, and diagrams, then indexed in the FAISS store.
+
+    Supported formats: PDF, PPTX, PNG, JPG, JPEG, GIF, WEBP
+
+    Returns ingestion results including number of sections and chunks created.
+    """
+    from ingestion.multimodal_processor import ALL_SUPPORTED_EXTENSIONS
+
+    # Validate file extension
+    ext = os.path.splitext(file.filename or "")[1].lower()
+    if ext not in ALL_SUPPORTED_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported file format: '{ext}'. "
+                   f"Supported: {', '.join(sorted(ALL_SUPPORTED_EXTENSIONS))}",
+        )
+
+    # Read file bytes
+    file_bytes = await file.read()
+    if not file_bytes:
+        raise HTTPException(status_code=400, detail="Empty file uploaded")
+
+    try:
+        result = ingest_document_to_vector_store(
+            file_bytes=file_bytes,
+            filename=file.filename,
+            mime_type=file.content_type,
+            deal_id=deal_id,
+            account_name=account_name,
+            metadata={"document_type": document_type} if document_type else None,
+        )
+
+        audit_log(
+            action="multimodal_document_uploaded",
+            resource_type="document",
+            resource_id=file.filename,
+            auth_info=auth,
+            status="success",
+        )
+
+        return result
+
+    except Exception as e:
+        logger.error(f"Document upload failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Document processing failed: {str(e)}")
+
+
+@app.post("/api/documents/describe-image")
+async def describe_image_endpoint(
+    file: UploadFile = File(...),
+    context: Optional[str] = Form(None),
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Describe an image using GPT-4o Vision without ingesting it.
+
+    Useful for previewing what the system extracts from an image
+    before deciding to ingest it.
+
+    Supported formats: PNG, JPG, JPEG, GIF, WEBP
+    """
+    from ingestion.multimodal_processor import IMAGE_EXTENSIONS, describe_image_with_vision
+
+    ext = os.path.splitext(file.filename or "")[1].lower()
+    if ext not in IMAGE_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Only image files are supported. Got: '{ext}'",
+        )
+
+    file_bytes = await file.read()
+    if not file_bytes:
+        raise HTTPException(status_code=400, detail="Empty file uploaded")
+
+    description = describe_image_with_vision(
+        image_bytes=file_bytes,
+        context=context or f"File: {file.filename}",
+        mime_type=file.content_type or "image/png",
+    )
+
+    return {
+        "filename": file.filename,
+        "description": description,
+    }
 
 
 # ==================== Knowledge Ingestion Agent API ====================

@@ -314,8 +314,25 @@ class KnowledgeIngestionAgent(BaseAgent):
         return job
     
     async def _extract_text(self, document: Dict[str, Any]) -> str:
-        """Extract text from document (dummy implementation)."""
-        await asyncio.sleep(0.2)  # Simulate processing
+        """Extract text from document, with multimodal support for files."""
+        file_bytes = document.get("file_bytes")
+        filename = document.get("name", "unknown")
+
+        if file_bytes:
+            # Multimodal extraction via Vision-LLM
+            try:
+                from ingestion.multimodal_processor import process_document_bytes
+                docs = process_document_bytes(
+                    file_bytes=file_bytes,
+                    filename=filename,
+                    mime_type=document.get("mime_type"),
+                    metadata=document.get("metadata"),
+                )
+                # Combine all extracted document text
+                return "\n\n---\n\n".join(d.page_content for d in docs)
+            except Exception as e:
+                logger.warning(f"Multimodal extraction failed for {filename}, using text fallback: {e}")
+
         return document.get("content", "")
     
     async def _sanitize_text(self, text: str) -> str:
@@ -364,15 +381,19 @@ class KnowledgeIngestionAgent(BaseAgent):
         document_name: str,
         document_type: str = "text",
         metadata: Optional[Dict[str, Any]] = None,
+        file_bytes: Optional[bytes] = None,
+        mime_type: Optional[str] = None,
     ) -> IngestionJob:
         """
         Manually ingest a document (for demo purposes).
         
         Args:
-            content: Document text content
+            content: Document text content (used if file_bytes is None)
             document_name: Name of the document
-            document_type: Type of document (text, mom, case_study, etc.)
+            document_type: Type of document (text, mom, case_study, pdf, image, pptx, etc.)
             metadata: Additional metadata
+            file_bytes: Raw file bytes for multimodal processing
+            mime_type: MIME type of the file
             
         Returns:
             IngestionJob with result
@@ -383,6 +404,10 @@ class KnowledgeIngestionAgent(BaseAgent):
             "type": document_type,
             "metadata": metadata or {},
         }
+
+        if file_bytes:
+            document["file_bytes"] = file_bytes
+            document["mime_type"] = mime_type
         
         source = {
             "type": DocumentSource.MANUAL_UPLOAD.value,
@@ -470,6 +495,8 @@ class KnowledgeIngestionAgent(BaseAgent):
                 job = await self.ingest_manual(
                     content=params.get("content", ""),
                     document_name=params.get("document_name", "Untitled"),
+                    file_bytes=params.get("file_bytes"),
+                    mime_type=params.get("mime_type"),
                 )
                 results["job"] = job.to_dict()
             elif tool == "start_agent":
