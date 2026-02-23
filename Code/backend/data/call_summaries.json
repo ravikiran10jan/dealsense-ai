@@ -60,5 +60,97 @@
     "deal_health_reason": "Customer is interested but has significant concerns about integration and implementation timelines.",
     "generated_at": "2026-02-09T09:50:29.638091",
     "created_at": "2026-02-09T09:50:29.638097"
+  },
+  {
+    "id": "db5e0bed-5580-4d2a-9bcc-8d4ee344eee4",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is scheduling a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "Discussion on DXC Luxoft's end-to-end trade finance automation solution.",
+      "Customer expressed concerns about integration with legacy systems and implementation timelines.",
+      "Seller provided details on previous successful projects and outcomes.",
+      "Pricing for a full implementation was discussed, estimated at 4 to 5 million dollars.",
+      "AI capabilities for document processing and fraud detection were highlighted."
+    ],
+    "pain_points": [
+      {
+        "description": "Integration with existing legacy core banking systems is challenging.",
+        "severity": "high",
+        "context": "Customer cannot easily replace their current systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is wary of promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer operates in multiple regions and requires compliance."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the implementation timeline based on past experiences.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and compliance.",
+        "category": "general",
+        "response_suggested": "Share security documentation and case studies."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Seller to send case studies and security documentation to the customer.",
+    "deal_health_score": 7,
+    "deal_health_reason": "The customer is interested and within budget, but has significant concerns about implementation and compliance.",
+    "generated_at": "2026-02-17T11:28:54.928937",
+    "created_at": "2026-02-17T11:28:54.928940"
+  },
+  {
+    "id": "43b0fa27-12f6-42ab-8659-fc538ba8914c",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "executive_summary": "The call was positive, with both parties expressing interest in moving forward. The next step identified is scheduling a technical deep-dive session to discuss specific requirements.",
+    "key_points": [
+      "DXC Luxoft's trade finance solution offers end-to-end automation for Letters of Credit, Bank Guarantees, and Documentary Collections.",
+      "Integration with existing legacy systems is supported through APIs and a modular architecture.",
+      "Implementation typically takes 14-16 months for a bank of ANZ's size.",
+      "AI capabilities for document processing and fraud detection are in production, achieving 92% accuracy.",
+      "Pricing for a full implementation is estimated at 4 to 5 million dollars."
+    ],
+    "pain_points": [
+      {
+        "description": "Legacy core banking systems that are difficult to replace.",
+        "severity": "high",
+        "context": "Customer expressed concerns about integration with existing systems."
+      },
+      {
+        "description": "Previous bad experiences with vendors regarding implementation timelines.",
+        "severity": "high",
+        "context": "Customer is wary of promises of quick delivery."
+      },
+      {
+        "description": "Need for data privacy and regulatory compliance across APAC operations.",
+        "severity": "high",
+        "context": "Customer highlighted the importance of compliance in each market."
+      }
+    ],
+    "objections": [
+      {
+        "description": "Concerns about the implementation timeline based on past experiences.",
+        "category": "timeline",
+        "response_suggested": "Provide a detailed project plan with milestones."
+      },
+      {
+        "description": "Need for assurance on data privacy and regulatory compliance.",
+        "category": "general",
+        "response_suggested": "Share case studies and security documentation."
+      }
+    ],
+    "next_steps": "Schedule a technical deep-dive session next week. Send case studies and security documentation to the customer today.",
+    "deal_health_score": 8,
+    "deal_health_reason": "The customer is engaged and interested, but there are concerns about implementation timelines and compliance that need to be addressed.",
+    "generated_at": "2026-02-17T14:17:21.451880",
+    "created_at": "2026-02-17T14:17:21.451881"
   }
 ]

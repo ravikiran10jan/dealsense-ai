@@ -97,5 +97,115 @@
     "status": "pending",
     "created_at": "2026-02-09T09:50:29.642477",
     "updated_at": "2026-02-09T09:50:29.642478"
+  },
+  {
+    "id": "3d7a8506-ae08-434f-a263-07b6ed5f22d8",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "task": "Send case studies and security documentation to ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-17",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T11:28:54.931546",
+    "updated_at": "2026-02-17T11:28:54.931552"
+  },
+  {
+    "id": "542dff60-8eae-4f9e-9ca8-1479c70693e8",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "task": "Prepare technical requirements document for the technical deep-dive session",
+    "owner": "Customer",
+    "due_date": "2026-02-24",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T11:28:54.932298",
+    "updated_at": "2026-02-17T11:28:54.932299"
+  },
+  {
+    "id": "11a711ba-0547-4ce7-a30a-2c3007de1b5c",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "task": "Schedule a technical deep-dive session with ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-24",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-17T11:28:54.933255",
+    "updated_at": "2026-02-17T11:28:54.933256"
+  },
+  {
+    "id": "5461e17e-93aa-4054-906e-b9851ba761f0",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "task": "Provide details on current transaction volumes and specific products to automate",
+    "owner": "Customer",
+    "due_date": "2026-02-24",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-17T11:28:54.937142",
+    "updated_at": "2026-02-17T11:28:54.937142"
+  },
+  {
+    "id": "25a7f570-162a-4387-8539-dd76f9079d29",
+    "call_id": "57debe37-5921-47e8-935e-2433066b0e80",
+    "task": "Send high-level solution architecture to ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-17",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T11:28:54.938037",
+    "updated_at": "2026-02-17T11:28:54.938039"
+  },
+  {
+    "id": "21938f7c-2273-42d9-a43e-4a6cd49f264f",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "task": "Send case studies and security documentation to ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-17",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T14:17:21.456059",
+    "updated_at": "2026-02-17T14:17:21.456063"
+  },
+  {
+    "id": "5db0bcdb-ba3d-4e7c-8467-57b35b7f4bc3",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "task": "Prepare technical requirements document for the technical deep-dive session",
+    "owner": "Customer",
+    "due_date": "2026-02-24",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T14:17:21.460805",
+    "updated_at": "2026-02-17T14:17:21.460809"
+  },
+  {
+    "id": "4bebef2a-f8e4-46b8-a704-23db21458817",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "task": "Schedule a technical deep-dive session with ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-24",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-17T14:17:21.465738",
+    "updated_at": "2026-02-17T14:17:21.465742"
+  },
+  {
+    "id": "783828bc-b95d-4cbc-a018-afc20ccc0cd2",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "task": "Provide details on current transaction volumes and specific products to automate",
+    "owner": "Customer",
+    "due_date": "2026-02-24",
+    "priority": "medium",
+    "status": "pending",
+    "created_at": "2026-02-17T14:17:21.468917",
+    "updated_at": "2026-02-17T14:17:21.468917"
+  },
+  {
+    "id": "cb1b885e-9886-4ddc-bd3f-d3d608c21ad5",
+    "call_id": "038f6db7-93f3-4b65-aef2-256e2aabd986",
+    "task": "Send high-level solution architecture to ANZ Bank",
+    "owner": "Seller",
+    "due_date": "2026-02-17",
+    "priority": "high",
+    "status": "pending",
+    "created_at": "2026-02-17T14:17:21.475883",
+    "updated_at": "2026-02-17T14:17:21.475888"
   }
 ]

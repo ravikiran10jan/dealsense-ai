@@ -14,7 +14,20 @@ llm = ChatOpenAI(
 )
 
 
+def _get_feedback_adjustments() -> str:
+    """Fetch prompt adjustments derived from user feedback."""
+    try:
+        from storage.feedback_store import get_feedback_store
+        store = get_feedback_store()
+        return store.get_prompt_adjustments()
+    except Exception as exc:
+        logger.debug(f"Could not load feedback adjustments: {exc}")
+        return ""
+
+
 def answer_with_llm(context, query):
+    feedback_adjustments = _get_feedback_adjustments()
+
     prompt = f"""You are a helpful sales assistant for DXC Luxoft, specializing in trade finance solutions.
 
 INSTRUCTIONS:
@@ -22,7 +35,7 @@ INSTRUCTIONS:
 2. If the context contains relevant information, use it to answer the question and cite the context.
 3. If the context does NOT contain relevant information for this specific question, use your general knowledge to provide a helpful answer.
 4. Always provide a complete, helpful answer - never say "I cannot answer" or "the context doesn't contain this information" without then providing what you DO know.
-
+{feedback_adjustments}
 CONTEXT FROM KNOWLEDGE BASE:
 {context}
 

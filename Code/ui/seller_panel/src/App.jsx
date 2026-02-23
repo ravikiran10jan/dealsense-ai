@@ -9,6 +9,7 @@ import AddDealModal from './components/AddDealModal/AddDealModal';
 import MyCalls from './components/MyCalls/MyCalls';
 import CallSummaryPanel from './components/CallSummaryPanel';
 import ArchitectureModal from './components/ArchitectureModal/ArchitectureModal';
+import KnowledgeAgentPanel from './components/KnowledgeAgentPanel/KnowledgeAgentPanel';
 import { getAudioCaptureService, ConnectionState } from './services/AudioCaptureService';
 
 // API Base URL
@@ -92,6 +93,7 @@ function App() {
   const [contextPanelVisible, setContextPanelVisible] = useState(true);
   const [isAddDealModalOpen, setIsAddDealModalOpen] = useState(false);
   const [isArchitectureModalOpen, setIsArchitectureModalOpen] = useState(false);
+  const [isKnowledgeAgentOpen, setIsKnowledgeAgentOpen] = useState(false);
   const [activeNav, setActiveNav] = useState('inbox');
   
   // Live call state
@@ -469,7 +471,13 @@ function App() {
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         onAddDealClick={() => setIsAddDealModalOpen(true)}
         activeNav={activeNav}
-        onNavChange={setActiveNav}
+        onNavChange={(navId) => {
+          if (navId === 'knowledge') {
+            setIsKnowledgeAgentOpen(true);
+          } else {
+            setActiveNav(navId);
+          }
+        }}
       />
 
       {/* Main Content Area */}
@@ -559,6 +567,12 @@ function App() {
       <ArchitectureModal
         isOpen={isArchitectureModalOpen}
         onClose={() => setIsArchitectureModalOpen(false)}
+      />
+
+      {/* Knowledge Agent Panel */}
+      <KnowledgeAgentPanel
+        isOpen={isKnowledgeAgentOpen}
+        onClose={() => setIsKnowledgeAgentOpen(false)}
       />
 
       {/* Architecture Link Footer */}

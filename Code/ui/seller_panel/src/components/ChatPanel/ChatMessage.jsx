@@ -1,11 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './ChatMessage.module.css';
 
+// API for feedback
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_KEY = import.meta.env.VITE_API_KEY || '';
+
 const ChatMessage = ({ message }) => {
-  const { type, content, timestamp, metadata } = message;
+  const { type, content, timestamp, metadata, id } = message;
+  const [feedbackGiven, setFeedbackGiven] = useState(null); // 'thumbs_up' | 'thumbs_down' | null
+  const [showFeedbackInput, setShowFeedbackInput] = useState(false);
+  const [feedbackComment, setFeedbackComment] = useState('');
 
   const formatTime = (date) => {
     return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Submit feedback to the API
+  const submitFeedback = async (rating, comment = '') => {
+    try {
+      await fetch(`${API_BASE_URL}/api/feedback`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': API_KEY,
+        },
+        body: JSON.stringify({
+          response_id: id?.toString() || Date.now().toString(),
+          agent_name: metadata?.source || 'chat',
+          rating: rating,
+          query: '', // We don't have the original query in this context
+          response_summary: content?.substring(0, 500) || '',
+          comment: comment || null,
+        }),
+      });
+      setFeedbackGiven(rating);
+      setShowFeedbackInput(false);
+      setFeedbackComment('');
+    } catch (error) {
+      console.error('Failed to submit feedback:', error);
+    }
+  };
+
+  const handleThumbsUp = () => {
+    if (feedbackGiven) return;
+    submitFeedback('thumbs_up');
+  };
+
+  const handleThumbsDown = () => {
+    if (feedbackGiven) return;
+    setShowFeedbackInput(true);
+  };
+
+  const handleFeedbackSubmit = () => {
+    submitFeedback('thumbs_down', feedbackComment);
   };
 
   // Render markdown-like content (simplified)
@@ -143,6 +190,50 @@ const ChatMessage = ({ message }) => {
         />
         {type === 'assistant' && (
           <div className={styles.actions}>
+            {/* Feedback buttons */}
+            <div className={styles.feedbackGroup}>
+              <button 
+                className={`${styles.actionBtn} ${styles.feedbackBtn} ${feedbackGiven === 'thumbs_up' ? styles.active : ''}`} 
+                title="Helpful"
+                onClick={handleThumbsUp}
+                disabled={feedbackGiven !== null}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill={feedbackGiven === 'thumbs_up' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+                </svg>
+                {feedbackGiven === 'thumbs_up' && <span className={styles.feedbackLabel}>Thanks!</span>}
+              </button>
+              <button 
+                className={`${styles.actionBtn} ${styles.feedbackBtn} ${feedbackGiven === 'thumbs_down' ? styles.active : ''}`} 
+                title="Not helpful"
+                onClick={handleThumbsDown}
+                disabled={feedbackGiven !== null}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill={feedbackGiven === 'thumbs_down' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Feedback input for negative feedback */}
+            {showFeedbackInput && (
+              <div className={styles.feedbackInputContainer}>
+                <input
+                  type="text"
+                  className={styles.feedbackInput}
+                  placeholder="What could be improved?"
+                  value={feedbackComment}
+                  onChange={(e) => setFeedbackComment(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleFeedbackSubmit()}
+                />
+                <button className={styles.feedbackSubmitBtn} onClick={handleFeedbackSubmit}>
+                  Submit
+                </button>
+              </div>
+            )}
+            
+            <div className={styles.actionDivider}></div>
+            
             <button className={styles.actionBtn} title="Copy">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />

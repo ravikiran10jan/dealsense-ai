@@ -62,6 +62,14 @@ def generate_talking_points(
     Returns:
         List of talking points as strings
     """
+    # Inject learning loop adjustments from user feedback
+    feedback_adjustments = ""
+    try:
+        from storage.feedback_store import get_feedback_store
+        feedback_adjustments = get_feedback_store().get_prompt_adjustments()
+    except Exception:
+        pass
+
     prompt = f"""You are a sales assistant helping prepare talking points for a client meeting.
 
 CLIENT INFORMATION:
@@ -88,7 +96,7 @@ CBA implementation: 45-person team, 18-month timeline with zero downtime
 SMBC: Integrated 3 core systems + SWIFT connectivity in 12 months
 SCB: Singapore-only rollout ensured data privacy compliance
 AI document classification: 92% accuracy in production POC
-
+{feedback_adjustments}
 Generate talking points now:"""
 
     try:

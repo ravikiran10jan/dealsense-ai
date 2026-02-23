@@ -306,6 +306,17 @@ class PreCallPrepAgent(BaseAgent):
         self, params: Dict, rag_context: str
     ) -> List[Dict[str, Any]]:
         llm = _get_llm()
+
+        # Inject learning loop adjustments from user feedback
+        feedback_adjustments = ""
+        try:
+            from storage.feedback_store import get_feedback_store
+            feedback_adjustments = get_feedback_store().get_prompt_adjustments(
+                agent_name=self.name
+            )
+        except Exception:
+            pass
+
         prompt = f"""You are a sales strategy assistant. A seller is preparing for a call.
 
 CLIENT CONTEXT:
@@ -316,7 +327,7 @@ CLIENT CONTEXT:
 
 RELEVANT KNOWLEDGE BASE CONTEXT:
 {rag_context[:3000] if rag_context else 'No specific context available.'}
-
+{feedback_adjustments}
 Generate 5-8 questions the customer is likely to ask during the call, grouped by theme.
 For each question, provide a brief suggested response approach.
 

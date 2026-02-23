@@ -205,10 +205,12 @@
 /* Actions */
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2);
   margin-top: var(--space-3);
   padding-top: var(--space-3);
   border-top: 1px solid var(--color-border-light);
+  align-items: center;
 }
 
 .actionBtn {
@@ -216,11 +218,85 @@
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
   transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
 .actionBtn:hover {
   background-color: var(--color-bg);
   color: var(--color-primary);
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Feedback Group */
+.feedbackGroup {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.feedbackBtn {
+  padding: var(--space-1) var(--space-2);
+}
+
+.feedbackBtn.active {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.feedbackBtn:hover:not(:disabled) {
+  background-color: var(--color-bg);
+}
+
+.feedbackLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-success);
+}
+
+.actionDivider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--color-border);
+  margin: 0 var(--space-1);
+}
+
+/* Feedback Input */
+.feedbackInputContainer {
+  display: flex;
+  gap: var(--space-2);
+  flex: 1;
+  min-width: 200px;
+}
+
+.feedbackInput {
+  flex: 1;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-bg);
+}
+
+.feedbackInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.feedbackSubmitBtn {
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.feedbackSubmitBtn:hover {
+  background-color: var(--color-primary-hover);
 }
 
 /* System Message */

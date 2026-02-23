@@ -1923,6 +1923,259 @@ async def _write_mom_to_sharepoint(
     }
 
 
+# ==================== Feedback Loop API ====================
+
+from storage.feedback_store import get_feedback_store
+
+class FeedbackRequest(BaseModel):
+    """Request to submit feedback on an agent response."""
+    response_id: str
+    agent_name: str
+    rating: str  # "thumbs_up", "thumbs_down", or "1"-"5"
+    query: str
+    response_summary: str
+    comment: Optional[str] = None
+    deal_id: Optional[int] = None
+
+
+@app.post("/api/feedback")
+def submit_feedback(
+    request: FeedbackRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Submit feedback on an agent response.
+    Used for the learning loop to improve agent performance over time.
+    """
+    feedback_store = get_feedback_store()
+    
+    entry = feedback_store.add_feedback(
+        response_id=request.response_id,
+        agent_name=request.agent_name,
+        rating=request.rating,
+        query=request.query,
+        response_summary=request.response_summary,
+        comment=request.comment,
+        user_id=auth.get("user_id"),
+        deal_id=request.deal_id,
+    )
+    
+    # Audit log
+    audit_log(
+        action="feedback_submitted",
+        resource_type="feedback",
+        resource_id=entry.id,
+        auth_info=auth,
+        status="success",
+    )
+    
+    return {
+        "id": entry.id,
+        "message": "Feedback recorded successfully",
+        "rating": entry.rating,
+    }
+
+
+@app.get("/api/feedback")
+def get_feedback(
+    agent_name: Optional[str] = None,
+    rating: Optional[str] = None,
+    limit: int = 50,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Get feedback entries with optional filtering.
+    """
+    feedback_store = get_feedback_store()
+    entries = feedback_store.get_feedback(
+        agent_name=agent_name,
+        rating=rating,
+        limit=limit,
+    )
+    
+    return {
+        "entries": entries,
+        "total": len(entries),
+    }
+
+
+@app.get("/api/feedback/stats")
+def get_feedback_stats(
+    agent_name: Optional[str] = None,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Get aggregate feedback statistics.
+    Shows satisfaction rates and trends for agents.
+    """
+    feedback_store = get_feedback_store()
+    stats = feedback_store.get_stats(agent_name=agent_name)
+    
+    return stats
+
+
+@app.get("/api/feedback/insights")
+def get_feedback_insights(auth: Dict = Depends(verify_api_key)):
+    """
+    Get AI-generated insights from feedback for improvement.
+    """
+    feedback_store = get_feedback_store()
+    insights = feedback_store.get_improvement_insights()
+    
+    return insights
+
+
+# ==================== Knowledge Ingestion Agent API ====================
+
+from agents import get_knowledge_agent
+
+class ManualIngestRequest(BaseModel):
+    """Request to manually ingest a document."""
+    content: str
+    document_name: str
+    document_type: str = "text"  # text, mom, case_study, reference
+    metadata: Optional[Dict[str, Any]] = None
+
+
+class AddSourceRequest(BaseModel):
+    """Request to add a new document source."""
+    source_type: str  # sharepoint, local_folder
+    name: str
+    path: str
+    enabled: bool = True
+
+
+@app.get("/api/knowledge-agent/status")
+def get_knowledge_agent_status(auth: Dict = Depends(verify_api_key)):
+    """
+    Get the current status of the Knowledge Ingestion Agent.
+    Returns scanning status, recent jobs, and configured sources.
+    """
+    agent = get_knowledge_agent()
+    return agent.get_status()
+
+
+@app.post("/api/knowledge-agent/start")
+async def start_knowledge_agent(auth: Dict = Depends(verify_api_key)):
+    """
+    Start the Knowledge Ingestion Agent background process.
+    """
+    agent = get_knowledge_agent()
+    await agent.start()
+    
+    audit_log(
+        action="knowledge_agent_started",
+        resource_type="agent",
+        resource_id="knowledge_ingestion",
+        auth_info=auth,
+        status="success",
+    )
+    
+    return {"status": "started", "message": "Knowledge Ingestion Agent is now running"}
+
+
+@app.post("/api/knowledge-agent/stop")
+async def stop_knowledge_agent(auth: Dict = Depends(verify_api_key)):
+    """
+    Stop the Knowledge Ingestion Agent background process.
+    """
+    agent = get_knowledge_agent()
+    await agent.stop()
+    
+    audit_log(
+        action="knowledge_agent_stopped",
+        resource_type="agent",
+        resource_id="knowledge_ingestion",
+        auth_info=auth,
+        status="success",
+    )
+    
+    return {"status": "stopped", "message": "Knowledge Ingestion Agent has been stopped"}
+
+
+@app.post("/api/knowledge-agent/ingest")
+async def manual_ingest_document(
+    request: ManualIngestRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Manually ingest a document into the RAG vector store.
+    Useful for uploading individual documents via the UI.
+    """
+    agent = get_knowledge_agent()
+    
+    job = await agent.ingest_manual(
+        content=request.content,
+        document_name=request.document_name,
+        document_type=request.document_type,
+        metadata=request.metadata,
+    )
+    
+    audit_log(
+        action="document_ingested",
+        resource_type="document",
+        resource_id=job.id,
+        auth_info=auth,
+        status="success" if job.status == "completed" else "failure",
+    )
+    
+    return {
+        "job": job.to_dict(),
+        "message": f"Document '{request.document_name}' ingested successfully" 
+                   if job.status == "completed" 
+                   else f"Ingestion failed: {job.error_message}",
+    }
+
+
+@app.post("/api/knowledge-agent/sources")
+async def add_document_source(
+    request: AddSourceRequest,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Add a new document source for the agent to monitor.
+    """
+    agent = get_knowledge_agent()
+    
+    source = await agent.add_source(
+        source_type=request.source_type,
+        name=request.name,
+        path=request.path,
+        enabled=request.enabled,
+    )
+    
+    return {"source": source, "message": "Source added successfully"}
+
+
+@app.delete("/api/knowledge-agent/sources/{source_id}")
+async def remove_document_source(
+    source_id: str,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Remove a document source from monitoring.
+    """
+    agent = get_knowledge_agent()
+    await agent.remove_source(source_id)
+    
+    return {"status": "removed", "source_id": source_id}
+
+
+@app.patch("/api/knowledge-agent/sources/{source_id}")
+async def toggle_document_source(
+    source_id: str,
+    enabled: bool,
+    auth: Dict = Depends(verify_api_key),
+):
+    """
+    Enable or disable a document source.
+    """
+    agent = get_knowledge_agent()
+    await agent.toggle_source(source_id, enabled)
+    
+    return {"status": "updated", "source_id": source_id, "enabled": enabled}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,0 +1,87 @@
+{
+  "entries": [
+    {
+      "id": "261c53b1-1586-4db0-8700-c44f439427bd",
+      "response_id": "test-123",
+      "agent_name": "PreCallPrepAgent",
+      "rating": "thumbs_up",
+      "comment": null,
+      "query": "What deals are similar?",
+      "response_summary": "Found 3 similar deals...",
+      "timestamp": "2026-02-16T15:31:23.500160",
+      "user_id": "dev-user",
+      "deal_id": null,
+      "metadata": null
+    },
+    {
+      "id": "108ebd96-5737-4553-8322-e4c440c14d98",
+      "response_id": "1771258183735",
+      "agent_name": "rag+ai",
+      "rating": "thumbs_down",
+      "comment": "## can be removed",
+      "query": "",
+      "response_summary": "### Call Briefing for ANZ Bank\n\n**Objective:** Discuss modernization of trade finance solutions to address current pain points and explore DXC Luxoft's capabilities.\n\n#### 1. **Trade Finance Capabilities**\n   - **Automation:** Our solutions focus on automating processes such as Letter of Credit (LC) management and document handling, significantly reducing processing times.\n   - **Integration:** We offer seamless integration with existing systems, including supply chain finance platforms and regu",
+      "timestamp": "2026-02-16T16:10:05.503080",
+      "user_id": "test@example.com",
+      "deal_id": null,
+      "metadata": null
+    },
+    {
+      "id": "3b35cac3-1d09-4f2b-a4ac-02ec44f6289f",
+      "response_id": "test-format-1",
+      "agent_name": "rag+ai",
+      "rating": "thumbs_down",
+      "comment": "Do not use markdown headers like ## or #### or ** in your responses. Use plain text formatting only.",
+      "query": "Prepare a call briefing",
+      "response_summary": "...",
+      "timestamp": "2026-02-16T16:21:03.289659",
+      "user_id": "dev-user",
+      "deal_id": null,
+      "metadata": null
+    },
+    {
+      "id": "031ab087-be97-4b0f-a0d2-3f72bfca6986",
+      "response_id": "1771259639334",
+      "agent_name": "rag+ai",
+      "rating": "thumbs_down",
+      "comment": "expand the abbreviation SWIFT next time",
+      "query": "",
+      "response_summary": "For your call briefing with ANZ Bank, here\u2019s a comprehensive overview focusing on trade finance capabilities, similar implementations, team sizes, and key differentiators:\n\n1. **Trade Finance Capabilities**:\n   - Our trade finance solutions are designed to streamline processes, reduce processing times, and enhance compliance. Key features include:\n     - Automation of Letter of Credit (LC) processes to minimize manual intervention.\n     - Integration of supply chain finance to improve cash flow ",
+      "timestamp": "2026-02-16T16:34:31.385512",
+      "user_id": "test@example.com",
+      "deal_id": null,
+      "metadata": null
+    },
+    {
+      "id": "1a732aa5-24dd-4050-82d5-757b9a0012c5",
+      "response_id": "1771337680312",
+      "agent_name": "rag+ai",
+      "rating": "thumbs_down",
+      "comment": "can you abbreviate acronyms like ANZ",
+      "query": "",
+      "response_summary": "For your call briefing with ANZ Bank, here\u2019s a comprehensive overview that includes trade finance capabilities, similar implementations, team sizes, and key differentiators:\n\n1. **Trade Finance Capabilities**:\n   - Our trade finance solutions focus on modernizing processes through automation and digitization. This includes features such as:\n     - Letter of Credit (LC) automation to streamline approvals and reduce processing times.\n     - Integration of supply chain finance to enhance liquidity ",
+      "timestamp": "2026-02-17T14:15:25.239074",
+      "user_id": "test@example.com",
+      "deal_id": null,
+      "metadata": null
+    }
+  ],
+  "stats": {
+    "PreCallPrepAgent": {
+      "total": 1,
+      "thumbs_up": 1,
+      "thumbs_down": 0,
+      "avg_rating": 0,
+      "ratings_sum": 0,
+      "ratings_count": 0
+    },
+    "rag+ai": {
+      "total": 4,
+      "thumbs_up": 0,
+      "thumbs_down": 4,
+      "avg_rating": 0,
+      "ratings_sum": 0,
+      "ratings_count": 0
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "status": "idle",
+  "is_running": false,
+  "last_scan": "2026-02-16T16:06:51.854845",
+  "documents_processed": 1,
+  "documents_pending": 0,
+  "total_chunks": 1,
+  "current_job": null,
+  "recent_jobs": [
+    {
+      "id": "5aef01a7-6e29-4a2e-ad7b-b642e77baea1",
+      "document_name": "CBA_Case_Study.txt",
+      "source": "manual_upload",
+      "status": "completed",
+      "started_at": "2026-02-16T15:31:23.548742",
+      "completed_at": "2026-02-16T15:31:24.253106",
+      "chunks_created": 1,
+      "error_message": null,
+      "metadata": null
+    }
+  ],
+  "sources_configured": [
+    {
+      "id": "default_sharepoint",
+      "type": "sharepoint",
+      "name": "SharePoint - Sales Documents",
+      "path": "/sites/sales/documents",
+      "enabled": true,
+      "last_sync": null
+    },
+    {
+      "id": "local_moms",
+      "type": "local_folder",
+      "name": "Local MoM Archive",
+      "path": "./data/moms",
+      "enabled": true,
+      "last_sync": null
+    }
+  ],
+  "scan_interval_seconds": 300
+}

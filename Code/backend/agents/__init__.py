@@ -8,6 +8,7 @@ from .base_agent import BaseAgent, AgentResult, AgentStep
 from .pre_call_prep_agent import PreCallPrepAgent
 from .risk_detection_agent import RiskDetectionAgent
 from .follow_up_agent import FollowUpOrchestrationAgent
+from .knowledge_ingestion_agent import KnowledgeIngestionAgent, get_knowledge_agent
 
 __all__ = [
     "BaseAgent",
@@ -16,4 +17,6 @@ __all__ = [
     "PreCallPrepAgent",
     "RiskDetectionAgent",
     "FollowUpOrchestrationAgent",
+    "KnowledgeIngestionAgent",
+    "get_knowledge_agent",
 ]
