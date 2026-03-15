@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generative AI with Python — Training Course</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 100%;
+    min-height: 297mm;
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- Header ---- */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+  }
+
+  .header h1 span {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header .subtitle {
+    font-size: 15px;
+    color: #64748b;
+    font-weight: 400;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ---- Tagline ---- */
+  .tagline {
+    background: linear-gradient(135deg, #f0f0ff 0%, #faf5ff 100%);
+    border: 1px solid #e0e0f7;
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+
+  .tagline p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4338ca;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ---- Meta row ---- */
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-bottom: 22px;
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-item .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .meta-item .value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  /* ---- Two columns ---- */
+  .columns {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .col {
+    flex: 1;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #6366f1;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e0e7ff;
+  }
+
+  /* ---- Module list ---- */
+  .module-list {
+    list-style: none;
+  }
+
+  .module-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .module-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .module-text strong {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 12.5px;
+  }
+
+  .module-text span {
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  /* ---- Tech stack ---- */
+  .tech-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tech-tag {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #334155;
+  }
+
+  /* ---- What makes this different ---- */
+  .diff-list {
+    list-style: none;
+  }
+
+  .diff-list li {
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    padding-left: 22px;
+    position: relative;
+    color: #334155;
+  }
+
+  .diff-list li::before {
+    content: "\2713";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* ---- Who is this for ---- */
+  .audience-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .audience-tag {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    color: #7c3aed;
+    font-weight: 500;
+  }
+
+  /* ---- Footer CTA ---- */
+  .footer-cta {
+    background: linear-gradient(135deg, #4338ca, #7c3aed);
+    border-radius: 14px;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: auto;
+  }
+
+  .footer-cta .left h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .footer-cta .left p {
+    font-size: 12px;
+    color: #c7d2fe;
+    line-height: 1.5;
+  }
+
+  .footer-cta .right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .footer-cta .repo-url {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    word-break: break-all;
+  }
+
+  .footer-cta .prereq {
+    font-size: 10px;
+    color: #c7d2fe;
+    margin-top: 6px;
+  }
+
+  @media print {
+    body { width: 210mm; }
+    .page { min-height: 297mm; padding: 28px 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Hands-On Workshop</div>
+    <h1>Generative AI <span>with Python</span></h1>
+    <p class="subtitle">
+      Build a real AI application from scratch. No hype, no buzzwords &mdash;
+      just practical skills you can use on Monday morning.
+    </p>
+  </div>
+
+  <!-- Tagline -->
+  <div class="tagline">
+    <p>
+      "AI isn't here to replace you. It's a new tool in your toolkit &mdash;
+      and the best way to understand a tool is to build something with it."
+    </p>
+  </div>
+
+  <!-- Meta -->
+  <div class="meta-row">
+    <div class="meta-item">
+      <div class="label">Duration</div>
+      <div class="value">2 Hours</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Level</div>
+      <div class="value">Beginner-Friendly</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Format</div>
+      <div class="value">Live + Hands-On</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Case Study</div>
+      <div class="value">DealSense AI</div>
+    </div>
+  </div>
+
+  <!-- Two columns -->
+  <div class="columns">
+
+    <!-- Left column -->
+    <div class="col">
+      <div class="section-title">What You'll Build &amp; Learn</div>
+      <ul class="module-list">
+        <li>
+          <span class="module-num">1</span>
+          <div class="module-text">
+            <strong>Intro to Generative AI</strong>
+            <span>What GenAI actually is (and isn't) &mdash; no jargon</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">2</span>
+          <div class="module-text">
+            <strong>Working with LLMs in Python</strong>
+            <span>Call GPT-4 from your own code in minutes</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">3</span>
+          <div class="module-text">
+            <strong>Prompt Engineering</strong>
+            <span>Write prompts that get reliable, useful results</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">4</span>
+          <div class="module-text">
+            <strong>Embeddings &amp; Vector Databases</strong>
+            <span>How AI understands meaning &mdash; with FAISS</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">5</span>
+          <div class="module-text">
+            <strong>RAG (Retrieval-Augmented Generation)</strong>
+            <span>Give AI your own data so it stops making things up</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">6</span>
+          <div class="module-text">
+            <strong>AI Agents</strong>
+            <span>Build AI that can plan and take actions on its own</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">7</span>
+          <div class="module-text">
+            <strong>Privacy &amp; Security</strong>
+            <span>Keep your AI applications safe and responsible</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">8</span>
+          <div class="module-text">
+            <strong>Real-Time AI Systems</strong>
+            <span>Stream AI responses with WebSockets</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">9</span>
+          <div class="module-text">
+            <strong>Observability</strong>
+            <span>Monitor and debug your AI in production</span>
+          </div>
+        </li>
+        <li>
+          <span class="module-num">10</span>
+          <div class="module-text">
+            <strong>Full Architecture Walkthrough</strong>
+            <span>See how everything connects end to end</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right column -->
+    <div class="col">
+      <div class="section-title">What Makes This Different</div>
+      <ul class="diff-list">
+        <li>
+          <strong>You build a real app, not toy examples.</strong>
+          The case study is DealSense AI &mdash; a production-grade sales
+          assistant with a FastAPI backend, React frontend, and live AI features.
+        </li>
+        <li>
+          <strong>Honest about what AI can and can't do.</strong>
+          We talk about hallucinations, limitations, and when NOT to use AI.
+          No magic, no hand-waving.
+        </li>
+        <li>
+          <strong>Beginner-friendly, not beginner-only.</strong>
+          If you know basic Python, you're ready. Experienced developers will
+          pick up architecture patterns and production best practices.
+        </li>
+        <li>
+          <strong>Curiosity over fear.</strong>
+          This course exists because AI is genuinely interesting and useful &mdash;
+          not because you should be scared of it.
+        </li>
+        <li>
+          <strong>You leave with working code.</strong>
+          Every concept comes with real code from the DealSense AI repo that you
+          can study, modify, and reuse in your own projects.
+        </li>
+      </ul>
+
+      <div class="section-title" style="margin-top: 18px;">Tech Stack You'll Use</div>
+      <div class="tech-grid">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">FastAPI</span>
+        <span class="tech-tag">OpenAI API</span>
+        <span class="tech-tag">LangChain</span>
+        <span class="tech-tag">FAISS</span>
+        <span class="tech-tag">WebSockets</span>
+        <span class="tech-tag">React</span>
+      </div>
+
+      <div class="section-title">Who Is This For?</div>
+      <div class="audience-grid">
+        <span class="audience-tag">Python Developers</span>
+        <span class="audience-tag">Backend Engineers</span>
+        <span class="audience-tag">Tech Leads</span>
+        <span class="audience-tag">Curious Builders</span>
+        <span class="audience-tag">Career Switchers</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer CTA -->
+  <div class="footer-cta">
+    <div class="left">
+      <h3>Ready to build something real with AI?</h3>
+      <p>
+        Explore the full course material and codebase. Everything is open source.
+      </p>
+    </div>
+    <div class="right">
+      <a class="repo-url" href="https://github.com/ravikiran10jan/dealsense-ai">
+        github.com/ravikiran10jan/dealsense-ai
+      </a>
+      <div class="prereq">Prerequisite: Basic Python knowledge</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
